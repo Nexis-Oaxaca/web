@@ -9,11 +9,10 @@ import FeaturedProjects from '../components/FeaturedProjects.astro';
 import Testimonials from '../components/Testimonials.astro';
 import PartnersMarquee from '../components/PartnersMarquee.astro';
 import Collaborate from '../components/Collaborate.astro';
-import Team from '../components/Team.astro';
 import AboutSection from '../components/AboutSection.astro';
 import { getHomeContent } from '../lib/cms';
 
-const { events, projects, team } = await getHomeContent();
+const { events, projects } = await getHomeContent();
 ---
 
 <Layout title="Nexis Oaxaca Tech | El punto de encuentro tecnológico" description="Nexis Oaxaca Tech es el punto de encuentro para la comunidad tecnológica de Oaxaca. Eventos, talleres, proyectos colaborativos y una red de talento local en tecnología.">
@@ -42,9 +41,6 @@ const { events, projects, team } = await getHomeContent();
 
     <!-- Collaborate -->
     <Collaborate />
-
-    <!-- Team -->
-	<Team members={team} />
 
     <Footer />
 	</main>

@@ -1,0 +1,137 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import NosotrosHero from '../components/NosotrosHero.astro';
+import HistoriaSection from '../components/HistoriaSection.astro';
+import MisionVision from '../components/MisionVision.astro';
+import ValoresSection from '../components/ValoresSection.astro';
+import AreasInteres from '../components/AreasInteres.astro';
+import ActividadesSection from '../components/ActividadesSection.astro';
+import LiderazgoSection from '../components/LiderazgoSection.astro';
+import VoluntariadoSection from '../components/VoluntariadoSection.astro';
+import CierreSection from '../components/CierreSection.astro';
+import { getTeamMembers, getEvents, getProjects } from '../lib/cms';
+import {
+  Star,
+  Zap,
+  Share2,
+  Compass,
+  HeartHandshake,
+  BookOpen,
+  Heart,
+  Lightbulb,
+  Users,
+  RefreshCw,
+  Code,
+  Cloud,
+  Bot,
+  Palette,
+  Wifi,
+  Cpu,
+  Briefcase,
+  Globe,
+  Calendar,
+  Layers,
+  Network,
+  GraduationCap,
+  Building2,
+} from 'lucide-astro';
+
+const [team, events, projects] = await Promise.all([
+  getTeamMembers(),
+  getEvents(),
+  getProjects(),
+]);
+
+const communityMembers = 30;
+
+const timeline = [
+  { year: 'Mayo 2026', title: 'El inicio', description: 'Un grupo de entusiastas de la tecnología en Oaxaca identificó la necesidad de un espacio de encuentro para el talento local. Así nació Nexis.', icon: Star },
+  { year: 'Julio 2026', title: 'Crecimiento acelerado', description: 'Primeros meetups, alianzas con instituciones educativas y una comunidad que creció de 5 a más de 30 miembros activos.', icon: Zap },
+];
+
+const valores = [
+  { icon: HeartHandshake, title: 'Colaboración', description: 'Creemos que el conocimiento compartido multiplica las oportunidades.', color: 'jade' },
+  { icon: BookOpen, title: 'Aprendizaje continuo', description: 'Nunca dejamos de aprender. Cada persona tiene algo que enseñar y algo que aprender.', color: 'ambar' },
+  { icon: Heart, title: 'Comunidad', description: 'Somos una familia tecnológica. Nos apoyamos, crecemos juntos y celebramos cada logro.', color: 'coral' },
+  { icon: Lightbulb, title: 'Innovación', description: 'Buscamos constantemente nuevas formas de resolver problemas y generar impacto.', color: 'petroleo' },
+  { icon: Users, title: 'Inclusión', description: 'Todas las voces importan. Un espacio seguro y diverso para cualquier persona interesada en tecnología.', color: 'jade' },
+  { icon: RefreshCw, title: 'Compartir conocimiento', description: 'Del expertise individual al crecimiento colectivo. open source como filosofía de vida.', color: 'ambar' },
+];
+
+const areas = [
+  { icon: Code, title: 'Desarrollo de Software', description: 'Web, móvil, backend, frontend — todo el stack.', color: 'jade' },
+  { icon: Cloud, title: 'Cloud Computing', description: 'AWS, GCP, Azure, infraestructura moderna.', color: 'petroleo' },
+  { icon: Bot, title: 'Inteligencia Artificial', description: 'ML, deep learning, LLMs y más.', color: 'coral' },
+  { icon: Palette, title: 'UX/UI', description: 'Diseño de experiencias digitales centradas en personas.', color: 'ambar' },
+  { icon: Wifi, title: 'IoT', description: 'Internet de las cosas y hardware inteligente.', color: 'jade' },
+  { icon: Cpu, title: 'Robótica', description: 'Automatización, sistemas embebidos y robótica educativa.', color: 'petroleo' },
+  { icon: Briefcase, title: 'Emprendimiento Tecnológico', description: 'Startups, innovación y negocios digitales.', color: 'coral' },
+  { icon: Globe, title: 'Ciberseguridad', description: 'Protección de datos, ethical hacking y seguridad informática.', color: 'ambar' },
+];
+
+const actividades = [
+  { icon: Calendar, title: 'Charlas', description: 'Pláticas técnicas y no técnicas con expertos de la industria.', stat: `${events.length}+` },
+  { icon: Layers, title: 'Workshops', description: 'Talleres prácticos hands-on para desarrollar habilidades reales.' },
+  { icon: Network, title: 'Networking', description: 'Espacios para conectar con profesionales y mentores.' },
+  { icon: GraduationCap, title: 'Visitas a escuelas', description: 'Llevando la tecnología a universidades y preparatorias.' },
+  { icon: Building2, title: 'Colaboraciones', description: 'Alianzas con empresas e instituciones para proyectos de impacto.' },
+];
+
+const volunteerReasons = [
+  'Apoyar en la logística de eventos',
+  'Difundir la comunidad en redes sociales',
+  'Fotografía y documentación',
+  'Organización de meetups y talleres',
+  'Registro y bienvenida de nuevos miembros',
+  'Co-crear nuevas actividades y proyectos',
+];
+---
+
+<Layout title="Nosotros | Nexis Oaxaca Tech" description="Conoce la historia, misión, visión y equipo detrás de Nexis Oaxaca Tech. La comunidad tecnológica que está transformando Oaxaca.">
+  <Header />
+
+  <main>
+    <NosotrosHero eventsCount={events.length} communityMembers={communityMembers} />
+    <HistoriaSection timeline={timeline} />
+    <MisionVision communityMembers={communityMembers} eventsCount={events.length} />
+    <ValoresSection valores={valores} />
+    <AreasInteres areas={areas} />
+    <ActividadesSection actividades={actividades} />
+    <LiderazgoSection team={team} />
+    <VoluntariadoSection volunteerReasons={volunteerReasons} />
+    <CierreSection />
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const init = () => {
+    const reveals = document.querySelectorAll('.reveal');
+    gsap.set(reveals, { clearProps: "all" });
+    reveals.forEach((el) => {
+      gsap.from(el, {
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          toggleActions: "play none none none"
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: "power3.out"
+      });
+    });
+  };
+
+  document.addEventListener('astro:page-load', () => {
+    ScrollTrigger.getAll().forEach(t => t.kill());
+    init();
+  });
+</script>

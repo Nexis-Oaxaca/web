@@ -1,0 +1,72 @@
+---
+import { ArrowRight, ArrowUpRight, Users, Calendar } from 'lucide-astro';
+
+interface Props {
+  eventsCount: number;
+  communityMembers: number;
+}
+
+const { eventsCount, communityMembers } = Astro.props as Props;
+---
+
+<section class="min-h-[90vh] relative flex items-center pt-28 overflow-hidden bg-marfil">
+  <div class="mitla-pattern absolute inset-0 -z-10 opacity-30"></div>
+  <div class="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+    <div class="space-y-8 reveal">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jade/10 border border-jade/20 text-jade text-xs font-bold uppercase tracking-widest">
+        <span class="w-2 h-2 rounded-full bg-jade animate-pulse"></span>
+        <span class="text-petroleo">Conócenos</span>
+      </div>
+      <h1 class="text-5xl sm:text-7xl lg:text-6xl xl:text-8xl font-extrabold text-petroleo leading-[1.05] tracking-tight font-display uppercase">
+        Nexis <span class="text-jade">Oaxaca</span> Tech.
+      </h1>
+      <p class="text-sm sm:text-base md:text-xl text-petroleo/85 max-w-xl leading-relaxed">
+        Somos el punto de encuentro para la comunidad tecnológica de Oaxaca. Un espacio donde estudiantes, profesionales y apasionados por la tecnología se reúnen para aprender, colaborar y construir el futuro desde nuestra tierra.
+      </p>
+      <p class="text-sm sm:text-base text-petroleo/70 max-w-xl leading-relaxed">
+        No importa si das tus primeros pasos en tecnología o si eres un profesional experimentado. En Nexis hay un lugar para ti.
+      </p>
+      <div class="flex flex-wrap gap-4 pt-2">
+        <a href="https://chat.whatsapp.com/JdTX77UhRSbKMkTTEUXZtX" target="_blank" rel="noopener noreferrer">
+          <button class="bg-jade text-white px-8 py-4 rounded-[18px] font-bold text-sm sm:text-base hover:scale-105 transition-all shadow-xl shadow-jade/20 flex items-center group cursor-pointer">
+            Únete a la comunidad <ArrowUpRight class="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          </button>
+        </a>
+        <a href="/eventos" class="border-2 border-petroleo/10 text-petroleo px-8 py-4 rounded-[18px] font-bold text-sm sm:text-base hover:bg-petroleo/5 transition-all flex items-center group">
+          Ver eventos <ArrowRight class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </a>
+      </div>
+    </div>
+    <div class="relative hidden lg:block reveal">
+      <div class="aspect-square rounded-[40px] overflow-hidden shadow-2xl border-8 border-white">
+        <img
+          src="https://assets.nexisoaxaca.tech/nexis_green_hero_about.png"
+          alt="Comunidad Nexis Oaxaca Tech"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="absolute -bottom-6 -left-6 bg-white rounded-[24px] shadow-xl p-6 border border-petroleo/5">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-jade/15 flex items-center justify-center text-jade">
+            <Users class="w-7 h-7" />
+          </div>
+          <div>
+            <span class="block text-2xl font-bold text-petroleo font-display">{communityMembers}</span>
+            <span class="text-xs text-petroleo/50 font-bold uppercase tracking-widest">Miembros activos</span>
+          </div>
+        </div>
+      </div>
+      <div class="absolute -top-4 -right-4 bg-white rounded-[24px] shadow-xl p-5 border border-petroleo/5">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-ambar/15 flex items-center justify-center text-ambar">
+            <Calendar class="w-6 h-6" />
+          </div>
+          <div>
+            <span class="block text-2xl font-bold text-petroleo font-display">{eventsCount}+</span>
+            <span class="text-xs text-petroleo/50 font-bold uppercase tracking-widest">Eventos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

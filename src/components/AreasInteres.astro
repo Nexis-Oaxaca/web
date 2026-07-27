@@ -1,0 +1,53 @@
+---
+import { Sigma } from 'lucide-astro';
+
+interface Area {
+  icon: typeof Sigma;
+  title: string;
+  description: string;
+  color: string;
+}
+
+interface Props {
+  areas: Area[];
+}
+
+const { areas } = Astro.props as Props;
+---
+
+<section class="py-32 px-6 bg-marfil">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-20 reveal">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jade/10 border border-jade/20 text-jade text-xs font-bold uppercase tracking-widest mb-6">
+        <Sigma class="w-3 h-3" />
+        <span>Áreas de interés</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-petroleo font-display leading-tight">
+        Tecnología en <span class="text-jade">todas sus formas.</span>
+      </h2>
+      <p class="text-petroleo/70 mt-4 max-w-xl mx-auto">
+        Exploramos un amplio espectro de disciplinas tecnológicas para abarcar la diversidad de intereses de nuestra comunidad.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 reveal">
+      {areas.map((a, i) => (
+        <div
+          class="group bg-white rounded-[24px] p-6 border border-petroleo/5 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2"
+          style={`transition-delay: ${i * 60}ms`}
+        >
+          <div class={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 ${
+            a.color === 'jade' ? 'bg-jade/15 text-jade' :
+            a.color === 'petroleo' ? 'bg-petroleo/10 text-petroleo' :
+            a.color === 'coral' ? 'bg-coral/15 text-coral' :
+            'bg-ambar/15 text-ambar'
+          }`}>
+            <a.icon class="w-6 h-6" />
+          </div>
+          <h3 class="text-base font-bold text-petroleo mb-2 font-display">{a.title}</h3>
+          <p class="text-xs text-petroleo/65 leading-relaxed">{a.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

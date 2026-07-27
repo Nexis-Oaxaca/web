@@ -239,6 +239,7 @@ export const normalizeTeamMember = (
 		image: resolveMediaUrl(member.image, baseUrl),
 		color: String(member.color ?? 'bg-jade'),
 		social: normalizeLinks(member.social ?? member.links),
+		description: member.description ? String(member.description) : undefined,
 	};
 };
 

@@ -10,6 +10,7 @@ const categorias = [
   { value: 'empresas', label: 'Empresas', icon: Building2, color: 'petroleo', desc: 'Patrocinios, talent scouting, espacios de marca' },
   { value: 'instituciones', label: 'Instituciones', icon: GraduationCap, color: 'jade', desc: 'Convenios educativos, pasantías, talleres' },
   { value: 'profesionales', label: 'Profesionales', icon: UserStar, color: 'ambar', desc: 'Speaker, mentoría, liderazgo de célula' },
+  { value: 'voluntariado', label: 'Voluntariado', icon: UserStar, color: 'jade', desc: 'Únete al equipo de Nexis y ayuda a crecer la comunidad' },
 ];
 
 const selected = categorias.find(c => c.value === categoria);
@@ -107,20 +108,12 @@ const catIcon = selected?.icon || Building2;
                   class="mt-1 w-4 h-4 shrink-0 rounded border-petroleo/20 text-jade focus:ring-jade bg-marfil"
                 />
                 <label for="consent" class="text-[11px] text-petroleo/60 leading-relaxed">
-                  Acepto el
-                  <a href="/privacidad" target="_blank" class="text-jade hover:underline">Aviso de Privacidad</a>
-                  y los
-                  <a href="/terminos" target="_blank" class="text-jade hover:underline">Términos y Condiciones</a>
-                  de Nexis Oaxaca Tech.
+                  Acepto el <a href="/privacidad" target="_blank" class="text-jade hover:underline">Aviso de Privacidad</a> y los <a href="/terminos" target="_blank" class="text-jade hover:underline">Términos y Condiciones</a> de Nexis Oaxaca Tech.
                 </label>
               </div>
 
               <p class="text-center text-[10px] text-petroleo/50 leading-relaxed mt-4">
-                Este sitio está protegido con Cloudflare Turnstile y se rige por la
-                <a href="https://www.cloudflare.com/en-gb/turnstile-privacy-policy/" target="_blank" rel="noopener noreferrer" class="underline hover:text-petroleo/50 transition-colors">Política de Privacidad</a>
-                y los
-                <a href="https://www.cloudflare.com/en-gb/website-terms/" target="_blank" rel="noopener noreferrer" class="underline hover:text-petroleo/50 transition-colors">Términos del Servicio</a>
-                de Cloudflare.
+                Este sitio está protegido con Cloudflare Turnstile y se rige por la <a href="https://www.cloudflare.com/en-gb/turnstile-privacy-policy/" target="_blank" rel="noopener noreferrer" class="underline hover:text-petroleo/50 transition-colors">Política de Privacidad</a> y los <a href="https://www.cloudflare.com/en-gb/website-terms/" target="_blank" rel="noopener noreferrer" class="underline hover:text-petroleo/50 transition-colors">Términos del Servicio</a> de Cloudflare.
               </p>
 
               <div class="cf-turnstile" data-sitekey="0x4AAAAAAD6uLyml5OaSHsGS" id="turnstile-widget"></div>
@@ -183,6 +176,13 @@ const catIcon = selected?.icon || Building2;
   function initContactForm() {
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
     const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement | null;
+
+    const categoriaSelect = document.getElementById('categoria-select') as HTMLSelectElement | null;
+    if (categoriaSelect) {
+      const params = new URLSearchParams(window.location.search);
+      const cat = params.get('categoria');
+      if (cat) categoriaSelect.value = cat;
+    }
     const btnBgGlow = document.getElementById('btn-bg-glow') as HTMLSpanElement | null;
     const btnText = document.getElementById('btn-text') as HTMLSpanElement | null;
     const btnIcon = document.getElementById('btn-icon') as HTMLSpanElement | null;

@@ -1,0 +1,72 @@
+---
+import { Target, Eye } from 'lucide-astro';
+
+interface Props {
+  communityMembers: number;
+  eventsCount: number;
+}
+
+const { communityMembers, eventsCount } = Astro.props as Props;
+---
+
+<section class="py-32 px-6 bg-marfil">
+  <div class="max-w-7xl mx-auto space-y-32">
+    <div class="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center reveal">
+      <div class="lg:col-span-3 order-2 lg:order-1">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jade/10 border border-jade/20 text-jade text-xs font-bold uppercase tracking-widest mb-6">
+          <Target class="w-3 h-3" />
+          <span>Nuestra misión</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-petroleo font-display leading-tight mb-8">
+          Impulsar el talento tecnológico de Oaxaca.
+        </h2>
+        <p class="text-petroleo/80 leading-relaxed text-base sm:text-lg mb-8">
+          Crear un ecosistema donde cualquier persona con interés en tecnología pueda encontrar las herramientas, el conocimiento y las conexiones necesarias para desarrollar su máximo potencial.
+        </p>
+        <div class="grid sm:grid-cols-3 gap-6">
+          {[
+            { stat: `${communityMembers}+`, label: 'Miembros activos' },
+            { stat: `${eventsCount}+`, label: 'Eventos realizados' }
+          ].map((s) => (
+            <div class="bg-arena rounded-[24px] p-6 text-center border border-petroleo/5">
+              <span class="block text-3xl font-bold text-jade font-display">{s.stat}</span>
+              <span class="text-[10px] text-petroleo/50 font-bold uppercase tracking-widest">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="lg:col-span-2 order-1 lg:order-2 relative">
+        <div class="flex items-center justify-center shadow-inner">
+          <img src="https://assets.nexisoaxaca.tech/715472181_122097672393354941_3880025939618765427_n_7309c262d3.jpg" alt="Misión de Nexis" class="object-cover rounded-full lg:rounded-2xl" />
+        </div>
+        <div class="absolute -bottom-4 -left-4 w-full h-full rounded-[40px] border-2-z-10"></div>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center reveal">
+      <div class="lg:col-span-2 relative">
+        <div class="aspect-square rounded-[40px] bg-gradient-to-br from-ambar/20 to-coral/20 flex items-center justify-center shadow-inner">
+          <div class="w-32 h-32 rounded-[32px] bg-white shadow-xl flex items-center justify-center -rotate-12 hover:rotate-0 transition-transform duration-500">
+            <Eye class="w-16 h-16 text-ambar" />
+          </div>
+        </div>
+        <div class="absolute -bottom-4 -right-4 w-full h-full rounded-[40px] border-2 border-ambar/10 -z-10"></div>
+      </div>
+      <div class="lg:col-span-3">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ambar/10 border border-ambar/20 text-ambar text-xs font-bold uppercase tracking-widest mb-6">
+          <Eye class="w-3 h-3" />
+          <span>Nuestra visión</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-petroleo font-display leading-tight mb-8">
+          Ser el motor del talento tech en Oaxaca y el sur de México.
+        </h2>
+        <p class="text-petroleo/80 leading-relaxed text-base sm:text-lg mb-6">
+          Imaginamos un futuro donde Oaxaca sea reconocida como un hub tecnológico de clase mundial. Donde el talento local no tenga que migrar para encontrar oportunidades, sino que las oportunidades florezcan aquí.
+        </p>
+        <p class="text-petroleo/70 leading-relaxed text-sm">
+          Queremos ser el puente entre la educación y la industria, entre el talento emergente y las empresas innovadoras. Una comunidad autosostenible que genere impacto real en la economía digital de nuestra región.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

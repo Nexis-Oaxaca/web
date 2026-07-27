@@ -1,0 +1,80 @@
+---
+import { Star, Zap, Share2, Compass } from 'lucide-astro';
+
+interface TimelineItem {
+  year: string;
+  title: string;
+  description: string;
+  icon: typeof Star;
+}
+
+interface Props {
+  timeline: TimelineItem[];
+}
+
+const { timeline } = Astro.props as Props;
+---
+
+<section class="py-32 px-6 bg-arena relative overflow-hidden">
+  <div class="absolute top-0 left-0 w-full h-px circuit-line"></div>
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-20 reveal">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jade/10 border border-jade/20 text-jade text-xs font-bold uppercase tracking-widest mb-6">
+        <span class="w-2 h-2 rounded-full bg-jade animate-pulse"></span>
+        <span>Nuestra historia</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold text-petroleo font-display leading-tight">
+        Cómo nació <span class="text-jade">Nexis</span>
+      </h2>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-16 items-center mb-20 reveal">
+      <div class="space-y-6">
+        <p class="text-petroleo/85 leading-relaxed text-base sm:text-lg">
+          Nexis Oaxaca Tech nació de una conversación entre amigos que compartían una misma inquietud: <strong class="text-petroleo">Oaxaca tiene talento tecnológico de primer nivel, pero faltaban espacios para conectarlo.</strong>
+        </p>
+        <p class="text-petroleo/75 leading-relaxed text-sm sm:text-base">
+          En 2026, un pequeño grupo de desarrolladores, diseñadores y entusiastas de la tecnología decidió dejar de esperar y empezar a construir. Organizaron la primer charla en salón de un Cecyte Plantel 18 Tehuantepec, en Oaxaca. Asistieron 30 personas. Esa chispa fue suficiente.
+        </p>
+        <p class="text-petroleo/75 leading-relaxed text-sm sm:text-base">
+          Lo que comenzó como reuniones informales se convirtió rápidamente en una comunidad organizada con charlas técnicas, talleres prácticos y proyectos colaborativos.
+        </p>
+        <p class="text-petroleo/75 leading-relaxed text-sm sm:text-base">
+          <strong class="text-jade">Nuestro objetivo es claro:</strong> democratizar el acceso al conocimiento tecnológico, crear puentes entre el talento local y las oportunidades globales, y demostrar que desde Oaxaca se puede innovar al más alto nivel.
+        </p>
+      </div>
+      <div class="relative reveal">
+        <div class="aspect-[4/3] rounded-[40px] overflow-hidden shadow-xl">
+          <img
+            src="https://assets.nexisoaxaca.tech/2/f3_f99e00e2a9.jpg"
+            alt="Primeros pasos de Nexis"
+            class="w-full h-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-jade/10 rounded-[40px] -z-10"></div>
+      </div>
+    </div>
+
+    <div class="relative reveal">
+      <div class="absolute left-8 lg:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-jade/40 via-jade/20 to-transparent hidden lg:block"></div>
+      <div class="space-y-12 lg:space-y-20">
+        {timeline.map((item, i) => (
+          <div class={`relative flex flex-col lg:flex-row gap-8 items-start ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
+            <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-2xl bg-white border-2 border-jade/20 shadow-md items-center justify-center z-10">
+              <item.icon class="w-5 h-5 text-jade" />
+            </div>
+            <div class={`lg:w-1/2 ${i % 2 === 0 ? 'lg:pr-16 lg:text-right' : 'lg:pl-16'}`}>
+              <div class="bg-white rounded-[32px] p-8 shadow-sm border border-petroleo/5 hover:shadow-lg transition-all duration-500">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-jade">{item.year}</span>
+                <h3 class="text-xl font-bold text-petroleo mt-2 mb-3 font-display">{item.title}</h3>
+                <p class="text-sm text-petroleo/75 leading-relaxed">{item.description}</p>
+              </div>
+            </div>
+            <div class="lg:w-1/2"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -4,6 +4,7 @@
     "role": "Fundador & CEO",
     "image": "https://i.pravatar.cc/300?u=organizer1",
     "color": "bg-jade",
+    "description": "Emprendedor tecnológico oaxaqueño con experiencia en desarrollo de software y liderazgo de comunidades. Creyente del talento local y su potencial para transformar la industria.",
     "social": { "linkedin": "#", "twitter": "#" }
   },
   {
@@ -11,6 +12,7 @@
     "role": "Directora de Comunidad",
     "image": "https://i.pravatar.cc/300?u=organizer2",
     "color": "bg-ambar",
+    "description": "Apasionada por conectar personas y generar espacios de colaboración. Lidera la estrategia de crecimiento y participación de la comunidad Nexis.",
     "social": { "linkedin": "#", "github": "#" }
   },
   {
@@ -18,6 +20,7 @@
     "role": "CTO & Lead Mentorship",
     "image": "https://i.pravatar.cc/300?u=organizer3",
     "color": "bg-petroleo",
+    "description": "Ingeniero de software especializado en arquitecturas cloud y sistemas distribuidos. Mentor apasionado por formar a la próxima generación de desarrolladores.",
     "social": { "linkedin": "#", "globe": "#" }
   },
   {
@@ -25,6 +28,7 @@
     "role": "Alianzas Estratégicas",
     "image": "https://i.pravatar.cc/300?u=organizer4",
     "color": "bg-coral",
+    "description": "Especialista en relaciones institucionales con experiencia en vinculación academia-industria. Construye puentes entre Nexis y el ecosistema tecnológico global.",
     "social": { "linkedin": "#", "instagram": "#" }
   }
 ]

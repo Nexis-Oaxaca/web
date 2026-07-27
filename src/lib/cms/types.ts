@@ -155,6 +155,7 @@ export interface TeamMember {
 	image: string;
 	color: string;
 	social: Record<string, string>;
+	description?: string;
 }
 
 export interface HomeContent {
