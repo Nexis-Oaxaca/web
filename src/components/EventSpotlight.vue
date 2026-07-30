@@ -7,6 +7,24 @@ const props = defineProps<{
   events: EventItem[];
 }>();
 
+/**
+ * Parsea un string de fecha a un objeto Date válido.
+ * Soporta cadenas en formato ISO (ej. 2026-08-01T12:00:00) o YYYY-MM-DD.
+ */
+function parseEventDate(dateStr: string): Date | null {
+  if (!dateStr) return null;
+  const str = dateStr.trim();
+  if (str.includes('T')) {
+    const d = new Date(str);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  const normalized = str.replace(/\//g, '-');
+  const d = new Date(`${normalized}T00:00:00`);
+  if (!isNaN(d.getTime())) return d;
+  const fallback = new Date(str);
+  return isNaN(fallback.getTime()) ? null : fallback;
+}
+
 const selectEvent = computed(() => {
   if (!props.events || props.events.length === 0) return null;
 
@@ -17,7 +35,10 @@ const selectEvent = computed(() => {
   const pastEvents: { event: EventItem; diff: number }[] = [];
 
   props.events.forEach((event) => {
-    const eventDate = new Date(`${event.date}T00:00:00`);
+    if (!event.date) return;
+    const eventDate = parseEventDate(event.date);
+    if (!eventDate) return;
+
     const diff = eventDate.getTime() - now.getTime();
     if (diff >= 0) {
       futureEvents.push({ event, diff });
@@ -26,11 +47,13 @@ const selectEvent = computed(() => {
     }
   });
 
+  // 1. Si hay eventos futuros, se selecciona el más próximo (menor tiempo restante hasta el evento)
   if (futureEvents.length > 0) {
     futureEvents.sort((a, b) => a.diff - b.diff);
     return { event: futureEvents[0].event, isFuture: true };
   }
 
+  // 2. Si no hay eventos futuros, se muestra el evento pasado más reciente (menor tiempo transcurrido desde el evento)
   if (pastEvents.length > 0) {
     pastEvents.sort((a, b) => a.diff - b.diff);
     return { event: pastEvents[0].event, isFuture: false };
@@ -44,11 +67,13 @@ const isUpcoming = computed(() => selectEvent.value?.isFuture ?? false);
 
 const formattedDate = computed(() => {
   if (!featured.value?.date) return '';
-  const dateObj = new Date(`${featured.value.date}T00:00:00`);
-  const formatted = dateObj.toLocaleDateString('es-ES', {
+  const dateObj = parseEventDate(featured.value.date);
+  if (!dateObj) return featured.value.date;
+  const formatted = dateObj.toLocaleDateString('es-MX', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
+    timeZone: 'America/Mexico_City',
   });
   return formatted.replace(/^\w/, (c) => c.toUpperCase());
 });
@@ -111,7 +136,6 @@ const detailHref = computed(() => `/eventos/${featured.value?.slug ?? ''}`);
             <p class="text-lg text-petroleo/85 leading-relaxed font-sans line-clamp-3 md:line-clamp-5 lg:line-clamp-10">
               {{ descriptionText }}
             </p>
-            <RichText :content="descriptionText" :preview="true" :maxWords="50" />
 
             <div class="flex items-center justify-between pt-10 border-t border-petroleo/10">
               <a

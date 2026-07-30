@@ -43,7 +43,6 @@ export interface EventItem {
 	description: string;
 	registerLink: string;
 	date: string;
-	time?: string;
 	location?: string;
 	type?: string;
 	status?: string;

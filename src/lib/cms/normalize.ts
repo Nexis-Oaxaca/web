@@ -132,7 +132,6 @@ export const normalizeEvent = (event: Record<string, unknown>, baseUrl?: string)
 		description: String(event.description ?? ''),
 		registerLink: String(event.registerLink ?? ''),
 		date: String(event.date ?? ''),
-		time: event.time ? String(event.time) : undefined,
 		location: event.location ? String(event.location) : undefined,
 		type: event.type ? String(event.type) : undefined,
 		status: event.eventStatus ? String(event.eventStatus) : undefined,

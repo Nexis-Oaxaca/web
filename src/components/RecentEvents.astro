@@ -41,7 +41,7 @@ const recentEvents = events.slice(0, 4);
           <div class="flex items-center space-x-3 text-xs font-bold text-jade uppercase tracking-widest mb-2">
             <span>{event.type || 'Evento'}</span>
             <span class="w-1 h-1 rounded-full bg-ambar"></span>
-            <span>{new Date(event.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })}</span>
+            <span>{new Date(event.date).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', timeZone: 'America/Mexico_City' })}</span>
           </div>
           <h3 class="text-xl font-bold text-petroleo mb-2 group-hover:text-jade transition-colors">{event.title}</h3>
           <p class="text-sm text-petroleo/75 line-clamp-2 leading-relaxed">{event.description}</p>

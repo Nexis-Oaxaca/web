@@ -44,11 +44,12 @@ const events = await getEvents();
               </div>
               <div class="absolute bottom-5 left-5 text-white text-left">
                 <span class="text-2xl font-bold font-display">
-                  {new Date(event.date).getDate()}
+                  {new Date(event.date).toLocaleDateString("es-MX", { day: "numeric", timeZone: "America/Mexico_City" })}
                 </span>
                 <span class="text-[10px] font-bold uppercase block opacity-80 tracking-widest">
-                  {new Date(event.date).toLocaleDateString("es-ES", {
+                  {new Date(event.date).toLocaleDateString("es-MX", {
                     month: "long",
+                    timeZone: "America/Mexico_City",
                   })}
                 </span>
               </div>
