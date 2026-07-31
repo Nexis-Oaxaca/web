@@ -18,6 +18,10 @@ function parseEventDate(dateStr: string): Date | null {
     const d = new Date(str);
     return isNaN(d.getTime()) ? null : d;
   }
+  if (str.includes(' ')) {
+    const d = new Date(str.replace(' ', 'T'));
+    if (!isNaN(d.getTime())) return d;
+  }
   const normalized = str.replace(/\//g, '-');
   const d = new Date(`${normalized}T00:00:00`);
   if (!isNaN(d.getTime())) return d;
@@ -29,7 +33,6 @@ const selectEvent = computed(() => {
   if (!props.events || props.events.length === 0) return null;
 
   const now = new Date();
-  now.setHours(0, 0, 0, 0);
 
   const futureEvents: { event: EventItem; diff: number }[] = [];
   const pastEvents: { event: EventItem; diff: number }[] = [];

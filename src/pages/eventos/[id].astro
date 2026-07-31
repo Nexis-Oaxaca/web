@@ -32,13 +32,18 @@ if (!event) {
 }
 
 const now = new Date();
-now.setHours(0, 0, 0, 0);
 
 const parseEventDate = (dateStr: string) => {
   if (!dateStr) return null;
   const str = dateStr.trim();
-  const d = new Date(str);
-  if (!isNaN(d.getTime())) return d;
+  if (str.includes("T")) {
+    const d = new Date(str);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  if (str.includes(" ")) {
+    const d = new Date(str.replace(" ", "T"));
+    if (!isNaN(d.getTime())) return d;
+  }
   const normalized = str.replace(/\//g, "-");
   const fallback = new Date(`${normalized}T00:00:00`);
   return isNaN(fallback.getTime()) ? null : fallback;
