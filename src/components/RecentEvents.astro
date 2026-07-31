@@ -7,46 +7,76 @@ interface Props {
 }
 
 const { events } = Astro.props as Props;
-const recentEvents = events.slice(0, 4);
+
+const parseEventDate = (dateStr: string): Date | null => {
+  if (!dateStr) return null;
+  const str = dateStr.trim();
+  if (str.includes("T")) {
+    const d = new Date(str);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  if (str.includes(" ")) {
+    const d = new Date(str.replace(" ", "T"));
+    if (!isNaN(d.getTime())) return d;
+  }
+  const normalized = str.replace(/\//g, "-");
+  const fallback = new Date(`${normalized}T00:00:00`);
+  return isNaN(fallback.getTime()) ? null : fallback;
+};
+
+const now = new Date();
+
+const pastEvents = (events || [])
+  .map((event) => ({ event, dateObj: parseEventDate(event.date) }))
+  .filter(
+    (item): item is { event: EventItem; dateObj: Date } =>
+      item.dateObj !== null && item.dateObj.getTime() < now.getTime()
+  )
+  .sort((a, b) => b.dateObj.getTime() - a.dateObj.getTime())
+  .map((item) => item.event);
+
+const recentEvents = pastEvents.slice(0, 4);
 ---
 
-<section class="py-32 px-6 bg-marfil">
-  <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal">
-      <div>
-        <h2 class="text-3xl sm:text-4xl font-bold text-petroleo">Eventos Recientes</h2>
-        <p class="text-petroleo/80 mt-2 text-sm sm:text-base">Momentos que definieron nuestra comunidad este último mes.</p>
-      </div>
-      <a href="/eventos" class="text-jade font-bold flex items-center group">
-        Ver cartelera completa <ArrowRight class="ml-2 group-hover:translate-x-2 transition-transform" />
-      </a>
-    </div>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-      {recentEvents.map((event, index) => (
-        <div class="reveal group event-card" style={`transition-delay: ${index * 100}ms`}>
-          <div class="aspect-[4/5] rounded-[32px] overflow-hidden mb-6 relative bg-petroleo/5 shadow-sm group-hover:shadow-xl transition-all duration-500">
-            <img 
-              src={event.image} 
-              alt={event.title} 
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-petroleo/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div class="absolute bottom-6 left-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-               <a href={`/eventos/${event.slug}`} class="w-full block text-center py-3 bg-white text-petroleo rounded-xl font-bold text-sm hover:bg-jade hover:text-white transition-colors">
-                 Ver Resumen
-               </a>
-            </div>
-          </div>
-          <div class="flex items-center space-x-3 text-xs font-bold text-jade uppercase tracking-widest mb-2">
-            <span>{event.type || 'Evento'}</span>
-            <span class="w-1 h-1 rounded-full bg-ambar"></span>
-            <span>{new Date(event.date).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', timeZone: 'America/Mexico_City' })}</span>
-          </div>
-          <h3 class="text-xl font-bold text-petroleo mb-2 group-hover:text-jade transition-colors">{event.title}</h3>
-          <p class="text-sm text-petroleo/75 line-clamp-2 leading-relaxed">{event.description}</p>
+{recentEvents.length > 0 && (
+  <section class="py-32 px-6 bg-marfil">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal">
+        <div>
+          <h2 class="text-3xl sm:text-4xl font-bold text-petroleo">Eventos Recientes</h2>
+          <p class="text-petroleo/80 mt-2 text-sm sm:text-base">Momentos que definieron nuestra comunidad este último mes.</p>
         </div>
-      ))}
+        <a href="/eventos" class="text-jade font-bold flex items-center group">
+          Ver cartelera completa <ArrowRight class="ml-2 group-hover:translate-x-2 transition-transform" />
+        </a>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {recentEvents.map((event, index) => (
+          <div class="reveal group event-card" style={`transition-delay: ${index * 100}ms`}>
+            <div class="aspect-[4/5] rounded-[32px] overflow-hidden mb-6 relative bg-petroleo/5 shadow-sm group-hover:shadow-xl transition-all duration-500">
+              <img 
+                src={event.image} 
+                alt={event.title} 
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-petroleo/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div class="absolute bottom-6 left-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+                 <a href={`/eventos/${event.slug}`} class="w-full block text-center py-3 bg-white text-petroleo rounded-xl font-bold text-sm hover:bg-jade hover:text-white transition-colors">
+                   Ver Resumen
+                 </a>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3 text-xs font-bold text-jade uppercase tracking-widest mb-2">
+              <span>{event.type || 'Evento'}</span>
+              <span class="w-1 h-1 rounded-full bg-ambar"></span>
+              <span>{new Date(event.date).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', timeZone: 'America/Mexico_City' })}</span>
+            </div>
+            <h3 class="text-xl font-bold text-petroleo mb-2 group-hover:text-jade transition-colors">{event.title}</h3>
+            <p class="text-sm text-petroleo/75 line-clamp-2 leading-relaxed">{event.description}</p>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+)}
