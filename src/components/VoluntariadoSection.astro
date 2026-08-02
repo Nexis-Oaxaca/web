@@ -29,13 +29,13 @@ const { volunteerReasons } = Astro.props as Props;
       <div class="space-y-8">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-coral/10 border border-coral/20 text-coral text-xs font-bold uppercase tracking-widest">
           <HeartHandshake class="w-3 h-3" />
-          <span>Voluntariado</span>
+          <span>¿Quieres ayudar?</span>
         </div>
         <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-petroleo font-display leading-tight">
-          Construyamos juntos.
+          No hace falta saber todo. Hace falta tener ganas.
         </h2>
         <p class="text-petroleo/75 leading-relaxed">
-          En Nexis, cualquier miembro puede sumarse como voluntario. No necesitas ser un experto — solo tener ganas de ayudar y ser parte de algo más grande. El voluntariado es el corazón de nuestra comunidad.
+          Nexis no se organiza solo. Lo que ves —charlas, talleres, difusión— lo sostienen personas que aportan su tiempo y su cariño. Y cualquier persona puede ser una de ellas, en el nivel que quiera.
         </p>
         <div class="grid sm:grid-cols-2 gap-3">
           {volunteerReasons.map((r) => (
@@ -47,7 +47,7 @@ const { volunteerReasons } = Astro.props as Props;
         </div>
         <a href="/contacto?categoria=voluntariado">
           <button class="bg-jade text-white px-8 py-4 rounded-[18px] font-bold text-sm sm:text-base hover:bg-petroleo transition-all shadow-xl shadow-jade/20 flex items-center group cursor-pointer">
-            Quiero ser voluntario <ArrowUpRight class="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            Quiero ayudar <ArrowUpRight class="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </button>
         </a>
       </div>

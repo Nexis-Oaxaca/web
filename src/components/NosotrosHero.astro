@@ -15,25 +15,25 @@ const { eventsCount, communityMembers } = Astro.props as Props;
     <div class="space-y-8 reveal">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jade/10 border border-jade/20 text-jade text-xs font-bold uppercase tracking-widest">
         <span class="w-2 h-2 rounded-full bg-jade animate-pulse"></span>
-        <span class="text-petroleo">Conócenos</span>
+        <span class="text-petroleo">Quiénes somos</span>
       </div>
       <h1 class="text-5xl sm:text-7xl lg:text-6xl xl:text-8xl font-extrabold text-petroleo leading-[1.05] tracking-tight font-display uppercase">
-        Nexis <span class="text-jade">Oaxaca</span> Tech.
+        Somos gente que prefiere <span class="text-jade">aprender juntos.</span>
       </h1>
       <p class="text-sm sm:text-base md:text-xl text-petroleo/85 max-w-xl leading-relaxed">
-        Somos el punto de encuentro para la comunidad tecnológica de Oaxaca. Un espacio donde estudiantes, profesionales y apasionados por la tecnología se reúnen para aprender, colaborar y construir el futuro desde nuestra tierra.
+        Nexis somos personas de Oaxaca a las que les gusta la tecnología. No somos una empresa grande ni queremos sonar como una: somos una comunidad que apenas está creciendo, y estás invitado.
       </p>
       <p class="text-sm sm:text-base text-petroleo/70 max-w-xl leading-relaxed">
-        No importa si das tus primeros pasos en tecnología o si eres un profesional experimentado. En Nexis hay un lugar para ti.
+        No importa si llevas años programando o si todavía no sabes por dónde empezar. Aquí nadie juzga: aquí se pregunta.
       </p>
       <div class="flex flex-wrap gap-4 pt-2">
         <a href="https://chat.whatsapp.com/JdTX77UhRSbKMkTTEUXZtX" target="_blank" rel="noopener noreferrer">
           <button class="bg-jade text-white px-8 py-4 rounded-[18px] font-bold text-sm sm:text-base hover:scale-105 transition-all shadow-xl shadow-jade/20 flex items-center group cursor-pointer">
-            Únete a la comunidad <ArrowUpRight class="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            Quiero conocer la comunidad <ArrowUpRight class="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </button>
         </a>
         <a href="/eventos" class="border-2 border-petroleo/10 text-petroleo px-8 py-4 rounded-[18px] font-bold text-sm sm:text-base hover:bg-petroleo/5 transition-all flex items-center group">
-          Ver eventos <ArrowRight class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          Ver el próximo encuentro <ArrowRight class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </a>
       </div>
     </div>
@@ -52,7 +52,7 @@ const { eventsCount, communityMembers } = Astro.props as Props;
           </div>
           <div>
             <span class="block text-2xl font-bold text-petroleo font-display">{communityMembers}</span>
-            <span class="text-xs text-petroleo/50 font-bold uppercase tracking-widest">Miembros activos</span>
+            <span class="text-xs text-petroleo/50 font-bold uppercase tracking-widest">Personas que ya están adentro</span>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@ const { eventsCount, communityMembers } = Astro.props as Props;
           </div>
           <div>
             <span class="block text-2xl font-bold text-petroleo font-display">{eventsCount}+</span>
-            <span class="text-xs text-petroleo/50 font-bold uppercase tracking-widest">Eventos</span>
+            <span class="text-xs text-petroleo/50 font-bold uppercase tracking-widest">Encuentros vividos</span>
           </div>
         </div>
       </div>

@@ -7,19 +7,16 @@ import { Building2, GraduationCap, UserStar, ArrowLeft, CheckCircle2, Send, Load
 const categoria = Astro.url.searchParams.get('categoria') || '';
 
 const categorias = [
-  { value: 'empresas', label: 'Empresas', icon: Building2, color: 'petroleo', desc: 'Patrocinios, talent scouting, espacios de marca' },
-  { value: 'instituciones', label: 'Instituciones', icon: GraduationCap, color: 'jade', desc: 'Convenios educativos, pasantías, talleres' },
-  { value: 'profesionales', label: 'Profesionales', icon: UserStar, color: 'ambar', desc: 'Speaker, mentoría, liderazgo de célula' },
-  { value: 'voluntariado', label: 'Voluntariado', icon: UserStar, color: 'jade', desc: 'Únete al equipo de Nexis y ayuda a crecer la comunidad' },
+  { value: 'profesionales', label: 'Quiero aportar', icon: UserStar, color: 'ambar', desc: 'Dar una plática, mentorear a alguien o proponer una idea' },
+  { value: 'instituciones', label: 'Escuela o empresa', icon: Building2, color: 'petroleo', desc: 'Prestar un espacio, apoyar un encuentro o conocer a la comunidad' },
+  { value: 'voluntariado', label: 'Voluntariado', icon: GraduationCap, color: 'jade', desc: 'Aportar tu tiempo y tu energía para que la comunidad siga creciendo' },
 ];
 
 const selected = categorias.find(c => c.value === categoria);
 const catColor = selected?.color || 'petroleo';
-const catLabel = selected?.label || 'Colaboración';
-const catIcon = selected?.icon || Building2;
 ---
 
-<Layout title={`Contacto - ${catLabel} | Nexis Oaxaca Tech`} description={`Contacta a Nexis Oaxaca Tech como ${catLabel.toLowerCase()}. Cuéntanos sobre tu interés en colaborar con la comunidad tecnológica de Oaxaca.`}>
+<Layout title={`Contacto | Nexis Oaxaca`} description="Escríbenos a Nexis Oaxaca y cuéntanos qué te gustaría hacer: aportar, apoyar o sumarte a la comunidad.">
   <Header />
 
   <main class="pt-32 pb-24 px-6 bg-marfil min-h-screen">
@@ -32,8 +29,8 @@ const catIcon = selected?.icon || Building2;
       <div class={`rounded-[40px] border-2 border-${catColor}/10 bg-white shadow-sm overflow-hidden`} style="background-image: url('/nexis.svg'); background-size: cover; background-position: center;">
         <div class={`p-6 sm:p-10 pb-6 sm:pb-8 border-b border-${catColor}/5`}>
 
-          <h1 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-petroleo mb-3">Contactar &mdash; {catLabel}</h1>
-          <p class="text-petroleo/80 text-sm sm:text-base md:text-lg">{selected?.desc || 'Cuéntanos más sobre tu interés en colaborar con Nexis.'}</p>
+          <h1 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-petroleo mb-3">Platicar con Nexis</h1>
+          <p class="text-petroleo/80 text-sm sm:text-base md:text-lg">{selected?.desc || 'Cuéntanos qué te gustaría hacer y alguien te responde con gusto.'}</p>
         </div>
 
         <div class="p-6 sm:p-10">
@@ -85,7 +82,7 @@ const catIcon = selected?.icon || Building2;
                 <textarea
                   id="mensaje" name="mensaje" rows={5} required
                   class="w-full px-5 py-4 rounded-2xl border-2 border-petroleo/10 bg-marfil text-petroleo                   placeholder:text-petroleo/50 focus:outline-none transition-all duration-300 resize-none"
-                  placeholder="Cuéntanos en qué te gustaría colaborar..."
+                  placeholder="Cuéntanos qué te gustaría hacer..."
                 ></textarea>
                 <p class="text-red-500 text-xs mt-1 hidden" id="error-mensaje">Este campo es obligatorio</p>
               </div>
@@ -96,7 +93,7 @@ const catIcon = selected?.icon || Building2;
                 style={catColor === 'petroleo' ? '--btn-bg: #234A57; --btn-text: white; --btn-bg-hover: #1d3d48; --btn-shadow: rgba(35,74,87,0.3)' : catColor === 'jade' ? '--btn-bg: #2D8380; --btn-text: white; --btn-bg-hover: #26726f; --btn-shadow: rgba(45,131,128,0.3)' : '--btn-bg: #DDAA33; --btn-text: #234A57; --btn-bg-hover: #c99a2e; --btn-shadow: rgba(221,170,51,0.3)'}
               >
                 <span class="absolute inset-0 opacity-0 transition-opacity duration-500" id="btn-bg-glow"></span>
-                <span id="btn-text" class="relative z-10">Enviar mensaje</span>
+                <span id="btn-text" class="relative z-10">Mándanos tu mensaje</span>
                 <span id="btn-icon" class="relative z-10"><Send class="w-5 h-5 transition-transform duration-300" /></span>
                 <span id="btn-spinner" class="relative z-10 hidden"><LoaderCircle class="w-5 h-5 animate-spin" /></span>
                 <span id="btn-check" class="relative z-10 hidden"><CheckCircle2 class="w-5 h-5" /></span>
@@ -123,8 +120,8 @@ const catIcon = selected?.icon || Building2;
               <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-jade/10 flex items-center justify-center mx-auto mb-4 sm:mb-6">
                 <CheckCircle2 class="w-8 h-8 sm:w-10 sm:h-10 text-jade" />
               </div>
-              <h2 class="font-display text-xl sm:text-2xl md:text-3xl font-bold text-petroleo mb-3">¡Mensaje enviado!</h2>
-              <p class="text-petroleo/60 text-sm sm:text-base mb-8">Gracias por tu interés. Te responderemos a la brevedad.</p>
+              <h2 class="font-display text-xl sm:text-2xl md:text-3xl font-bold text-petroleo mb-3">¡Recibido!</h2>
+              <p class="text-petroleo/60 text-sm sm:text-base mb-8">Gracias por escribirnos. Una persona real te responde muy pronto.</p>
               <a href="/" class="inline-block bg-jade text-white px-10 py-4 rounded-2xl font-bold hover:bg-jade/90 transition-colors">
                 Volver al inicio
               </a>
@@ -234,7 +231,7 @@ const catIcon = selected?.icon || Building2;
         btnSpinner?.classList.remove('hidden');
         safeAnimate(btnText, { opacity: [1, 0.6] }, { duration: 0.15 });
       } else {
-        if (btnText) btnText.textContent = 'Enviar mensaje';
+        if (btnText) btnText.textContent = 'Mándanos tu mensaje';
         btnIcon?.classList.remove('hidden');
         btnSpinner?.classList.add('hidden');
         btnCheck?.classList.add('hidden');
@@ -359,20 +356,30 @@ const catIcon = selected?.icon || Building2;
           ).finished;
         } catch {}
 
-        setTimeout(() => {
+        setTimeout(async () => {
           try {
-            animate(formContainer, { opacity: [1, 0], scale: [1, 0.95] }, { duration: 0.3 }).then(() => {
-              formContainer?.classList.add('hidden');
-              successMsg?.classList.remove('hidden');
-              if (successMsg) {
-                animate(
-                  successMsg.querySelectorAll('*'),
+            if (form) {
+              const anim = safeAnimate(form, { opacity: [1, 0], scale: [1, 0.95] }, { duration: 0.3 });
+              if (anim && 'finished' in anim) {
+                await (anim as any).finished;
+              }
+              form.classList.add('hidden');
+            }
+            if (successMsg) {
+              successMsg.classList.remove('hidden');
+              const children = Array.from(successMsg.children);
+              if (children.length > 0) {
+                safeAnimate(
+                  children as any,
                   { opacity: [0, 1], y: [20, 0] },
                   { duration: 0.4, delay: stagger(0.08), easing: spring() },
                 );
               }
-            });
-          } catch {}
+            }
+          } catch {
+            form?.classList.add('hidden');
+            successMsg?.classList.remove('hidden');
+          }
         }, 800);
       } catch (err) {
         clearInterval(dotsInterval);

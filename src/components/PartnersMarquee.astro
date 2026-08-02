@@ -1,18 +1,22 @@
 ---
-const partners = [
-  "UNIVERSIDAD DEL ISTMO",
-  "UDEV-IT",
+const phrases = [
+  "Preguntar no da pena",
+  "Todos empezamos desde cero",
+  "Aprender en compañía",
+  "Comparte lo que sabes",
+  "Aquí cabe la curiosidad",
+  "Somos más cuando somos varios",
 ];
 ---
 
 <section class="py-20 bg-arena border-y border-petroleo/5 overflow-hidden">
   <div class="flex whitespace-nowrap animate-marquee">
     <div class="flex space-x-24 items-center px-12">
-      {partners.map(p => (
-        <span class="text-2xl font-bold font-display text-petroleo/60 hover:text-jade transition-colors cursor-default">{p}</span>
+      {phrases.map(p => (
+        <span class="text-2xl font-bold font-display text-petroleo/50 hover:text-jade transition-colors cursor-default">{p}</span>
       ))}
-      {partners.map(p => (
-        <span class="text-2xl font-bold font-display text-petroleo/60 hover:text-jade transition-colors cursor-default">{p}</span>
+      {phrases.map(p => (
+        <span class="text-2xl font-bold font-display text-petroleo/50 hover:text-jade transition-colors cursor-default">{p}</span>
       ))}
     </div>
   </div>

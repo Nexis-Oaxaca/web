@@ -3,28 +3,31 @@ import { Building2, GraduationCap, UserStar, CheckCircle2 } from 'lucide-astro';
 
 const profiles = [
   {
-    title: "Empresas",
-    description: "Patrocina eventos, recluta talento local de alto nivel o co-desarrolla proyectos de innovación abierta.",
+    slug: "profesionales",
+    title: "Comparte lo que sabes",
+    description: "Si te gusta explicar, enseñar o contar tu experiencia, aquí hay espacio para que lo hagas.",
+    icon: UserStar,
+    benefits: ["Dar una plática", "Acompañar a quien empieza", "Proponer ideas"],
+    cta: "Quiero aportar",
+    color: "ambar"
+  },
+  {
+    slug: "instituciones",
+    title: "Suma tu escuela o empresa",
+    description: "Si conoces un espacio, quieres apoyar un encuentro o conectar con gente curiosa, platicamos.",
     icon: Building2,
-    benefits: ["Patrocinios de eventos", "Talent Scouting", "Espacios de marca"],
-    cta: "Contactar Alianzas",
+    benefits: ["Prestar un espacio", "Apoyar un encuentro", "Conocer talento local"],
+    cta: "Hablemos",
     color: "petroleo"
   },
   {
-    title: "Instituciones",
-    description: "Convenios educativos, programas de pasantías y acceso a nuestra red de mentores para tus alumnos.",
+    slug: "voluntariado",
+    title: "Aporta tu tiempo",
+    description: "No hace falta ser experto: hace falta tener ganas. La comunidad se sostiene entre todos.",
     icon: GraduationCap,
-    benefits: ["Convenios Universitarios", "Programas de Verano", "Talleres Técnicos"],
-    cta: "Saber más",
+    benefits: ["Logística de encuentros", "Difusión en redes", "Recibir a la gente nueva"],
+    cta: "Me gustaría ayudar",
     color: "jade"
-  },
-  {
-    title: "Profesionales",
-    description: "Comparte tu conocimiento como ponente, conviértete en mentor o lidera una iniciativa técnica.",
-    icon: UserStar,
-    benefits: ["Speaker en Meetups", "Mentoría 1 a 1", "Liderazgo de Célula"],
-    cta: "Quiero Colaborar",
-    color: "ambar"
   }
 ];
 ---
@@ -32,8 +35,8 @@ const profiles = [
 <section id="colaborar" class="py-32 px-6 bg-marfil">
   <div class="max-w-7xl mx-auto">
     <div class="text-center mb-20 reveal">
-       <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-petroleo mb-6 font-display">¿Cómo quieres colaborar?</h2>
-       <p class="text-sm sm:text-base md:text-xl text-petroleo/80">Hay un lugar para todos en Nexis.</p>
+       <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-petroleo mb-6 font-display">Hay muchas formas de aportar</h2>
+       <p class="text-sm sm:text-base md:text-xl text-petroleo/80">Todas valen, sin importar quién eres.</p>
     </div>
 
     <div class="grid lg:grid-cols-3 gap-8">
@@ -56,7 +59,7 @@ const profiles = [
               </li>
             ))}
           </ul>
-          <a href={`/contacto?categoria=${p.title.toLowerCase()}`} class={`block w-full py-4 rounded-2xl border-2 font-bold transition-all text-center ${
+          <a href={`/contacto?categoria=${p.slug}`} class={`block w-full py-4 rounded-2xl border-2 font-bold transition-all text-center ${
             p.color === 'petroleo' ? 'border-petroleo text-petroleo hover:bg-petroleo hover:text-white' : 
             p.color === 'jade' ? 'border-jade text-jade hover:bg-jade hover:text-white' : 'border-ambar text-ambar hover:bg-ambar hover:text-petroleo'
           }`}>

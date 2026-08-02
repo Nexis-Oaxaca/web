@@ -120,7 +120,7 @@ const getInitials = (name: string) =>
         <ArrowLeft
           class="w-4 h-4 group-hover:-translate-x-1 transition-transform"
         />
-        Volver a eventos
+        Volver a los encuentros
       </a>
 
       <section class="grid lg:grid-cols-12 gap-16 items-start">
@@ -131,7 +131,7 @@ const getInitials = (name: string) =>
             <span
               class={`w-2 h-2 rounded-full ${isUpcoming ? "bg-jade animate-pulse" : "bg-petroleo/40"}`}
             ></span>
-            {isUpcoming ? "Próximo evento" : "Evento finalizado"}
+            {isUpcoming ? "Próximo encuentro" : "Encuentro que ya pasó"}
           </div>
 
           <h1
@@ -221,7 +221,7 @@ const getInitials = (name: string) =>
           <section class="space-y-8 text-left">
             <div class="border-b border-petroleo/10 pb-4">
               <h2 class="text-xs font-bold uppercase tracking-widest text-petroleo/60">
-                Ponentes e invitados
+                Quién nos acompaña
               </h2>
             </div>
             <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -264,13 +264,13 @@ const getInitials = (name: string) =>
           <h3
             class="text-3xl sm:text-4xl font-display font-bold text-petroleo uppercase"
           >
-            {isUpcoming ? "Agenda este evento" : "Evidencia y memorias"}
+            {isUpcoming ? "Nos vemos ahí" : "Cómo nos fue"}
           </h3>
           <p class="text-petroleo/80 text-sm sm:text-base md:text-lg">
             {
               isUpcoming
-                ? "Añádelo a tu calendario con un clic y sé parte de la comunidad."
-                : "Revive los mejores momentos de este encuentro tecnológico."
+                ? "Guárdate la fecha para no perderte el momento. Te esperamos con café y buena vibra."
+                : "Fotos y grabaciones de un día bonito entre la comunidad."
             }
           </p>
         </div>
@@ -287,8 +287,7 @@ const getInitials = (name: string) =>
                     No te lo pierdas
                   </p>
                   <p class="text-sm text-petroleo/75">
-                    Agrega este evento a Google Calendar y recibe un
-                    recordatorio automático para que no olvides asistir.
+                    Agrégalo a tu calendario y te avisamos para que no olvides asistir.
                   </p>
                 </div>
               </div>
@@ -301,16 +300,16 @@ const getInitials = (name: string) =>
                   class="inline-flex items-center gap-3 bg-jade text-white px-10 py-5 rounded-[20px] font-bold text-lg hover:bg-petroleo transition-all shadow-xl shadow-jade/30 group"
                 >
                   <Calendar class="w-6 h-6" />
-                  Agregar a Google Calendar
+                  Guardar en mi calendario
                   <ExternalLink class="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </a>
               ) : (
                 <div class="py-4">
                   <p class="text-petroleo/60 text-sm">
-                    Registro no disponible por el momento.
+                    Todavía no abrimos registro para este encuentro.
                   </p>
                   <p class="text-petroleo/60 text-xs mt-1">
-                    Sigue nuestras redes para conocer próximos eventos.
+                    Síguenos en redes para avisarte cuando esté listo.
                   </p>
                 </div>
               )}
@@ -320,7 +319,7 @@ const getInitials = (name: string) =>
               {youtubeEmbedUrl && (
                 <div class="space-y-4">
                   <h4 class="text-xs font-bold uppercase tracking-widest text-petroleo/60">
-                    Grabación del evento
+                    La grabación
                   </h4>
                   <div class="relative w-full aspect-video rounded-3xl overflow-hidden shadow-lg border border-petroleo/5 bg-black">
                     <iframe
@@ -337,7 +336,7 @@ const getInitials = (name: string) =>
               {hasGallery && (
                 <div class="space-y-4">
                   <h4 class="text-xs font-bold uppercase tracking-widest text-petroleo/60">
-                    Galería de fotos
+                    Fotos del día
                   </h4>
                   <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     {event.gallery!.map((imgUrl: string, idx: number) => (
@@ -357,7 +356,7 @@ const getInitials = (name: string) =>
               {hasMedia && (
                 <div class="space-y-4 pt-6 border-t border-petroleo/10">
                   <p class="text-xs font-bold uppercase tracking-widest text-petroleo/60 text-center">
-                    El evento ya terminó, pero puedes verlo disponible en:
+                    El encuentro terminó, pero puedes verlo aquí:
                   </p>
                   <div class="flex flex-wrap gap-4 justify-center">
                     {event.media?.youtube && (
@@ -413,10 +412,10 @@ const getInitials = (name: string) =>
                   <Info class="w-10 h-10 text-red-500" />
                   <div>
                     <h4 class="font-bold text-petroleo text-lg">
-                      Evidencia no disponible
+                      Aún no hay fotos de este encuentro
                     </h4>
                     <p class="text-petroleo/60 text-sm mt-1">
-                      No hay evidencia adjunta para este evento.
+                      Todavía no subimos las memorias de este día. Cuando estén, las encuentras aquí.
                     </p>
                   </div>
                 </div>

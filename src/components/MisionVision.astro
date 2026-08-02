@@ -15,18 +15,18 @@ const { communityMembers, eventsCount } = Astro.props as Props;
       <div class="lg:col-span-3 order-2 lg:order-1">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jade/10 border border-jade/20 text-jade text-xs font-bold uppercase tracking-widest mb-6">
           <Target class="w-3 h-3" />
-          <span>Nuestra misión</span>
+          <span>Por qué existimos</span>
         </div>
         <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-petroleo font-display leading-tight mb-8">
-          Impulsar el talento tecnológico de Oaxaca.
+          Porque aprender solo es más difícil.
         </h2>
         <p class="text-petroleo/80 leading-relaxed text-base sm:text-lg mb-8">
-          Crear un ecosistema donde cualquier persona con interés en tecnología pueda encontrar las herramientas, el conocimiento y las conexiones necesarias para desarrollar su máximo potencial.
+          Creemos que en Oaxaca hay talento de sobra. Solo hacía falta un lugar donde encontrarse para que las cosas empezaran a pasar. Ese lugar lo estamos haciendo entre todos, a nuestro ritmo.
         </p>
         <div class="grid sm:grid-cols-3 gap-6">
           {[
-            { stat: `${communityMembers}+`, label: 'Miembros activos' },
-            { stat: `${eventsCount}+`, label: 'Eventos realizados' }
+            { stat: `${communityMembers}+`, label: 'Personas adentro' },
+            { stat: `${eventsCount}+`, label: 'Encuentros vividos' }
           ].map((s) => (
             <div class="bg-arena rounded-[24px] p-6 text-center border border-petroleo/5">
               <span class="block text-3xl font-bold text-jade font-display">{s.stat}</span>
@@ -55,16 +55,16 @@ const { communityMembers, eventsCount } = Astro.props as Props;
       <div class="lg:col-span-3">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ambar/10 border border-ambar/20 text-ambar text-xs font-bold uppercase tracking-widest mb-6">
           <Eye class="w-3 h-3" />
-          <span>Nuestra visión</span>
+          <span>A dónde queremos llegar</span>
         </div>
         <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-petroleo font-display leading-tight mb-8">
-          Ser el motor del talento tech en Oaxaca y el sur de México.
+          Que nadie se quede aprendiendo solo.
         </h2>
         <p class="text-petroleo/80 leading-relaxed text-base sm:text-lg mb-6">
-          Imaginamos un futuro donde Oaxaca sea reconocida como un hub tecnológico de clase mundial. Donde el talento local no tenga que migrar para encontrar oportunidades, sino que las oportunidades florezcan aquí.
+          Queremos que cualquier persona en Oaxaca que sienta curiosidad por la tecnología tenga un lugar al que llegar. Que nadie se quede con las ganas por no saber con quién compartir lo que le apasiona.
         </p>
         <p class="text-petroleo/70 leading-relaxed text-sm">
-          Queremos ser el puente entre la educación y la industria, entre el talento emergente y las empresas innovadoras. Una comunidad autosostenible que genere impacto real en la economía digital de nuestra región.
+          No soñamos con ser grandes: soñamos con ser muchos y estar abiertos. Un lugar al que valga la pena llegar y del que valga la pena ser parte.
         </p>
       </div>
     </div>

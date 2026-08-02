@@ -47,49 +47,49 @@ const [team, events, projects] = await Promise.all([
 const communityMembers = 30;
 
 const timeline = [
-  { year: 'Mayo 2026', title: 'El inicio', description: 'Un grupo de entusiastas de la tecnología en Oaxaca identificó la necesidad de un espacio de encuentro para el talento local. Así nació Nexis.', icon: Star },
-  { year: 'Julio 2026', title: 'Crecimiento acelerado', description: 'Primeros meetups, alianzas con instituciones educativas y una comunidad que creció de 5 a más de 30 miembros activos.', icon: Zap },
+  { year: 'Mayo 2026', title: 'La primera chispa', description: 'Un grupo de amigos notó que en Oaxaca faltaba un lugar donde juntarse a hablar de tecnología. Ese día se decidió intentarlo.', icon: Star },
+  { year: 'Julio 2026', title: 'Y llegó la gente', description: 'La primera charla convocó a 30 personas. De ser una idea, pasamos a ser una comunidad.', icon: Zap },
 ];
 
 const valores = [
-  { icon: HeartHandshake, title: 'Colaboración', description: 'Creemos que el conocimiento compartido multiplica las oportunidades.', color: 'jade' },
-  { icon: BookOpen, title: 'Aprendizaje continuo', description: 'Nunca dejamos de aprender. Cada persona tiene algo que enseñar y algo que aprender.', color: 'ambar' },
-  { icon: Heart, title: 'Comunidad', description: 'Somos una familia tecnológica. Nos apoyamos, crecemos juntos y celebramos cada logro.', color: 'coral' },
-  { icon: Lightbulb, title: 'Innovación', description: 'Buscamos constantemente nuevas formas de resolver problemas y generar impacto.', color: 'petroleo' },
-  { icon: Users, title: 'Inclusión', description: 'Todas las voces importan. Un espacio seguro y diverso para cualquier persona interesada en tecnología.', color: 'jade' },
-  { icon: RefreshCw, title: 'Compartir conocimiento', description: 'Del expertise individual al crecimiento colectivo. open source como filosofía de vida.', color: 'ambar' },
+  { icon: HeartHandshake, title: 'Colaboración', description: 'Lo que uno no sabe, otro lo explica. Así crecemos todos.', color: 'jade' },
+  { icon: BookOpen, title: 'Aprendizaje continuo', description: 'Aquí no hay expertos perfectos: hay personas con curiosidad.', color: 'ambar' },
+  { icon: Heart, title: 'Comunidad', description: 'Nos apoyamos, nos animamos y celebramos juntos cada paso.', color: 'coral' },
+  { icon: Lightbulb, title: 'Probar sin miedo', description: 'Nos gusta intentar cosas nuevas y aprender del intento.', color: 'petroleo' },
+  { icon: Users, title: 'Aquí cabe todo el mundo', description: 'Sin importar de dónde vengas ni cuánto sepas, tu lugar está aquí.', color: 'jade' },
+  { icon: RefreshCw, title: 'Lo que sabes, se comparte', description: 'Si aprendiste algo, seguro alguien más quiere aprenderlo contigo.', color: 'ambar' },
 ];
 
 const areas = [
-  { icon: Code, title: 'Desarrollo de Software', description: 'Web, móvil, backend, frontend — todo el stack.', color: 'jade' },
-  { icon: Cloud, title: 'Cloud Computing', description: 'AWS, GCP, Azure, infraestructura moderna.', color: 'petroleo' },
-  { icon: Bot, title: 'Inteligencia Artificial', description: 'ML, deep learning, LLMs y más.', color: 'coral' },
-  { icon: Palette, title: 'UX/UI', description: 'Diseño de experiencias digitales centradas en personas.', color: 'ambar' },
-  { icon: Wifi, title: 'IoT', description: 'Internet de las cosas y hardware inteligente.', color: 'jade' },
-  { icon: Cpu, title: 'Robótica', description: 'Automatización, sistemas embebidos y robótica educativa.', color: 'petroleo' },
-  { icon: Briefcase, title: 'Emprendimiento Tecnológico', description: 'Startups, innovación y negocios digitales.', color: 'coral' },
-  { icon: Globe, title: 'Ciberseguridad', description: 'Protección de datos, ethical hacking y seguridad informática.', color: 'ambar' },
+  { icon: Code, title: 'Desarrollo de Software', description: 'Crear apps, sitios y herramientas con las manos.', color: 'jade' },
+  { icon: Cloud, title: 'Cloud Computing', description: 'Servidores, infraestructura y el mundo de "lo de la nube".', color: 'petroleo' },
+  { icon: Bot, title: 'Inteligencia Artificial', description: 'Modelos, LLMs y todo lo que se aprende con datos.', color: 'coral' },
+  { icon: Palette, title: 'UX/UI', description: 'Diseñar experiencias pensadas en las personas.', color: 'ambar' },
+  { icon: Wifi, title: 'IoT', description: 'Cosas conectadas y hardware con ideas.', color: 'jade' },
+  { icon: Cpu, title: 'Robótica', description: 'Máquinas que hacen cosas y todo lo que hay detrás.', color: 'petroleo' },
+  { icon: Briefcase, title: 'Emprendimiento', description: 'Convertir una idea en algo real.', color: 'coral' },
+  { icon: Globe, title: 'Ciberseguridad', description: 'Proteger datos y entender el lado oscuro de la red.', color: 'ambar' },
 ];
 
 const actividades = [
-  { icon: Calendar, title: 'Charlas', description: 'Pláticas técnicas y no técnicas con expertos de la industria.', stat: `${events.length}+` },
-  { icon: Layers, title: 'Workshops', description: 'Talleres prácticos hands-on para desarrollar habilidades reales.' },
-  { icon: Network, title: 'Networking', description: 'Espacios para conectar con profesionales y mentores.' },
-  { icon: GraduationCap, title: 'Visitas a escuelas', description: 'Llevando la tecnología a universidades y preparatorias.' },
-  { icon: Building2, title: 'Colaboraciones', description: 'Alianzas con empresas e instituciones para proyectos de impacto.' },
+  { icon: Calendar, title: 'Charlas', description: 'Pláticas de gente real contando lo que aprende.', stat: `${events.length}+` },
+  { icon: Layers, title: 'Talleres', description: 'Aprender haciendo, no solo escuchando.' },
+  { icon: Network, title: 'Convivencia', description: 'Café, pláticas y conocer a gente con tus mismos intereses.' },
+  { icon: GraduationCap, title: 'Visitas a escuelas', description: 'Llevar la comunidad a donde hay más curiosidad.' },
+  { icon: Building2, title: 'Proyectos juntos', description: 'Cosas que van surgiendo cuando nos juntamos.' },
 ];
 
 const volunteerReasons = [
-  'Apoyar en la logística de eventos',
+  'Ayudar en la logística de los encuentros',
   'Difundir la comunidad en redes sociales',
-  'Fotografía y documentación',
-  'Organización de meetups y talleres',
-  'Registro y bienvenida de nuevos miembros',
-  'Co-crear nuevas actividades y proyectos',
+  'Fotos y recuerdos de cada evento',
+  'Organizar meetups y talleres',
+  'Recibir a la gente nueva en la entrada',
+  'Proponer y armar actividades nuevas',
 ];
 ---
 
-<Layout title="Nosotros | Nexis Oaxaca Tech" description="Conoce la historia, misión, visión y equipo detrás de Nexis Oaxaca Tech. La comunidad tecnológica que está transformando Oaxaca.">
+<Layout title="La comunidad | Nexis Oaxaca" description="Nexis somos un grupo de personas de Oaxaca que aprenden tecnología juntas. Empezamos hace poco y crecemos con cada persona que llega. Aquí no necesitas ser experto.">
   <Header />
 
   <main>

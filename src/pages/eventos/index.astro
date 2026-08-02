@@ -7,20 +7,20 @@ import { getEvents } from "../../lib/cms";
 const events = await getEvents();
 ---
 
-<Layout title="Eventos | Nexis Oaxaca Tech" description="Explora la cartelera de eventos tecnológicos de Nexis Oaxaca Tech. Talleres, charlas, hackathons y encuentros para la comunidad tech de Oaxaca.">
+<Layout title="Encuentros | Nexis Oaxaca" description="La agenda de encuentros de Nexis Oaxaca. Charlas, talleres y convivencias para aprender tecnología en compañía, sin experiencia previa.">
   <Header />
 
   <main class="pt-32 pb-24 px-6 bg-marfil">
     <div class="max-w-7xl mx-auto">
       <div class="mb-20 text-left">
         <div class="inline-flex items-center gap-2 px-4 py-2 bg-jade/10 text-petroleo rounded-full text-xs font-bold uppercase tracking-widest mb-6 border border-jade/20">
-          Agenda abierta
+          La comunidad en movimiento
         </div>
         <h1 class="font-display text-4xl sm:text-5xl md:text-7xl font-extrabold text-petroleo leading-[1.05] tracking-tight mb-8 uppercase">
-          Todos los <span class="text-jade">Eventos</span>
+          Los encuentros <span class="text-jade">que vienen</span>
         </h1>
         <p class="text-base sm:text-lg md:text-xl text-petroleo/80 max-w-2xl leading-relaxed font-medium">
-          Explora nuestra cartelera de actividades tecnológicas en Oaxaca.
+          Cada encuentro es una excusa para juntarse, aprender algo y conocer gente. Sin registro formal ni experiencia: si te late, llega.
         </p>
       </div>
 
@@ -66,7 +66,7 @@ const events = await getEvents();
                   {event.location || "Oaxaca"}
                 </span>
                 <span class="text-[10px] font-bold text-jade uppercase tracking-widest">
-                  Ver detalles
+                  Quiero ir
                 </span>
               </div>
             </div>

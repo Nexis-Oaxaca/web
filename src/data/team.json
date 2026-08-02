@@ -1,34 +1,34 @@
 [
   {
     "name": "Eduardo Mendoza",
-    "role": "Fundador & CEO",
+    "role": "Le gusta programar y organizar",
     "image": "https://i.pravatar.cc/300?u=organizer1",
     "color": "bg-jade",
-    "description": "Emprendedor tecnológico oaxaqueño con experiencia en desarrollo de software y liderazgo de comunidades. Creyente del talento local y su potencial para transformar la industria.",
+    "description": "Aprendió a programar a prueba y error. Cree que en Oaxaca hay mucho talento que solo necesitaba un lugar donde encontrarse.",
     "social": { "linkedin": "#", "twitter": "#" }
   },
   {
     "name": "Ximena Rojas",
-    "role": "Directora de Comunidad",
+    "role": "Se encarga de que nadie se sienta fuera",
     "image": "https://i.pravatar.cc/300?u=organizer2",
     "color": "bg-ambar",
-    "description": "Apasionada por conectar personas y generar espacios de colaboración. Lidera la estrategia de crecimiento y participación de la comunidad Nexis.",
+    "description": "Le gusta platicar con la gente, hacer que los nuevos se sientan en casa y buscar formas de que la comunidad sea de todos.",
     "social": { "linkedin": "#", "github": "#" }
   },
   {
     "name": "Alejandro Vasconcelos",
-    "role": "CTO & Lead Mentorship",
+    "role": "Explica las cosas de forma sencilla",
     "image": "https://i.pravatar.cc/300?u=organizer3",
     "color": "bg-petroleo",
-    "description": "Ingeniero de software especializado en arquitecturas cloud y sistemas distribuidos. Mentor apasionado por formar a la próxima generación de desarrolladores.",
+    "description": "Dice que no hay preguntas tontas, solo preguntas que todavía no se han hecho. Le gusta acompañar a quien está empezando.",
     "social": { "linkedin": "#", "globe": "#" }
   },
   {
     "name": "Sofía Montes",
-    "role": "Alianzas Estratégicas",
+    "role": "Consigue que otros se sumen",
     "image": "https://i.pravatar.cc/300?u=organizer4",
     "color": "bg-coral",
-    "description": "Especialista en relaciones institucionales con experiencia en vinculación academia-industria. Construye puentes entre Nexis y el ecosistema tecnológico global.",
+    "description": "Platica con escuelas y negocios para abrir puertas. Cree que todo mundo tiene algo que aportar, aunque no lo sepa todavía.",
     "social": { "linkedin": "#", "instagram": "#" }
   }
 ]

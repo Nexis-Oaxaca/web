@@ -94,10 +94,10 @@ const detailHref = computed(() => `/eventos/${featured.value?.slug ?? ''}`);
       <div class="flex items-center justify-between mb-12">
         <div class="reveal">
           <h2 class="text-4xl font-bold text-petroleo font-display">
-            {{ isUpcoming ? 'Próximo Evento' : 'Último Evento' }}
+            {{ isUpcoming ? 'El próximo encuentro' : 'El último encuentro' }}
           </h2>
           <p class="text-petroleo/80 mt-2">
-            {{ isUpcoming ? 'No te pierdas nuestra cita más cercana.' : 'Revive nuestro encuentro más reciente.' }}
+            {{ isUpcoming ? 'Un buen pretexto para juntarnos y aprender algo nuevo.' : 'Así se sintió el día que nos reunimos por última vez.' }}
           </p>
         </div>
       </div>
@@ -113,7 +113,7 @@ const detailHref = computed(() => `/eventos/${featured.value?.slug ?? ''}`);
           <div class="absolute inset-0 bg-linear-to-t from-petroleo/60 to-transparent"></div>
           <div class="absolute bottom-8 left-8">
             <span class="px-4 py-1.5 rounded-full bg-ambar text-petroleo text-xs font-bold uppercase tracking-wider">
-              {{ isUpcoming ? 'Spotlight Event' : 'Recapitulación' }}
+              {{ isUpcoming ? 'Te esperamos' : 'Memorias del día' }}
             </span>
           </div>
         </div>
@@ -145,7 +145,7 @@ const detailHref = computed(() => `/eventos/${featured.value?.slug ?? ''}`);
                 :href="detailHref"
                 class="bg-jade text-white px-6 py-3 lg:px-8 lg:py-4 rounded-2xl font-bold hover:bg-petroleo transition-all shadow-lg shadow-jade/20 font-sans"
               >
-                {{ isUpcoming ? 'Quiero saber más' : 'Ver resumen' }}
+                {{ isUpcoming ? 'Me gustaría asistir' : 'Ver cómo fue' }}
               </a>
             </div>
           </div>
