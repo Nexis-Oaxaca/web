@@ -53,10 +53,17 @@ export type RichTextNode =
 		level?: number;
 		format?: "ordered" | "unordered";
 		url?: string;
+		target?: string;
+		rel?: string;
 		children?: RichTextNode[];
-		image?: unknown;
+		image?: Record<string, unknown>;
 		caption?: string;
 		text?: string;
+		bold?: boolean;
+		italic?: boolean;
+		underline?: boolean;
+		strikethrough?: boolean;
+		code?: boolean;
 	};
 
 export type RichTextContent = string | RichTextNode[];

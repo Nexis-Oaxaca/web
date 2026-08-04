@@ -5,10 +5,122 @@ import { richTextToHtml } from '../lib/cms/rich-text';
 interface Props {
 	content: RichTextContent | unknown;
 	class?: string;
+	preview?: boolean;
+	maxWords?: number;
 }
 
-const { content, class: className } = Astro.props as Props;
-const html = richTextToHtml(content);
+const {
+	content,
+	class: className = '',
+	preview = false,
+	maxWords = 30,
+} = Astro.props as Props;
+
+const html = richTextToHtml(content, { preview, maxWords });
 ---
 
-{className ? <div class={className} set:html={html} /> : <Fragment set:html={html} />}
+{html && <div class:list={['rich-text', className]} set:html={html} />}
+
+<style>
+	.rich-text :global(> :first-child) {
+		margin-top: 0;
+	}
+
+	.rich-text :global(> :last-child) {
+		margin-bottom: 0;
+	}
+
+	.rich-text :global(p) {
+		margin-block: 1em;
+	}
+
+	.rich-text :global(h1),
+	.rich-text :global(h2),
+	.rich-text :global(h3),
+	.rich-text :global(h4),
+	.rich-text :global(h5),
+	.rich-text :global(h6) {
+		margin-block: 1.35em 0.55em;
+		color: var(--color-petroleo);
+		font-family: var(--font-display);
+		font-weight: 700;
+		line-height: 1.15;
+	}
+
+	.rich-text :global(h1) { font-size: 2.25em; }
+	.rich-text :global(h2) { font-size: 1.85em; }
+	.rich-text :global(h3) { font-size: 1.5em; }
+	.rich-text :global(h4) { font-size: 1.25em; }
+	.rich-text :global(h5) { font-size: 1.1em; }
+	.rich-text :global(h6) { font-size: 1em; }
+
+	.rich-text :global(ul),
+	.rich-text :global(ol) {
+		margin-block: 1em;
+		padding-left: 1.5em;
+	}
+
+	.rich-text :global(ul) { list-style: disc; }
+	.rich-text :global(ol) { list-style: decimal; }
+	.rich-text :global(li) { margin-block: 0.35em; }
+	.rich-text :global(li > ul),
+	.rich-text :global(li > ol) { margin-block: 0.4em; }
+
+	.rich-text :global(a) {
+		color: var(--color-jade);
+		font-weight: 500;
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	.rich-text :global(a:hover) { text-decoration-thickness: 2px; }
+	.rich-text :global(strong) { font-weight: 700; }
+	.rich-text :global(em) { font-style: italic; }
+	.rich-text :global(u) { text-decoration: underline; }
+	.rich-text :global(del) { text-decoration: line-through; }
+
+	.rich-text :global(blockquote) {
+		margin-block: 1.25em;
+		border-left: 4px solid var(--color-jade);
+		padding: 0.25em 0 0.25em 1em;
+		color: color-mix(in srgb, var(--color-petroleo) 75%, transparent);
+		font-style: italic;
+	}
+
+	.rich-text :global(code) {
+		border-radius: 0.35rem;
+		background: color-mix(in srgb, var(--color-petroleo) 10%, transparent);
+		padding: 0.15em 0.35em;
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+		font-size: 0.9em;
+	}
+
+	.rich-text :global(pre) {
+		margin-block: 1.25em;
+		overflow-x: auto;
+		border-radius: 0.75rem;
+		background: var(--color-petroleo);
+		padding: 1rem;
+		color: white;
+	}
+
+	.rich-text :global(pre code) {
+		background: transparent;
+		padding: 0;
+		color: inherit;
+	}
+
+	.rich-text :global(figure) { margin-block: 1.5em; }
+	.rich-text :global(img) {
+		height: auto;
+		max-width: 100%;
+		border-radius: 1rem;
+	}
+
+	.rich-text :global(figcaption) {
+		margin-top: 0.5rem;
+		color: color-mix(in srgb, var(--color-petroleo) 60%, transparent);
+		font-size: 0.875em;
+		text-align: center;
+	}
+</style>
