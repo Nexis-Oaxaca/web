@@ -1,6 +1,7 @@
 import type {
 	EventItem,
 	HomeContent,
+	RichTextContent,
 	ProjectItem,
 	StartupItem,
 	TeamMember,
@@ -58,6 +59,13 @@ const normalizeLinks = (links: unknown): Record<string, string> => {
 	) as Record<string, string>;
 };
 
+const normalizeRichTextContent = (value: unknown): RichTextContent => {
+	if (typeof value === 'string') return value;
+	if (Array.isArray(value)) return value as RichTextContent;
+	if (value && typeof value === 'object') return value as RichTextContent;
+	return '';
+};
+
 const normalizeSpeakers = (speakers: unknown, baseUrl?: string) => {
 	if (!Array.isArray(speakers)) return [];
 	return speakers.map((speaker) => {
@@ -65,8 +73,7 @@ const normalizeSpeakers = (speakers: unknown, baseUrl?: string) => {
 		return {
 			name: String(item.name ?? ''),
 			role: item.role ? String(item.role) : undefined,
-			//image: resolveMediaUrl(item.image, baseUrl),
-			image: item.image
+			image: resolveMediaUrl(item.image, baseUrl),
 		};
 	});
 };
@@ -129,7 +136,7 @@ export const normalizeEvent = (event: Record<string, unknown>, baseUrl?: string)
 		id: String(event.id ?? slug),
 		slug,
 		title: String(event.title ?? ''),
-		description: String(event.description ?? ''),
+		description: normalizeRichTextContent(event.description),
 		registerLink: String(event.registerLink ?? ''),
 		date: String(event.date ?? ''),
 		location: event.location ? String(event.location) : undefined,

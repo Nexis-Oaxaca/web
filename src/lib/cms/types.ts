@@ -25,7 +25,7 @@ export interface ImageRef {
 export interface Speaker {
 	name: string;
 	role?: string;
-	image?: StrapiMedia;
+	image?: string;
 }
 
 export interface EventMedia {
@@ -36,11 +36,36 @@ export interface EventMedia {
 	twitter?: string;
 }
 
+export type RichTextMark = {
+	type: "text";
+	text: string;
+	bold?: boolean;
+	italic?: boolean;
+	underline?: boolean;
+	strikethrough?: boolean;
+	code?: boolean;
+};
+
+export type RichTextNode =
+	| RichTextMark
+	| {
+		type: string;
+		level?: number;
+		format?: "ordered" | "unordered";
+		url?: string;
+		children?: RichTextNode[];
+		image?: unknown;
+		caption?: string;
+		text?: string;
+	};
+
+export type RichTextContent = string | RichTextNode[];
+
 export interface EventItem {
 	id: string;
 	slug: string;
 	title: string;
-	description: string;
+	description: RichTextContent;
 	registerLink: string;
 	date: string;
 	location?: string;

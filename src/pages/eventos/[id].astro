@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
+import RichText from "../../components/RichText.astro";
 import { getEventBySlug, getEvents } from "../../lib/cms";
 import {
   ArrowLeft,
@@ -103,16 +104,40 @@ const getInitials = (name: string) =>
         .slice(0, 2)
         .toUpperCase()
     : "NN";
+
+const normalizeType = (value?: string) => value?.trim().toLowerCase() ?? "";
+
+const modalityLabel = (() => {
+  const type = normalizeType(event.type);
+  const location = normalizeType(event.location);
+  const combined = `${type} ${location}`;
+
+  if (/virtual|remoto|online|zoom|meet|stream/.test(combined)) {
+    return "Remoto";
+  }
+
+  if (/presencial|in situ|on site/.test(combined)) {
+    return "Presencial";
+  }
+
+  return event.location ? "Presencial" : "Por confirmar";
+})();
+
+const locationLabel = event.location?.trim() || "Por confirmar";
+const speakers = (event.speakers ?? []) as NonNullable<typeof event.speakers>;
+const speakerCount = speakers.length;
+const speakerHeading =
+  speakerCount === 1 ? "Quién nos acompaña" : "Quiénes nos acompañan";
 ---
 
 <Layout
   title={`${event.title} | Nexis Oaxaca Tech`}
-  description={event.description}
+  description={event.title}
 >
   <Header />
 
-  <main class="pt-32 pb-24 bg-marfil">
-    <div class="max-w-7xl mx-auto px-6 space-y-24">
+  <main class="bg-marfil pt-24 pb-24 sm:pt-28">
+    <div class="mx-auto max-w-7xl px-6 space-y-20 lg:space-y-24">
       <a
         href="/eventos"
         class="inline-flex items-center gap-2 text-petroleo/60 hover:text-jade font-bold text-xs uppercase tracking-widest transition-colors group"
@@ -123,207 +148,214 @@ const getInitials = (name: string) =>
         Volver a los encuentros
       </a>
 
-      <section class="grid lg:grid-cols-12 gap-16 items-start">
-        <div class="lg:col-span-7 space-y-8 text-left">
-          <div
-            class={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest ${isUpcoming ? "bg-jade/15 border border-jade/30 text-petroleo" : "bg-petroleo/10 border border-petroleo/20 text-petroleo/60"}`}
-          >
-            <span
-              class={`w-2 h-2 rounded-full ${isUpcoming ? "bg-jade animate-pulse" : "bg-petroleo/40"}`}
-            ></span>
-            {isUpcoming ? "Próximo encuentro" : "Encuentro que ya pasó"}
-          </div>
+      <section class="reveal overflow-hidden rounded-[40px] bg-petroleo text-white shadow-2xl">
+        <div class="grid lg:grid-cols-[1.08fr_.92fr] lg:items-stretch">
+          <div class="relative flex min-h-[72vh] flex-col justify-end gap-8 px-6 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12">
+            <div class="absolute inset-0 bg-linear-to-br from-petroleo via-[#1d4451] to-[#0f2b33]"></div>
+            <div class="absolute inset-0 mitla-pattern opacity-80 mix-blend-screen"></div>
+            <div class="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-jade/15 blur-3xl"></div>
+            <div class="absolute -bottom-16 left-0 h-48 w-48 rounded-full bg-white/8 blur-3xl"></div>
 
-          <h1
-            class="text-3xl sm:text-4xl md:text-7xl font-display font-extrabold leading-[1.05] tracking-tight text-petroleo uppercase"
-          >
-            {event.title}
-          </h1>
+            <div class="relative z-10 space-y-6">
+              <div
+                class={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[10px] font-bold uppercase tracking-[0.32em] ${isUpcoming ? "border-jade/30 bg-jade/15 text-white" : "border-white/15 bg-white/10 text-white/85"}`}
+              >
+                <span
+                  class={`h-2.5 w-2.5 rounded-full ${isUpcoming ? "bg-jade animate-pulse" : "bg-white/70"}`}
+                ></span>
+                {isUpcoming ? "Próximo encuentro" : "Encuentro finalizado"}
+              </div>
 
-          <p
-            class="text-sm sm:text-base md:text-xl text-petroleo/85 max-w-2xl leading-relaxed"
-          >
-            {event.description}
-          </p>
+              <h1 class="max-w-3xl font-display text-4xl font-bold uppercase leading-[0.98] tracking-tight text-white sm:text-5xl lg:text-7xl">
+                {event.title}
+              </h1>
 
-          <div
-            class="grid grid-cols-2 md:grid-cols-4 gap-6 p-8 bg-white rounded-4xl border border-petroleo/5 shadow-sm"
-          >
-            <div class="space-y-1">
-              <p
-                class="text-[9px] font-bold text-petroleo/60 uppercase tracking-widest"
-              >
-                Fecha
-              </p>
-              <p class="font-bold text-petroleo">{formattedDate}</p>
-            </div>
-            <div class="space-y-1">
-              <p
-                class="text-[9px] font-bold text-petroleo/60 uppercase tracking-widest"
-              >
-                Hora
-              </p>
-              <p class="font-bold text-petroleo">{formattedTime}</p>
-            </div>
-            <div class="space-y-1">
-              <p
-                class="text-[9px] font-bold text-petroleo/60 uppercase tracking-widest"
-              >
-                Lugar
-              </p>
-              <p class="font-bold text-petroleo">
-                {event.location || "Oaxaca"}
+              <p class="max-w-2xl text-sm leading-relaxed text-white/78 sm:text-base lg:text-lg">
+                Una charla para la comunidad, con un formato claro y directo para que encuentres de un vistazo lo importante del evento.
               </p>
             </div>
-            <div class="space-y-1">
-              <p
-                class="text-[9px] font-bold text-petroleo/60 uppercase tracking-widest"
-              >
-                Tipo
-              </p>
-              <span
-                class="inline-block px-3 py-1 bg-ambar text-white text-[9px] font-black rounded-full uppercase tracking-widest"
-              >
-                {event.type || "Evento"}
+
+            <div class="relative z-10 grid gap-3 sm:grid-cols-3">
+              <div class="rounded-[20px] border border-white/12 bg-white/8 p-4 backdrop-blur-sm">
+                <p class="text-[10px] font-bold uppercase tracking-[0.32em] text-white/55">Fecha</p>
+                <p class="mt-2 text-sm font-medium text-white sm:text-base">{formattedDate}</p>
+              </div>
+              <div class="rounded-[20px] border border-white/12 bg-white/8 p-4 backdrop-blur-sm">
+                <p class="text-[10px] font-bold uppercase tracking-[0.32em] text-white/55">Hora</p>
+                <p class="mt-2 text-sm font-medium text-white sm:text-base">{formattedTime}</p>
+              </div>
+              <div class="rounded-[20px] border border-white/12 bg-white/8 p-4 backdrop-blur-sm">
+                <p class="text-[10px] font-bold uppercase tracking-[0.32em] text-white/55">Modalidad</p>
+                <p class="mt-2 text-sm font-medium text-white sm:text-base">{modalityLabel}</p>
+              </div>
+            </div>
+
+            <div class="relative z-10 flex flex-wrap items-center gap-3 text-sm text-white/80">
+              <span class="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 backdrop-blur-sm">
+                <MapPin class="h-4 w-4 text-jade" />
+                {locationLabel}
               </span>
             </div>
           </div>
-        </div>
 
-        <div class="lg:col-span-5">
-          <div
-            class="relative rounded-[40px] overflow-hidden shadow-2xl aspect-4/5 border-8 border-white"
-          >
-            <img
-              src={event.image}
-              alt={event.title}
-              class="w-full h-full object-cover"
-              transition:name={`event-image-${event.slug}`}
-            />
-            <div
-              class="absolute inset-0 bg-linear-to-t from-petroleo/80 via-transparent to-transparent opacity-60"
-            >
-            </div>
-            <div class="absolute bottom-8 left-8 right-8 text-left text-white">
-              <div
-                class="flex items-center gap-2 text-white/80 text-xs font-bold uppercase tracking-widest"
-              >
-                <MapPin class="w-4 h-4 text-jade" />
-                <span>{event.location || "Oaxaca de Juárez, México"}</span>
+          <div class="relative min-h-[44vh] lg:min-h-[72vh]">
+            <div class="absolute inset-0 bg-linear-to-br from-arena/30 via-transparent to-transparent lg:hidden"></div>
+            <div class="absolute inset-0 lg:bg-linear-to-l lg:from-petroleo/10 lg:via-transparent lg:to-transparent"></div>
+            <div class="absolute inset-y-0 left-0 w-6 bg-linear-to-r from-petroleo/20 to-transparent lg:hidden"></div>
+
+            <div class="relative flex h-full items-center justify-center px-6 py-8 sm:px-10 lg:px-8">
+              <div class="relative w-full max-w-xl rotate-[1.75deg] overflow-hidden rounded-4xl border border-white/60 bg-white p-3 shadow-[0_24px_80px_rgba(10,25,33,0.18)] sm:p-4 lg:translate-y-10 lg:rotate-[4deg]">
+                <div class="absolute inset-3 rounded-[26px] border border-petroleo/5"></div>
+                <img
+                  src={event.image}
+                  alt={event.title}
+                  class="relative z-10 aspect-4/5 w-full rounded-[24px] object-cover"
+                  transition:name={`event-image-${event.slug}`}
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      <section class="reveal ">
+        <div class="space-y-4">
+          <div class="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.34em] text-petroleo/50">
+            <span class="h-px flex-1 bg-petroleo/10"></span>
+            Sobre la charla
+            <span class="h-px flex-1 bg-petroleo/10"></span>
+          </div>
+          <div class="rounded-4xl border border-gris bg-white p-6 shadow-sm sm:p-8 lg:p-10">
+            <RichText
+              content={event.description}
+              class="prose max-w-none prose-p:my-0 prose-headings:font-display prose-headings:uppercase prose-headings:tracking-tight prose-headings:text-petroleo prose-p:text-petroleo/82 prose-a:text-jade prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-strong:text-petroleo prose-li:text-petroleo/82 text-sm leading-relaxed sm:text-base lg:text-lg"
+            />
+          </div>
+        </div>
+      </section>
+
       {
-        event.speakers && event.speakers.length > 0 && (
-          <section class="space-y-8 text-left">
-            <div class="border-b border-petroleo/10 pb-4">
-              <h2 class="text-xs font-bold uppercase tracking-widest text-petroleo/60">
-                Quién nos acompaña
-              </h2>
+        speakerCount > 0 && (
+          <section class="reveal space-y-6 text-left">
+            <div class="flex flex-col gap-3 border-b border-petroleo/10 pb-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 class="text-[10px] font-bold uppercase tracking-[0.34em] text-petroleo/50">
+                  {speakerHeading}
+                </h2>
+                <p class="mt-2 text-sm text-petroleo/65 sm:text-base">
+                  {speakerCount === 1
+                    ? "Una voz principal para la charla."
+                    : "Varios perfiles compartiendo la conversación desde distintos ángulos."}
+                </p>
+              </div>
+              <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-petroleo/40">
+                {speakerCount} {speakerCount === 1 ? "persona" : "personas"}
+              </p>
             </div>
-            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {event.speakers.map((speaker) => {
-                return (
-                  <div class="bg-white rounded-4xl p-6 border border-petroleo/5 shadow-sm hover:border-jade/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group flex flex-col items-center text-center">
-                    <div class="relative w-24 h-24 rounded-full overflow-hidden mb-4 border-4 border-marfil shadow-inner bg-petroleo/5 group-hover:scale-105 transition-transform duration-300">
-                      {speaker.image ? (
-                        <img
-                          src={speaker.image}
-                          alt={speaker.name}
-                          class="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div class="w-full h-full flex items-center justify-center bg-linear-to-br from-petroleo/5 to-petroleo/10 text-petroleo/60 text-2xl font-display font-extrabold uppercase">
-                          {getInitials(speaker.name)}
-                        </div>
-                      )}
-                    </div>
-                    <h3 class="font-display font-bold text-petroleo group-hover:text-jade transition-colors duration-300 text-lg">
-                      {speaker.name}
-                    </h3>
-                    {speaker.role && (
-                      <p class="text-xs text-petroleo/60 font-bold uppercase tracking-widest mt-1">
-                        {speaker.role}
-                      </p>
+
+            <div
+              class:list={[
+                "grid gap-6",
+                speakerCount === 1
+                  ? "mx-auto max-w-xl"
+                  : "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+              ]}
+            >
+              {speakers.map((speaker) => (
+                <article class="group rounded-[28px] border border-gris bg-white p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-jade/25 hover:shadow-lg">
+                  <div class="mx-auto mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-4 border-marfil bg-petroleo/5 shadow-inner transition-transform duration-300 group-hover:scale-105">
+                    {speaker.image ? (
+                      <img
+                        src={speaker.image}
+                        alt={speaker.name}
+                        class="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div class="flex h-full w-full items-center justify-center bg-linear-to-br from-petroleo/5 to-petroleo/10 text-2xl font-display font-extrabold uppercase text-petroleo/60">
+                        {getInitials(speaker.name)}
+                      </div>
                     )}
                   </div>
-                );
-              })}
+                  <h3 class="font-display text-lg font-bold text-petroleo transition-colors duration-300 group-hover:text-jade">
+                    {speaker.name}
+                  </h3>
+                  {speaker.role && (
+                    <p class="mt-2 text-[10px] font-bold uppercase tracking-[0.28em] text-petroleo/55">
+                      {speaker.role}
+                    </p>
+                  )}
+                </article>
+              ))}
             </div>
           </section>
         )
       }
 
-      <section
-        class="bg-white rounded-[40px] p-8 md:p-16 shadow-2xl border border-petroleo/5 max-w-5xl mx-auto space-y-12"
-      >
-        <div class="text-center space-y-2">
-          <h3
-            class="text-3xl sm:text-4xl font-display font-bold text-petroleo uppercase"
-          >
-            {isUpcoming ? "Nos vemos ahí" : "Cómo nos fue"}
-          </h3>
-          <p class="text-petroleo/80 text-sm sm:text-base md:text-lg">
-            {
-              isUpcoming
-                ? "Guárdate la fecha para no perderte el momento. Te esperamos con café y buena vibra."
-                : "Fotos y grabaciones de un día bonito entre la comunidad."
-            }
-          </p>
+      <section class="reveal mx-auto max-w-5xl space-y-10 rounded-[40px] border border-gris bg-white p-6 shadow-sm sm:p-8 lg:p-12">
+        <div class="flex flex-col gap-4 border-b border-petroleo/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
+          <div class="space-y-2 text-left">
+            <p class="text-[10px] font-bold uppercase tracking-[0.34em] text-petroleo/50">
+              {isUpcoming ? "Nos vemos ahí" : "Así se vivió"}
+            </p>
+            <h3 class="font-display text-3xl font-bold uppercase leading-tight text-petroleo sm:text-4xl">
+              {isUpcoming ? "Agrega el evento a tu calendario" : "Memorias y enlaces del encuentro"}
+            </h3>
+            <p class="max-w-2xl text-sm leading-relaxed text-petroleo/70 sm:text-base">
+              {isUpcoming
+                ? "Te dejamos el acceso para guardarlo y llegar sin perder la fecha."
+                : "Si ya pasó, aquí quedan las fotos y las redes donde puedes volver a verlo."}
+            </p>
+          </div>
         </div>
 
         {
           isUpcoming ? (
-            <div class="text-center space-y-8">
-              <div class="bg-arena/60 rounded-3xl p-8 max-w-lg mx-auto space-y-4 border border-petroleo/5">
-                <div class="w-14 h-14 rounded-2xl bg-jade/10 flex items-center justify-center mx-auto">
-                  <Calendar class="w-7 h-7 text-jade" />
-                </div>
-                <div class="space-y-1">
-                  <p class="font-bold text-petroleo text-xl">
-                    No te lo pierdas
-                  </p>
-                  <p class="text-sm text-petroleo/75">
-                    Agrégalo a tu calendario y te avisamos para que no olvides asistir.
-                  </p>
-                </div>
+            <div class="grid gap-6 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
+              <div class="rounded-[28px] border border-petroleo/8 bg-marfil p-6 sm:p-8">
+                <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-petroleo/50">
+                  Recordatorio rápido
+                </p>
+                <p class="mt-4 text-lg font-medium text-petroleo">
+                  {formattedDate} · {formattedTime}
+                </p>
+                <p class="mt-2 text-sm text-petroleo/70">
+                  {modalityLabel} · {locationLabel}
+                </p>
               </div>
 
-              {event.registerLink ? (
-                <a
-                  href={event.registerLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-3 bg-jade text-white px-10 py-5 rounded-[20px] font-bold text-lg hover:bg-petroleo transition-all shadow-xl shadow-jade/30 group"
-                >
-                  <Calendar class="w-6 h-6" />
-                  Guardar en mi calendario
-                  <ExternalLink class="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </a>
-              ) : (
-                <div class="py-4">
-                  <p class="text-petroleo/60 text-sm">
-                    Todavía no abrimos registro para este encuentro.
-                  </p>
-                  <p class="text-petroleo/60 text-xs mt-1">
-                    Síguenos en redes para avisarte cuando esté listo.
-                  </p>
-                </div>
-              )}
+              <div class="space-y-4">
+                {event.registerLink ? (
+                  <a
+                    href={event.registerLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-jade px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-petroleo sm:w-auto sm:px-8 sm:py-5 sm:text-base"
+                  >
+                    <Calendar class="h-5 w-5" />
+                    Agregar a Calendario
+                    <ExternalLink class="h-4 w-4" />
+                  </a>
+                ) : (
+                  <div class="rounded-[28px] border border-dashed border-petroleo/15 bg-marfil p-6 text-left text-sm text-petroleo/70">
+                    Todavía no está disponible el enlace para agregarlo a calendario.
+                  </div>
+                )}
+
+                <p class="text-xs font-medium uppercase tracking-[0.28em] text-petroleo/40">
+                  Si no aparece el botón, el enlace de registro aún no fue publicado.
+                </p>
+              </div>
             </div>
           ) : (
-            <div class="space-y-12">
+            <div class="space-y-10">
               {youtubeEmbedUrl && (
                 <div class="space-y-4">
-                  <h4 class="text-xs font-bold uppercase tracking-widest text-petroleo/60">
+                  <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-petroleo/50">
                     La grabación
-                  </h4>
-                  <div class="relative w-full aspect-video rounded-3xl overflow-hidden shadow-lg border border-petroleo/5 bg-black">
+                  </p>
+                  <div class="relative overflow-hidden rounded-[28px] border border-gris bg-black shadow-sm">
                     <iframe
-                      class="w-full h-full border-0 absolute inset-0"
+                      class="absolute inset-0 h-full w-full border-0"
                       src={youtubeEmbedUrl}
                       title="YouTube video player"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -335,18 +367,18 @@ const getInitials = (name: string) =>
 
               {hasGallery && (
                 <div class="space-y-4">
-                  <h4 class="text-xs font-bold uppercase tracking-widest text-petroleo/60">
+                  <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-petroleo/50">
                     Fotos del día
-                  </h4>
-                  <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  </p>
+                  <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                     {event.gallery!.map((imgUrl: string, idx: number) => (
-                      <div class="relative overflow-hidden rounded-3xl aspect-video shadow-md bg-petroleo/5">
+                      <div class="group relative aspect-4/3 overflow-hidden rounded-[22px] border border-gris bg-petroleo/5">
                         <img
                           src={imgUrl}
                           alt={`Evidencia ${idx + 1}`}
-                          class="w-full h-full object-cover"
+                          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
-                        <div class="absolute inset-0 bg-linear-to-t from-petroleo/40 to-transparent" />
+                        <div class="absolute inset-0 bg-linear-to-t from-petroleo/35 via-transparent to-transparent" />
                       </div>
                     ))}
                   </div>
@@ -354,20 +386,20 @@ const getInitials = (name: string) =>
               )}
 
               {hasMedia && (
-                <div class="space-y-4 pt-6 border-t border-petroleo/10">
-                  <p class="text-xs font-bold uppercase tracking-widest text-petroleo/60 text-center">
-                    El encuentro terminó, pero puedes verlo aquí:
+                <div class="space-y-4 border-t border-petroleo/10 pt-2">
+                  <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-petroleo/50">
+                    Míralo también en
                   </p>
-                  <div class="flex flex-wrap gap-4 justify-center">
+                  <div class="flex flex-wrap gap-3">
                     {event.media?.youtube && (
                       <a
                         href={event.media.youtube}
                         target="_blank"
                         rel="noreferrer"
-                        class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-red-200 bg-red-50/50 hover:bg-red-50 text-red-600 transition-all font-sans text-xs font-bold tracking-wide"
+                        class="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50/70 px-4 py-3 text-xs font-bold uppercase tracking-[0.22em] text-red-600 transition-colors hover:bg-red-50"
                       >
-                        <Youtube class="w-4 h-4" />
-                        <span>YOUTUBE</span>
+                        <Youtube class="h-4 w-4" />
+                        YouTube
                       </a>
                     )}
                     {event.media?.facebook && (
@@ -375,10 +407,10 @@ const getInitials = (name: string) =>
                         href={event.media.facebook}
                         target="_blank"
                         rel="noreferrer"
-                        class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-blue-200 bg-blue-50/50 hover:bg-blue-50 text-blue-600 transition-all font-sans text-xs font-bold tracking-wide"
+                        class="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50/70 px-4 py-3 text-xs font-bold uppercase tracking-[0.22em] text-blue-600 transition-colors hover:bg-blue-50"
                       >
-                        <Facebook class="w-4 h-4" />
-                        <span>FACEBOOK</span>
+                        <Facebook class="h-4 w-4" />
+                        Facebook
                       </a>
                     )}
                     {event.media?.instagram && (
@@ -386,10 +418,10 @@ const getInitials = (name: string) =>
                         href={event.media.instagram}
                         target="_blank"
                         rel="noreferrer"
-                        class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-pink-200 bg-pink-50/50 hover:bg-pink-50 text-pink-600 transition-all font-sans text-xs font-bold tracking-wide"
+                        class="inline-flex items-center gap-2 rounded-full border border-pink-200 bg-pink-50/70 px-4 py-3 text-xs font-bold uppercase tracking-[0.22em] text-pink-600 transition-colors hover:bg-pink-50"
                       >
-                        <Instagram class="w-4 h-4" />
-                        <span>INSTAGRAM</span>
+                        <Instagram class="h-4 w-4" />
+                        Instagram
                       </a>
                     )}
                     {event.media?.linkedin && (
@@ -397,10 +429,10 @@ const getInitials = (name: string) =>
                         href={event.media.linkedin}
                         target="_blank"
                         rel="noreferrer"
-                        class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-sky-200 bg-sky-50/50 hover:bg-sky-50 text-sky-700 transition-all font-sans text-xs font-bold tracking-wide"
+                        class="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50/70 px-4 py-3 text-xs font-bold uppercase tracking-[0.22em] text-sky-700 transition-colors hover:bg-sky-50"
                       >
-                        <Linkedin class="w-4 h-4" />
-                        <span>LINKEDIN</span>
+                        <Linkedin class="h-4 w-4" />
+                        LinkedIn
                       </a>
                     )}
                   </div>
@@ -408,14 +440,14 @@ const getInitials = (name: string) =>
               )}
 
               {!hasAnyEvidence && (
-                <div class="flex flex-col items-center justify-center p-12 bg-red-50/30 border border-red-100 rounded-3xl text-center max-w-xl mx-auto space-y-4">
-                  <Info class="w-10 h-10 text-red-500" />
-                  <div>
-                    <h4 class="font-bold text-petroleo text-lg">
-                      Aún no hay fotos de este encuentro
+                <div class="flex flex-col items-center justify-center rounded-[28px] border border-dashed border-petroleo/12 bg-marfil p-10 text-center space-y-4">
+                  <Info class="h-10 w-10 text-jade" />
+                  <div class="space-y-2">
+                    <h4 class="text-lg font-bold text-petroleo">
+                      Aún no hay memorias publicadas
                     </h4>
-                    <p class="text-petroleo/60 text-sm mt-1">
-                      Todavía no subimos las memorias de este día. Cuando estén, las encuentras aquí.
+                    <p class="max-w-xl text-sm leading-relaxed text-petroleo/65">
+                      Todavía no subimos fotos ni enlaces de este encuentro. En cuanto estén disponibles, aparecerán aquí.
                     </p>
                   </div>
                 </div>

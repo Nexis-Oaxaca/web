@@ -2,79 +2,319 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
+import EventCard from "../../components/EventCard.astro";
 import { getEvents } from "../../lib/cms";
 
 const events = await getEvents();
+
+const parseEventDate = (dateStr: string) => {
+  if (!dateStr) return null;
+
+  const value = dateStr.trim();
+
+  if (value.includes("T")) {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) return parsed;
+  }
+
+  if (value.includes(" ")) {
+    const parsed = new Date(value.replace(" ", "T"));
+    if (!Number.isNaN(parsed.getTime())) return parsed;
+  }
+
+  const normalized = value.replace(/\//g, "-");
+  const fallback = new Date(`${normalized}T00:00:00`);
+  return Number.isNaN(fallback.getTime()) ? null : fallback;
+};
+
+const sortedEvents = [...events].sort((left, right) => {
+  const leftTime = parseEventDate(left.date)?.getTime() ?? Number.POSITIVE_INFINITY;
+  const rightTime = parseEventDate(right.date)?.getTime() ?? Number.POSITIVE_INFINITY;
+  return leftTime - rightTime;
+});
+
+const now = new Date().getTime();
+const upcomingEvents = sortedEvents.filter((event) => {
+  const eventTime = parseEventDate(event.date)?.getTime();
+  return typeof eventTime === "number" && eventTime >= now;
+});
+
+const featuredEvent = upcomingEvents[0] ?? sortedEvents.at(-1) ?? null;
+const remainingEvents = featuredEvent
+  ? sortedEvents
+      .filter((event) => event.slug !== featuredEvent.slug)
+      .sort((left, right) => {
+        const leftTime = parseEventDate(left.date)?.getTime() ?? Number.NEGATIVE_INFINITY;
+        const rightTime = parseEventDate(right.date)?.getTime() ?? Number.NEGATIVE_INFINITY;
+        return rightTime - leftTime;
+      })
+  : sortedEvents;
 ---
 
 <Layout title="Encuentros | Nexis Oaxaca" description="La agenda de encuentros de Nexis Oaxaca. Charlas, talleres y convivencias para aprender tecnología en compañía, sin experiencia previa.">
   <Header />
 
-  <main class="pt-32 pb-24 px-6 bg-marfil">
-    <div class="max-w-7xl mx-auto">
-      <div class="mb-20 text-left">
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-jade/10 text-petroleo rounded-full text-xs font-bold uppercase tracking-widest mb-6 border border-jade/20">
-          La comunidad en movimiento
+  <main class="bg-marfil pt-32 pb-24">
+    <div class="mx-auto max-w-7xl px-6">
+      <section class="grid gap-12 lg:grid-cols-[1.02fr_.98fr] lg:items-center">
+        <div class="text-left">
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-jade/20 bg-jade/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-petroleo">
+            La comunidad en movimiento
+          </div>
+          <h1 class="mb-8 font-display text-4xl font-extrabold uppercase leading-[1.02] tracking-tight text-petroleo sm:text-5xl md:text-7xl">
+            Los encuentros <span class="text-jade">que vienen</span>
+          </h1>
+          <p class="max-w-2xl text-base font-medium leading-relaxed text-petroleo/80 sm:text-lg md:text-xl">
+            Cada encuentro es una excusa para juntarse, aprender algo y conocer gente. Sin registro formal ni experiencia: si te late, llega.
+          </p>
         </div>
-        <h1 class="font-display text-4xl sm:text-5xl md:text-7xl font-extrabold text-petroleo leading-[1.05] tracking-tight mb-8 uppercase">
-          Los encuentros <span class="text-jade">que vienen</span>
-        </h1>
-        <p class="text-base sm:text-lg md:text-xl text-petroleo/80 max-w-2xl leading-relaxed font-medium">
-          Cada encuentro es una excusa para juntarse, aprender algo y conocer gente. Sin registro formal ni experiencia: si te late, llega.
-        </p>
-      </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {events.map((event) => (
-          <a
-            href={`/eventos/${event.slug}`}
-            class="group bg-white rounded-4xl overflow-hidden border border-gris flex flex-col h-full shadow-sm hover:shadow-xl transition-shadow duration-300"
-          >
-            <div class="relative h-64 overflow-hidden">
-              <img
-                src={event.image}
-                alt={event.title}
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
-              <div class="absolute top-5 left-5">
-                <span class="bg-jade text-white text-[10px] font-extrabold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg">
-                  {event.type || "Evento"}
-                </span>
-              </div>
-              <div class="absolute bottom-5 left-5 text-white text-left">
-                <span class="text-2xl font-bold font-display">
-                  {new Date(event.date).toLocaleDateString("es-MX", { day: "numeric", timeZone: "America/Mexico_City" })}
-                </span>
-                <span class="text-[10px] font-bold uppercase block opacity-80 tracking-widest">
-                  {new Date(event.date).toLocaleDateString("es-MX", {
-                    month: "long",
-                    timeZone: "America/Mexico_City",
-                  })}
-                </span>
-              </div>
-            </div>
-            <div class="p-8 flex flex-col grow text-left">
-              <h3 class="font-display text-2xl font-bold text-petroleo mb-4 group-hover:text-jade transition-colors">
-                {event.title}
-              </h3>
-              <p class="text-petroleo/75 text-sm mb-8 line-clamp-2 leading-relaxed">
-                {event.description}
+        <div class="relative">
+          {featuredEvent ? (
+            <EventCard event={featuredEvent} featured />
+          ) : (
+            <div class="rounded-4xl border border-petroleo/8 bg-white p-10 text-left shadow-sm">
+              <p class="text-xs font-bold uppercase tracking-widest text-petroleo/50">Próximo encuentro</p>
+              <h2 class="mt-3 font-display text-3xl font-bold text-petroleo">Aún no hay encuentros publicados</h2>
+              <p class="mt-4 max-w-lg text-sm leading-relaxed text-petroleo/70">
+                En cuanto el CMS reciba nuevas fechas, esta tarjeta destacada aparecerá aquí.
               </p>
-              <div class="mt-auto flex items-center justify-between text-petroleo/60">
-                <span class="text-[10px] font-bold uppercase tracking-widest">
-                  {event.location || "Oaxaca"}
-                </span>
-                <span class="text-[10px] font-bold text-jade uppercase tracking-widest">
-                  Quiero ir
-                </span>
-              </div>
             </div>
-          </a>
-        ))}
-      </div>
+          )}
+        </div>
+      </section>
+
+      <section class="mt-20">
+        <div class="mb-8 flex flex-wrap items-end justify-between gap-4 text-left">
+          <div>
+            <p class="text-[10px] font-bold uppercase tracking-widest text-petroleo/55">Agenda completa</p>
+            <h2 class="mt-3 font-display text-2xl font-bold text-petroleo sm:text-3xl">Más encuentros para sumarte</h2>
+          </div>
+          <p class="max-w-xl text-sm leading-relaxed text-petroleo/65">
+            Eventos abiertos, gratuitos y sin registro obligatorio. Elige el que más te acomode y abre el detalle para ver la información completa.
+          </p>
+        </div>
+
+        {remainingEvents.length > 0 ? (
+          <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3" data-events-grid>
+            {remainingEvents.map((event) => (
+              <EventCard event={event} detailHref={`/eventos/${event.slug}`} />
+            ))}
+          </div>
+        ) : (
+          <div class="rounded-4xl border border-dashed border-petroleo/15 bg-white/70 p-10 text-left text-petroleo/65">
+            No hay más encuentros para mostrar por ahora.
+          </div>
+        )}
+      </section>
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<script is:inline>
+  const STORAGE_KEY = "nexis-event-favorites";
+
+  const safeParse = (value) => {
+    try {
+      const parsed = JSON.parse(value || "[]");
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const getFavorites = () => {
+    try {
+      return safeParse(window.localStorage.getItem(STORAGE_KEY));
+    } catch {
+      return [];
+    }
+  };
+
+  const setFavorites = (favorites) => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
+    } catch {
+      // LocalStorage puede no estar disponible en algunos contextos.
+    }
+  };
+
+  const closeAllMenus = (exceptMenu = null) => {
+    document.querySelectorAll("[data-share-menu]").forEach((menu) => {
+      if (menu === exceptMenu) return;
+      menu.classList.add("hidden");
+      const toggle = menu.closest("[data-event-card]")?.querySelector("[data-share-toggle]");
+      toggle?.setAttribute("aria-expanded", "false");
+    });
+  };
+
+  const syncFavoriteButtons = () => {
+    const favorites = getFavorites();
+
+    document.querySelectorAll("[data-event-card]").forEach((card) => {
+      const slug = card.dataset.eventSlug;
+      const button = card.querySelector("[data-favorite-toggle]");
+
+      if (!slug || !button) return;
+
+      const isFavorite = favorites.includes(slug);
+      button.setAttribute("aria-pressed", String(isFavorite));
+      button.classList.toggle("text-rose-500", isFavorite);
+      button.classList.toggle("bg-rose-50", isFavorite);
+      button.classList.toggle("border-rose-200", isFavorite);
+      button.classList.toggle("text-petroleo", !isFavorite);
+      button.classList.toggle("bg-white/90", !isFavorite);
+    });
+  };
+
+  const reorderEventsByFavorites = () => {
+    const grid = document.querySelector("[data-events-grid]");
+    if (!grid) return;
+
+    const favorites = getFavorites();
+    const cards = Array.from(grid.querySelectorAll("[data-event-card]")).map((card, index) => ({
+      card,
+      index,
+      slug: card.dataset.eventSlug || "",
+      isFavorite: favorites.includes(card.dataset.eventSlug || ""),
+    }));
+
+    cards
+      .sort((left, right) => {
+        if (left.isFavorite !== right.isFavorite) {
+          return left.isFavorite ? -1 : 1;
+        }
+
+        return left.index - right.index;
+      })
+      .forEach(({ card }) => {
+        grid.appendChild(card);
+      });
+  };
+
+  const openShare = (network, card) => {
+    const detailPath = card.dataset.sharePath || card.dataset.eventHref || "/";
+    const url = new URL(detailPath, window.location.origin).toString();
+    const title = card.querySelector("h3")?.textContent?.trim() || "Encuentro Nexis Oaxaca";
+    const text = `${title} - ${url}`;
+
+    const shareTargets = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(text)}`,
+      x: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
+      instagram: "https://www.instagram.com/",
+    };
+
+    if (network === "instagram" && window.navigator.clipboard?.writeText) {
+      window.navigator.clipboard.writeText(url).catch(() => {});
+    }
+
+    const target = shareTargets[network];
+    if (target) {
+      window.open(target, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const syncShareMenuState = (card, expanded) => {
+    const menu = card.querySelector("[data-share-menu]");
+    const toggle = card.querySelector("[data-share-toggle]");
+
+    if (!menu || !toggle) return;
+
+    menu.classList.toggle("hidden", !expanded);
+    toggle.setAttribute("aria-expanded", String(expanded));
+  };
+
+  document.addEventListener("DOMContentLoaded", () => {
+    syncFavoriteButtons();
+    reorderEventsByFavorites();
+
+    document.querySelectorAll("[data-event-card]").forEach((card) => {
+      card.addEventListener("click", (event) => {
+        const interactiveTarget = event.target.closest("a,button,[role='menuitem']");
+        if (interactiveTarget) return;
+
+        const href = card.dataset.eventHref;
+        if (href) window.location.href = href;
+      });
+
+      card.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        if (event.target !== card) return;
+
+        event.preventDefault();
+        const href = card.dataset.eventHref;
+        if (href) window.location.href = href;
+      });
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    const shareToggle = event.target.closest("[data-share-toggle]");
+    const favoriteToggle = event.target.closest("[data-favorite-toggle]");
+    const shareOption = event.target.closest("[data-share-option]");
+
+    if (shareToggle) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const card = shareToggle.closest("[data-event-card]");
+      if (!card) return;
+
+      const menu = card.querySelector("[data-share-menu]");
+      const expanded = shareToggle.getAttribute("aria-expanded") === "true";
+
+      closeAllMenus(menu);
+      syncShareMenuState(card, !expanded);
+      return;
+    }
+
+    if (favoriteToggle) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const card = favoriteToggle.closest("[data-event-card]");
+      if (!card) return;
+
+      const slug = card.dataset.eventSlug;
+      if (!slug) return;
+
+      const favorites = getFavorites();
+      const nextFavorites = favorites.includes(slug)
+        ? favorites.filter((item) => item !== slug)
+        : [...favorites, slug];
+
+      setFavorites(nextFavorites);
+      syncFavoriteButtons();
+      reorderEventsByFavorites();
+      return;
+    }
+
+    if (shareOption) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const card = shareOption.closest("[data-event-card]");
+      if (!card) return;
+
+      const network = shareOption.dataset.shareOption;
+      if (!network) return;
+
+      openShare(network, card);
+      closeAllMenus();
+      return;
+    }
+
+    if (!event.target.closest("[data-event-card]")) {
+      closeAllMenus();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeAllMenus();
+    }
+  });
+</script>

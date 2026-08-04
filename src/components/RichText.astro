@@ -1,0 +1,14 @@
+---
+import type { RichTextContent } from '../lib/cms/types';
+import { richTextToHtml } from '../lib/cms/rich-text';
+
+interface Props {
+	content: RichTextContent | unknown;
+	class?: string;
+}
+
+const { content, class: className } = Astro.props as Props;
+const html = richTextToHtml(content);
+---
+
+{className ? <div class={className} set:html={html} /> : <Fragment set:html={html} />}
