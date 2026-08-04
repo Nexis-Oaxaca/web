@@ -197,19 +197,16 @@ const remainingEvents = featuredEvent
   const openShare = (network, card) => {
     const detailPath = card.dataset.sharePath || card.dataset.eventHref || "/";
     const url = new URL(detailPath, window.location.origin).toString();
-    const title = card.querySelector("h3")?.textContent?.trim() || "Encuentro Nexis Oaxaca";
+    const title = card.dataset.shareTitle || "Encuentro Nexis Oaxaca";
     const text = `${title} - ${url}`;
 
     const shareTargets = {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
       whatsapp: `https://wa.me/?text=${encodeURIComponent(text)}`,
       x: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
-      instagram: "https://www.instagram.com/",
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+      telegram: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
     };
-
-    if (network === "instagram" && window.navigator.clipboard?.writeText) {
-      window.navigator.clipboard.writeText(url).catch(() => {});
-    }
 
     const target = shareTargets[network];
     if (target) {
@@ -225,6 +222,10 @@ const remainingEvents = featuredEvent
 
     menu.classList.toggle("hidden", !expanded);
     toggle.setAttribute("aria-expanded", String(expanded));
+
+    if (expanded) {
+      menu.querySelector("[role='menuitem']")?.focus();
+    }
   };
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -314,7 +315,19 @@ const remainingEvents = featuredEvent
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
+      const openToggle = document.querySelector('[data-share-toggle][aria-expanded="true"]');
       closeAllMenus();
+      openToggle?.focus();
+      return;
     }
+
+    const option = event.target.closest("[data-share-option]");
+    if (!option || (event.key !== "ArrowDown" && event.key !== "ArrowUp")) return;
+
+    event.preventDefault();
+    const options = Array.from(option.closest("[data-share-menu]")?.querySelectorAll("[data-share-option]") || []);
+    const direction = event.key === "ArrowDown" ? 1 : -1;
+    const nextIndex = (options.indexOf(option) + direction + options.length) % options.length;
+    options[nextIndex]?.focus();
   });
 </script>

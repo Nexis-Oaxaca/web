@@ -6,9 +6,10 @@ import {
   Calendar,
   Facebook,
   Heart,
-  Instagram,
+  Linkedin,
   MapPin,
   MessageCircle,
+  Send,
   Share2,
   Twitter,
 } from "lucide-astro";
@@ -69,6 +70,7 @@ const descriptionText = richTextToText(event.description);
   data-event-slug={event.slug}
   data-event-href={detailHref}
   data-share-path={detailHref}
+  data-share-title={event.title}
   role="link"
   tabindex="0"
   aria-label={`Abrir detalle de ${event.title}`}
@@ -106,21 +108,26 @@ const descriptionText = richTextToText(event.description);
               id={`share-menu-${event.slug}`}
               class="js-share-menu absolute right-0 top-full z-9999 mt-3 hidden min-w-60 rounded-[1.5rem] border border-petroleo/10 bg-white p-2 shadow-2xl"
               data-share-menu
+              role="menu"
+              aria-label={`Compartir ${event.title}`}
             >
               <p class="px-3 pb-2 pt-1 text-[10px] font-bold uppercase tracking-widest text-petroleo/45">
                 Compartir este encuentro
               </p>
-              <button type="button" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="facebook">
+              <button type="button" role="menuitem" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="facebook">
                 <Facebook class="h-4 w-4 text-[#1877F2]" /> Facebook
               </button>
-              <button type="button" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="whatsapp">
+              <button type="button" role="menuitem" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="whatsapp">
                 <MessageCircle class="h-4 w-4 text-[#25D366]" /> WhatsApp
               </button>
-              <button type="button" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="instagram">
-                <Instagram class="h-4 w-4 text-[#E4405F]" /> Instagram
-              </button>
-              <button type="button" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="x">
+              <button type="button" role="menuitem" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="x">
                 <Twitter class="h-4 w-4 text-petroleo" /> X
+              </button>
+              <button type="button" role="menuitem" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="linkedin">
+                <Linkedin class="h-4 w-4 text-[#0A66C2]" /> LinkedIn
+              </button>
+              <button type="button" role="menuitem" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="telegram">
+                <Send class="h-4 w-4 text-[#229ED9]" /> Telegram
               </button>
             </div>
           </div>
@@ -217,21 +224,26 @@ const descriptionText = richTextToText(event.description);
                 id={`share-menu-${event.slug}`}
                 class="js-share-menu absolute right-0 top-full z-9999 mt-3 hidden min-w-60 rounded-[1.5rem] border border-petroleo/10 bg-white p-2 shadow-2xl"
                 data-share-menu
+                role="menu"
+                aria-label={`Compartir ${event.title}`}
               >
                 <p class="px-3 pb-2 pt-1 text-[10px] font-bold uppercase tracking-widest text-petroleo/45">
                   Compartir este encuentro
                 </p>
-                <button type="button" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="facebook">
+                <button type="button" role="menuitem" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="facebook">
                   <Facebook class="h-4 w-4 text-[#1877F2]" /> Facebook
                 </button>
-                <button type="button" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="whatsapp">
+                <button type="button" role="menuitem" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="whatsapp">
                   <MessageCircle class="h-4 w-4 text-[#25D366]" /> WhatsApp
                 </button>
-                <button type="button" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="instagram">
-                  <Instagram class="h-4 w-4 text-[#E4405F]" /> Instagram
-                </button>
-                <button type="button" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="x">
+                <button type="button" role="menuitem" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="x">
                   <Twitter class="h-4 w-4 text-petroleo" /> X
+                </button>
+                <button type="button" role="menuitem" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="linkedin">
+                  <Linkedin class="h-4 w-4 text-[#0A66C2]" /> LinkedIn
+                </button>
+                <button type="button" role="menuitem" class="js-share-option flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-petroleo transition-colors hover:bg-jade/10" data-share-option="telegram">
+                  <Send class="h-4 w-4 text-[#229ED9]" /> Telegram
                 </button>
               </div>
             </div>
