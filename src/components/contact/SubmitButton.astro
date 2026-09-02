@@ -1,0 +1,9 @@
+---
+import { ArrowRight, LoaderCircle } from 'lucide-astro';
+---
+
+<button type="submit" id="submit-btn" class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-petroleo px-6 text-sm font-bold text-white transition-colors hover:bg-petroleo/90 focus:outline-none focus:ring-4 focus:ring-jade/25 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto">
+  <span id="btn-text">Enviar mensaje</span>
+  <ArrowRight id="btn-icon" class="h-4 w-4" aria-hidden="true" />
+  <LoaderCircle id="btn-spinner" class="hidden h-4 w-4 animate-spin" aria-hidden="true" />
+</button>

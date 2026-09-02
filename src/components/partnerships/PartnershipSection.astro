@@ -1,0 +1,23 @@
+---
+import type { PartnerItem, PartnerType } from '../../lib/cms';
+import PartnerCard from './PartnerCard.astro';
+import PartnershipEmptyState from './PartnershipEmptyState.astro';
+
+interface Props { type: PartnerType; eyebrow: string; title: string; description: string; partners: PartnerItem[]; }
+const { type, eyebrow, title, description, partners } = Astro.props;
+---
+
+<section id={`alianzas-${type}`} data-partnership-section data-partner-type={type} data-has-partners={partners.length > 0 ? 'true' : 'false'} class="scroll-mt-36" hidden={partners.length === 0}>
+  <header class="max-w-2xl">
+    <p class="text-xs font-bold tracking-[0.16em] text-jade">{eyebrow}</p>
+    <h2 class="mt-3 font-display text-3xl font-bold tracking-tight text-petroleo sm:text-4xl">{title}</h2>
+    <p class="mt-4 text-base leading-7 text-petroleo/70">{description}</p>
+  </header>
+  <div class="mt-8">
+    {partners.length > 0 ? (
+      <div class="grid items-start gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {partners.map((partner) => <PartnerCard partner={partner} />)}
+      </div>
+    ) : <PartnershipEmptyState label={title} />}
+  </div>
+</section>

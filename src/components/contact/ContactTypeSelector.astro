@@ -1,0 +1,22 @@
+---
+const options = [
+  ['colaboracion', 'Colaboración'], ['evento', 'Evento o taller'], ['speaker', 'Quiero ser speaker'],
+  ['escuela', 'Escuela o universidad'], ['organizacion', 'Empresa u organización'], ['aportar', 'Quiero aportar'], ['otro', 'Otro'],
+];
+const selected = Astro.url.searchParams.get('tipo') || Astro.url.searchParams.get('categoria');
+const legacyMap: Record<string, string> = { profesionales: 'aportar', instituciones: 'organizacion', voluntariado: 'aportar' };
+const initial = legacyMap[selected || ''] || selected || 'colaboracion';
+---
+
+<fieldset>
+  <legend class="form-label">¿Sobre qué quieres hablar? <span aria-hidden="true">*</span></legend>
+  <div class="flex flex-wrap gap-2" id="contact-types">
+    {options.map(([value, label]) => (
+      <label class="contact-chip">
+        <input type="radio" name="categoria" value={value} required checked={value === initial} />
+        <span>{label}</span>
+      </label>
+    ))}
+  </div>
+  <p id="categoria-error" class="form-error" hidden>Selecciona una opción para continuar.</p>
+</fieldset>

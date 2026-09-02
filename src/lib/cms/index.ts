@@ -1,8 +1,9 @@
 import type { AxiosResponse } from 'axios';
-import type { EventItem, HomeContent, ProjectItem, StartupItem, TeamMember } from './types';
-import apiClient, { hasStrapi, strapiBaseUrl, toQuery, flattenEntry } from './client';
+import type { EventItem, HomeContent, PartnerItem, ProjectItem, StartupItem, TeamMember } from './types';
+import apiClient, { hasStrapi, publicApiClient, strapiBaseUrl, toQuery, flattenEntry } from './client';
 import {
 	localEvents,
+	localPartners,
 	localHomeContent,
 	localProjects,
 	localStartups,
@@ -11,6 +12,7 @@ import {
 	normalizeProject,
 	normalizeStartup,
 	normalizeTeamMember,
+	normalizePartner,
 } from './normalize';
 
 const findBySlug = <T extends { slug: string; id: string }>(items: T[], slug: string) =>
@@ -31,6 +33,20 @@ async function fetchCollection<T = Record<string, unknown>>(
 		console.error(`[CMS] fetchCollection failed for ${path}:`, (err as Error)?.message || err);
 		return [];
 	}
+}
+
+export async function getPartners(): Promise<PartnerItem[]> {
+	return fetchWithFallback(
+		async () => {
+			const query = toQuery({ ...publishedParams, 'sort[0]': 'name:asc' });
+			const response: AxiosResponse<{ data?: unknown[] }> = await publicApiClient.get(`/api/alianzas?${query}`);
+			const items = Array.isArray(response.data?.data)
+				? response.data.data.map((item) => flattenEntry(item)).filter(Boolean) as Record<string, unknown>[]
+				: [];
+			return items.map((item) => normalizePartner(item, strapiBaseUrl));
+		},
+		localPartners,
+	);
 }
 
 async function fetchBySlug<T = Record<string, unknown>>(
@@ -157,4 +173,4 @@ export async function getHomeContent(): Promise<HomeContent> {
 }
 
 export { hasStrapi };
-export type { EventItem, HomeContent, ProjectItem, StartupItem, TeamMember } from './types';
+export type { EventItem, HomeContent, PartnerItem, PartnerType, ProjectItem, StartupItem, TeamMember } from './types';

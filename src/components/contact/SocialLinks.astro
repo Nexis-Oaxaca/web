@@ -1,0 +1,19 @@
+---
+import { Facebook, Instagram, Linkedin } from 'lucide-astro';
+const links = [
+  ['Instagram', 'https://www.instagram.com/nexis.oaxaca', Instagram],
+  ['LinkedIn', 'https://www.linkedin.com/company/nexis-oaxaca/', Linkedin],
+  ['Facebook', 'https://www.facebook.com/nexisoaxaca', Facebook],
+];
+---
+
+<section class="mt-12 border-t border-petroleo/10 pt-7" aria-label="Redes sociales">
+  <p class="text-sm text-petroleo/65">También puedes encontrarnos en</p>
+  <div class="mt-4 flex items-center gap-4">
+    {links.map(([label, href, Icon]) => (
+      <a href={href as string} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-petroleo transition-colors hover:text-jade focus:outline-none focus:ring-4 focus:ring-jade/20" aria-label={label as string}>
+        <Icon class="h-4 w-4" aria-hidden="true" /> {label}
+      </a>
+    ))}
+  </div>
+</section>

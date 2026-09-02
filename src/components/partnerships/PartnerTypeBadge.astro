@@ -1,0 +1,14 @@
+---
+import type { PartnerType } from '../../lib/cms';
+
+interface Props { type: PartnerType; }
+const { type } = Astro.props;
+const labels: Record<PartnerType, string> = {
+  community: 'COMUNIDAD',
+  event: 'EVENTO',
+  educational_institution: 'INSTITUCIÓN EDUCATIVA',
+  company: 'EMPRESA',
+};
+---
+
+<span class="inline-flex rounded-md bg-petroleo/6 px-2.5 py-1 text-[10px] font-bold tracking-[0.12em] text-petroleo/70">{labels[type]}</span>

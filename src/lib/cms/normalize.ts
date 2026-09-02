@@ -5,9 +5,11 @@ import type {
 	ProjectItem,
 	StartupItem,
 	TeamMember,
+	PartnerItem,
+	PartnerType,
 } from './types';
 import { prefixMediaUrl } from './client';
-import { rawEvents, rawProjects, rawStartups, rawTeam } from './local-data';
+import { rawEvents, rawPartners, rawProjects, rawStartups, rawTeam } from './local-data';
 
 const slugify = (value: string) =>
 	value
@@ -50,6 +52,29 @@ export const resolveMediaList = (value: unknown, baseUrl?: string): string[] => 
 		}
 	}
 	return [];
+};
+
+const partnerTypes: PartnerType[] = ['community', 'event', 'educational_institution', 'company'];
+
+export const normalizePartner = (value: Record<string, unknown>, baseUrl?: string): PartnerItem => {
+	const socialNetworks = Array.isArray(value.socialNetworks) ? value.socialNetworks : [];
+	const type = String(value.type ?? 'community') as PartnerType;
+	return {
+		id: String(value.documentId ?? value.id ?? slugify(String(value.name ?? ''))),
+		slug: String(value.slug ?? slugify(String(value.name ?? ''))),
+		name: String(value.name ?? ''),
+		type: partnerTypes.includes(type) ? type : 'community',
+		description: String(value.description ?? ''),
+		logo: resolveMediaUrl(value.logo, baseUrl) || undefined,
+		website: typeof value.website === 'string' && value.website ? value.website : undefined,
+		socialNetworks: socialNetworks.flatMap((link) => {
+			if (!link || typeof link !== 'object') return [];
+			const item = link as Record<string, unknown>;
+			return typeof item.platform === 'string' && typeof item.url === 'string' && item.url
+				? [{ platform: item.platform, label: typeof item.label === 'string' ? item.label : undefined, url: item.url }]
+				: [];
+		}),
+	};
 };
 
 const normalizeLinks = (links: unknown): Record<string, string> => {
@@ -250,6 +275,7 @@ export const normalizeTeamMember = (
 };
 
 export const localEvents = (rawEvents as Record<string, unknown>[]).map((event) => normalizeEvent(event));
+export const localPartners = (rawPartners as Record<string, unknown>[]).map((partner) => normalizePartner(partner));
 export const localProjects = (rawProjects as Record<string, unknown>[]).map((project) =>
 	normalizeProject(project),
 );

@@ -5,14 +5,12 @@ import Footer from '../components/Footer.astro';
 import Hero from '../components/Hero.astro';
 import EventSpotlight from '../components/EventSpotlight.vue';
 import RecentEvents from '../components/RecentEvents.astro';
-import FeaturedProjects from '../components/FeaturedProjects.astro';
-import Testimonials from '../components/Testimonials.astro';
 import PartnersMarquee from '../components/PartnersMarquee.astro';
 import Collaborate from '../components/Collaborate.astro';
 import AboutSection from '../components/AboutSection.astro';
 import { getHomeContent } from '../lib/cms';
 
-const { events, projects } = await getHomeContent();
+const { events } = await getHomeContent();
 ---
 
 <Layout title="Nexis Oaxaca | Una comunidad de gente curiosa por la tecnología" description="Somos un grupo de personas en Oaxaca que aprenden tecnología juntas. No necesitas ser experto, solo tener curiosidad. Encuentros, talleres y buena compañía.">
@@ -22,25 +20,17 @@ const { events, projects } = await getHomeContent();
 		<!-- Hero Section -->
 		<Hero />
 
+		<!-- Contexto antes de pedir una acción: primero quiénes somos y qué se vive aquí. -->
+		<AboutSection />
+
 		<EventSpotlight client:visible events={events} />
 
-    <!-- Recent Events -->
+		<!-- La actividad pasada refuerza la invitación al siguiente encuentro. -->
 		<RecentEvents events={events} />
 
-    <!-- Featured Projects -->
-	<!-- <FeaturedProjects projects={projects} /> -->
+		<PartnersMarquee />
 
-    <!-- Testimonials -->
-	<!-- <Testimonials /> -->
-
-    <!-- About Section -->
-    <AboutSection />
-
-    <!-- Partners Marquee -->
-    <PartnersMarquee />
-
-    <!-- Collaborate -->
-    <Collaborate />
+		<Collaborate />
 
     <Footer />
 	</main>

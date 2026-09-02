@@ -2,413 +2,160 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { Building2, GraduationCap, UserStar, ArrowLeft, CheckCircle2, Send, LoaderCircle } from 'lucide-astro';
-
-const categoria = Astro.url.searchParams.get('categoria') || '';
-
-const categorias = [
-  { value: 'profesionales', label: 'Quiero aportar', icon: UserStar, color: 'ambar', desc: 'Dar una plática, mentorear a alguien o proponer una idea' },
-  { value: 'instituciones', label: 'Escuela o empresa', icon: Building2, color: 'petroleo', desc: 'Prestar un espacio, apoyar un encuentro o conocer a la comunidad' },
-  { value: 'voluntariado', label: 'Voluntariado', icon: GraduationCap, color: 'jade', desc: 'Aportar tu tiempo y tu energía para que la comunidad siga creciendo' },
-];
-
-const selected = categorias.find(c => c.value === categoria);
-const catColor = selected?.color || 'petroleo';
+import ContactHero from '../components/contact/ContactHero.astro';
+import ContactTypeSelector from '../components/contact/ContactTypeSelector.astro';
+import DynamicContactFields from '../components/contact/DynamicContactFields.astro';
+import FormErrorState from '../components/contact/FormErrorState.astro';
+import FormField from '../components/contact/FormField.astro';
+import FormSuccessState from '../components/contact/FormSuccessState.astro';
+import SocialLinks from '../components/contact/SocialLinks.astro';
+import SubmitButton from '../components/contact/SubmitButton.astro';
+import TextareaField from '../components/contact/TextareaField.astro';
 ---
 
-<Layout title={`Contacto | Nexis Oaxaca`} description="Escríbenos a Nexis Oaxaca y cuéntanos qué te gustaría hacer: aportar, apoyar o sumarte a la comunidad.">
+<Layout title="Contacto | Nexis Oaxaca" description="Colaboraciones, eventos, alianzas o nuevas ideas. Cuéntanos qué tienes en mente y conectemos.">
   <Header />
+  <main class="min-h-screen bg-marfil px-5 pb-20 pt-28 sm:px-6 sm:pt-36 lg:pb-28">
+    <div class="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
+      <ContactHero />
 
-  <main class="pt-32 pb-24 px-6 bg-marfil min-h-screen">
-    <div class="max-w-2xl mx-auto">
-      <a href="/#colaborar" class="inline-flex items-center gap-2 text-petroleo/50 hover:text-petroleo transition-colors mb-12 text-sm font-medium group">
-        <ArrowLeft class="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-        Volver
-      </a>
-
-      <div class={`rounded-[40px] border-2 border-${catColor}/10 bg-white shadow-sm overflow-hidden`} style="background-image: url('/nexis.svg'); background-size: cover; background-position: center;">
-        <div class={`p-6 sm:p-10 pb-6 sm:pb-8 border-b border-${catColor}/5`}>
-
-          <h1 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-petroleo mb-3">Platicar con Nexis</h1>
-          <p class="text-petroleo/80 text-sm sm:text-base md:text-lg">{selected?.desc || 'Cuéntanos qué te gustaría hacer y alguien te responde con gusto.'}</p>
-        </div>
-
-        <div class="p-6 sm:p-10">
-          <div id="form-container">
-            <form id="contact-form" class="space-y-6">
-
-              <div>
-                <label for="nombre" class="block text-sm font-bold text-petroleo mb-2 uppercase tracking-wider">
-                  Nombre
-                </label>
-                <input
-                  type="text" id="nombre" name="nombre" required
-                  class="w-full px-5 py-4 rounded-2xl border-2 border-petroleo/10 bg-marfil text-petroleo                   placeholder:text-petroleo/50 focus:outline-none transition-all duration-300"
-                  placeholder="Tu nombre completo"
-                />
-                <p class="text-red-500 text-xs mt-1 hidden" id="error-nombre">Este campo es obligatorio</p>
-              </div>
-
-              <div>
-                <label for="email" class="block text-sm font-bold text-petroleo mb-2 uppercase tracking-wider">
-                  Correo electrónico
-                </label>
-                <input
-                  type="email" id="email" name="email" required
-                  class="w-full px-5 py-4 rounded-2xl border-2 border-petroleo/10 bg-marfil text-petroleo                   placeholder:text-petroleo/50 focus:outline-none transition-all duration-300"
-                  placeholder="tu@correo.com"
-                />
-                <p class="text-red-500 text-xs mt-1 hidden" id="error-email">Ingresa un email válido</p>
-              </div>
-
-              <div>
-                <label for="categoria-select" class="block text-sm font-bold text-petroleo mb-2 uppercase tracking-wider">
-                  Categoría
-                </label>
-                <select
-                  id="categoria-select" name="categoria"
-                  class="w-full px-5 py-4 rounded-2xl border-2 border-petroleo/10 bg-marfil text-petroleo focus:outline-none transition-all duration-300 appearance-none"
-                >
-                  {categorias.map(c => (
-                    <option value={c.value} selected={c.value === categoria}>{c.label}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label for="mensaje" class="block text-sm font-bold text-petroleo mb-2 uppercase tracking-wider">
-                  Mensaje
-                </label>
-                <textarea
-                  id="mensaje" name="mensaje" rows={5} required
-                  class="w-full px-5 py-4 rounded-2xl border-2 border-petroleo/10 bg-marfil text-petroleo                   placeholder:text-petroleo/50 focus:outline-none transition-all duration-300 resize-none"
-                  placeholder="Cuéntanos qué te gustaría hacer..."
-                ></textarea>
-                <p class="text-red-500 text-xs mt-1 hidden" id="error-mensaje">Este campo es obligatorio</p>
-              </div>
-
-              <button
-                type="submit" id="submit-btn"
-                class="submit-btn relative w-full py-5 rounded-2xl font-bold text-sm sm:text-base md:text-lg flex items-center justify-center gap-3 overflow-hidden transition-all duration-500 disabled:cursor-not-allowed"
-                style={catColor === 'petroleo' ? '--btn-bg: #234A57; --btn-text: white; --btn-bg-hover: #1d3d48; --btn-shadow: rgba(35,74,87,0.3)' : catColor === 'jade' ? '--btn-bg: #2D8380; --btn-text: white; --btn-bg-hover: #26726f; --btn-shadow: rgba(45,131,128,0.3)' : '--btn-bg: #DDAA33; --btn-text: #234A57; --btn-bg-hover: #c99a2e; --btn-shadow: rgba(221,170,51,0.3)'}
-              >
-                <span class="absolute inset-0 opacity-0 transition-opacity duration-500" id="btn-bg-glow"></span>
-                <span id="btn-text" class="relative z-10">Mándanos tu mensaje</span>
-                <span id="btn-icon" class="relative z-10"><Send class="w-5 h-5 transition-transform duration-300" /></span>
-                <span id="btn-spinner" class="relative z-10 hidden"><LoaderCircle class="w-5 h-5 animate-spin" /></span>
-                <span id="btn-check" class="relative z-10 hidden"><CheckCircle2 class="w-5 h-5" /></span>
-              </button>
-
-              <div class="flex items-start gap-3 mt-4">
-                <input
-                  type="checkbox" id="consent" name="consent" required
-                  class="mt-1 w-4 h-4 shrink-0 rounded border-petroleo/20 text-jade focus:ring-jade bg-marfil"
-                />
-                <label for="consent" class="text-[11px] text-petroleo/60 leading-relaxed">
-                  Acepto el <a href="/privacidad" target="_blank" class="text-jade hover:underline">Aviso de Privacidad</a> y los <a href="/terminos" target="_blank" class="text-jade hover:underline">Términos y Condiciones</a> de Nexis Oaxaca Tech.
-                </label>
-              </div>
-
-              <p class="text-center text-[10px] text-petroleo/50 leading-relaxed mt-4">
-                Este sitio está protegido con Cloudflare Turnstile y se rige por la <a href="https://www.cloudflare.com/en-gb/turnstile-privacy-policy/" target="_blank" rel="noopener noreferrer" class="underline hover:text-petroleo/50 transition-colors">Política de Privacidad</a> y los <a href="https://www.cloudflare.com/en-gb/website-terms/" target="_blank" rel="noopener noreferrer" class="underline hover:text-petroleo/50 transition-colors">Términos del Servicio</a> de Cloudflare.
-              </p>
-
-              <div class="cf-turnstile" data-sitekey="0x4AAAAAAD6uLyml5OaSHsGS" id="turnstile-widget"></div>
-            </form>
-
-            <div id="success-message" class="hidden text-center py-8 sm:py-12">
-              <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-jade/10 flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <CheckCircle2 class="w-8 h-8 sm:w-10 sm:h-10 text-jade" />
-              </div>
-              <h2 class="font-display text-xl sm:text-2xl md:text-3xl font-bold text-petroleo mb-3">¡Recibido!</h2>
-              <p class="text-petroleo/60 text-sm sm:text-base mb-8">Gracias por escribirnos. Una persona real te responde muy pronto.</p>
-              <a href="/" class="inline-block bg-jade text-white px-10 py-4 rounded-2xl font-bold hover:bg-jade/90 transition-colors">
-                Volver al inicio
-              </a>
-            </div>
-
-            <div id="error-message" class="hidden mt-6 p-5 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-sm">
-            </div>
+      <section class="lg:border-l lg:border-petroleo/10 lg:pl-14" aria-labelledby="form-title">
+        <div id="form-container" class="max-w-2xl">
+          <div id="contact-form-intro">
+            <h2 id="form-title" class="font-display text-2xl font-bold tracking-tight text-petroleo sm:text-3xl">Cuéntanos sobre tu idea</h2>
+            <p class="mt-2 text-sm text-petroleo/65">Completarlo te tomará menos de 2 minutos.</p>
           </div>
+
+          <form id="contact-form" class="mt-8 space-y-6" novalidate>
+            <FormField id="nombre" label="Nombre" placeholder="Tu nombre" required={true} error="Ingresa tu nombre para continuar." />
+            <FormField id="email" label="Correo electrónico" placeholder="nombre@correo.com" type="email" required={true} error="Ingresa un correo electrónico válido." />
+            <ContactTypeSelector />
+            <DynamicContactFields />
+            <TextareaField id="mensaje" />
+
+            <input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAD6uLyml5OaSHsGS" id="turnstile-widget"></div>
+            <SubmitButton />
+            <p class="text-xs leading-relaxed text-petroleo/55">Usaremos tus datos únicamente para responder a tu mensaje. Al enviar aceptas nuestro <a href="/privacidad" class="font-medium text-petroleo underline decoration-jade/70 underline-offset-2 hover:text-jade">Aviso de Privacidad</a>.</p>
+          </form>
+          <FormErrorState />
+          <FormSuccessState />
         </div>
-      </div>
+        <SocialLinks />
+      </section>
     </div>
   </main>
-
   <Footer />
 </Layout>
 
-<style>
-  .submit-btn {
-    background: var(--btn-bg);
-    color: var(--btn-text);
-    box-shadow: 0 4px 14px var(--btn-shadow);
-  }
-  .submit-btn:not(:disabled):hover {
-    background: var(--btn-bg-hover);
-    box-shadow: 0 6px 24px var(--btn-shadow);
-  }
-  .submit-btn:not(:disabled):active {
-    transform: scale(0.97);
-  }
-  .submit-btn #btn-bg-glow {
-    background: radial-gradient(circle at center, rgba(255,255,255,0.25), transparent 70%);
-  }
-  .submit-btn:not(:disabled):hover #btn-bg-glow {
-    opacity: 1;
-  }
+<style is:global>
+  .form-label { display: block; margin-bottom: 0.5rem; color: #234A57; font-size: 0.875rem; font-weight: 700; }
+  .form-control { display: block; width: 100%; min-height: 3rem; border: 1px solid rgb(35 74 87 / 0.16); border-radius: 0.75rem; background: rgb(255 255 255 / 0.58); padding: 0.75rem 1rem; color: #234A57; font-size: 1rem; line-height: 1.5; transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease; }
+  .form-control::placeholder { color: rgb(35 74 87 / 0.45); }
+  .form-control:hover { border-color: rgb(35 74 87 / 0.28); }
+  .form-control:focus { outline: none; border-color: #2D8380; background: #fff; box-shadow: 0 0 0 3px rgb(45 131 128 / 0.18); }
+  .form-control[aria-invalid="true"] { border-color: #dc2626; background: #fff7f7; }
+  .form-control[aria-invalid="true"]:focus { box-shadow: 0 0 0 3px rgb(220 38 38 / 0.15); }
+  .form-error { margin-top: 0.4rem; color: #b91c1c; font-size: 0.75rem; font-weight: 600; }
+  .contact-chip { position: relative; display: inline-flex; min-height: 2.75rem; cursor: pointer; align-items: center; border: 1px solid rgb(35 74 87 / 0.16); border-radius: 0.625rem; background: rgb(255 255 255 / 0.5); padding: 0.5rem 0.75rem; color: rgb(35 74 87 / 0.8); font-size: 0.8125rem; font-weight: 600; transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease; }
+  .contact-chip input { position: absolute; opacity: 0; }
+  .contact-chip:has(input:checked) { border-color: #2D8380; background: rgb(45 131 128 / 0.1); color: #234A57; }
+  .contact-chip:has(input:focus-visible) { outline: none; box-shadow: 0 0 0 3px rgb(45 131 128 / 0.22); }
+  .contact-chip:hover { border-color: rgb(45 131 128 / 0.65); }
 </style>
 
-
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-
 <script>
-  import { animate, spring, stagger } from 'motion';
-
-  function safeAnimate(el: unknown, ...args: Parameters<typeof animate>) {
-    if (!el) return;
-    try { animate(el as any, ...args); } catch {}
-  }
+  type FieldName = 'nombre' | 'email' | 'mensaje';
 
   function initContactForm() {
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
-    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement | null;
+    const submitButton = document.getElementById('submit-btn') as HTMLButtonElement | null;
+    const buttonText = document.getElementById('btn-text');
+    const buttonIcon = document.getElementById('btn-icon');
+    const spinner = document.getElementById('btn-spinner');
+    const success = document.getElementById('success-message');
+    const error = document.getElementById('form-error');
+    const intro = document.getElementById('contact-form-intro');
+    const dynamicFields = document.getElementById('dynamic-fields');
+    if (!form || !submitButton) return;
 
-    const categoriaSelect = document.getElementById('categoria-select') as HTMLSelectElement | null;
-    if (categoriaSelect) {
-      const params = new URLSearchParams(window.location.search);
-      const cat = params.get('categoria');
-      if (cat) categoriaSelect.value = cat;
-    }
-    const btnBgGlow = document.getElementById('btn-bg-glow') as HTMLSpanElement | null;
-    const btnText = document.getElementById('btn-text') as HTMLSpanElement | null;
-    const btnIcon = document.getElementById('btn-icon') as HTMLSpanElement | null;
-    const btnSpinner = document.getElementById('btn-spinner') as HTMLSpanElement | null;
-    const btnCheck = document.getElementById('btn-check') as HTMLSpanElement | null;
-    const successMsg = document.getElementById('success-message') as HTMLDivElement | null;
-    const errorMsg = document.getElementById('error-message') as HTMLDivElement | null;
-    const formContainer = document.getElementById('form-container') as HTMLDivElement | null;
-    const turnstileWidget = document.getElementById('turnstile-widget') as HTMLDivElement | null;
-
-    if (!form || !submitBtn) return;
-
-    const validators: Record<string, (value: string) => boolean> = {
-      nombre: (v) => v.trim().length > 0,
-      email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
-      mensaje: (v) => v.trim().length > 0,
-    };
-
-    const errorEls: Record<string, HTMLElement | null> = {
-      nombre: document.getElementById('error-nombre'),
-      email: document.getElementById('error-email'),
-      mensaje: document.getElementById('error-mensaje'),
-    };
-
-    let dotsInterval: ReturnType<typeof setInterval>;
+    let started = false;
     let submitting = false;
+    const analytics = (event: string) => window.dispatchEvent(new CustomEvent('nexis:analytics', { detail: { event } }));
+    analytics('contact_form_view');
 
-    function showFieldError(name: string) {
-      const input = form.elements.namedItem(name) as HTMLElement | null;
-      input?.classList.add('border-red-400', 'bg-red-50');
-      const el = errorEls[name];
-      if (el) {
-        safeAnimate(el, { opacity: [0, 1], y: [-4, 0] }, { duration: 0.2 });
-        el.classList.remove('hidden');
-      }
-    }
+    const setFieldError = (name: FieldName, message?: string) => {
+      const field = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | null;
+      const errorText = document.getElementById(`${name}-error`);
+      field?.setAttribute('aria-invalid', 'true');
+      if (errorText && message) errorText.textContent = message;
+      errorText?.removeAttribute('hidden');
+    };
+    const clearFieldError = (name: FieldName) => {
+      const field = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | null;
+      field?.removeAttribute('aria-invalid');
+      document.getElementById(`${name}-error`)?.setAttribute('hidden', '');
+    };
+    const validateField = (name: FieldName) => {
+      const field = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | null;
+      const value = field?.value.trim() || '';
+      const valid = name === 'email' ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) : value.length > 0;
+      if (valid) clearFieldError(name); else setFieldError(name);
+      return valid;
+    };
+    const updateDynamicFields = () => {
+      const selected = form.querySelector<HTMLInputElement>('input[name="categoria"]:checked')?.value;
+      dynamicFields?.querySelectorAll<HTMLElement>('[data-contact-field]').forEach((field) => {
+        field.hidden = field.dataset.contactField !== selected;
+      });
+    };
+    const beginForm = () => {
+      if (!started) { started = true; analytics('contact_form_started'); }
+    };
 
-    function clearFieldError(name: string) {
-      const input = form.elements.namedItem(name) as HTMLElement | null;
-      input?.classList.remove('border-red-400', 'bg-red-50');
-      errorEls[name]?.classList.add('hidden');
-    }
-
-    function setLoading(loading: boolean) {
-      submitBtn.disabled = loading;
-      if (loading) {
-        if (btnText) btnText.textContent = 'Enviando';
-        btnIcon?.classList.add('hidden');
-        btnSpinner?.classList.remove('hidden');
-        safeAnimate(btnText, { opacity: [1, 0.6] }, { duration: 0.15 });
-      } else {
-        if (btnText) btnText.textContent = 'Mándanos tu mensaje';
-        btnIcon?.classList.remove('hidden');
-        btnSpinner?.classList.add('hidden');
-        btnCheck?.classList.add('hidden');
-        btnBgGlow?.classList.add('hidden');
-        safeAnimate(btnText, { opacity: [0.6, 1] }, { duration: 0.15 });
-      }
-    }
-
-    function animateLoadingDots(baseText: string) {
-      let count = 0;
-      dotsInterval = setInterval(() => {
-        count = (count + 1) % 4;
-        if (btnText) btnText.textContent = baseText + '.'.repeat(count);
-      }, 400);
-    }
-
-    function getTurnstileToken(): string {
-      const input = document.querySelector('[name="cf-turnstile-response"]') as HTMLInputElement | null;
-      return input?.value || '';
-    }
-
-    function resetTurnstile() {
-      if (typeof turnstile !== 'undefined' && turnstileWidget) {
-        try { turnstile.reset(turnstileWidget); } catch {}
-      }
-    }
-
-    submitBtn.addEventListener('mouseenter', () => {
-      if (!submitBtn.disabled) {
-        safeAnimate(submitBtn, { scale: 1.02 }, { type: 'spring', stiffness: 350, damping: 15 });
-      }
+    form.querySelectorAll<HTMLInputElement>('input[name="categoria"]').forEach((input) => input.addEventListener('change', () => {
+      updateDynamicFields(); beginForm(); analytics('contact_type_selected');
+    }));
+    (['nombre', 'email', 'mensaje'] as FieldName[]).forEach((name) => {
+      const input = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | null;
+      input?.addEventListener('input', () => { beginForm(); if (input.getAttribute('aria-invalid') === 'true') validateField(name); });
+      input?.addEventListener('blur', () => { if (input.value) validateField(name); });
     });
+    updateDynamicFields();
 
-    submitBtn.addEventListener('mouseleave', () => {
-      if (!submitBtn.disabled) {
-        safeAnimate(submitBtn, { scale: 1 }, { type: 'spring', stiffness: 350, damping: 15 });
-      }
-    });
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
       if (submitting) return;
-      if (submitBtn.disabled) return;
-
-      errorMsg?.classList.add('hidden');
+      error?.setAttribute('hidden', '');
+      const valid = (['nombre', 'email', 'mensaje'] as FieldName[]).every(validateField);
+      const category = form.querySelector<HTMLInputElement>('input[name="categoria"]:checked');
+      if (!category) { document.getElementById('categoria-error')?.removeAttribute('hidden'); return; }
+      document.getElementById('categoria-error')?.setAttribute('hidden', '');
+      if (!valid) return;
 
       const data = new FormData(form);
-      const nombre = (data.get('nombre') as string) || '';
-      const email = (data.get('email') as string) || '';
-      const mensaje = (data.get('mensaje') as string) || '';
-      const categoria = (data.get('categoria') as string) || '';
-
-      let hasErrors = false;
-      for (const [field, validate] of Object.entries(validators)) {
-        const value = data.get(field) as string;
-        if (!validate(value || '')) {
-          showFieldError(field);
-          hasErrors = true;
-        } else {
-          clearFieldError(field);
-        }
-      }
-      if (hasErrors) {
-        safeAnimate(submitBtn, { x: [0, -6, 6, -4, 4, 0] }, { duration: 0.4, easing: spring() });
-        return;
-      }
-
-      const turnstileToken = getTurnstileToken();
-
-      if (!turnstileToken && typeof turnstile !== 'undefined' && turnstileWidget) {
-        try {
-          turnstile.execute(turnstileWidget);
-          await new Promise<void>((resolve) => {
-            const checkToken = setInterval(() => {
-              const token = getTurnstileToken();
-              if (token) { clearInterval(checkToken); resolve(); }
-            }, 100);
-            setTimeout(() => { clearInterval(checkToken); resolve(); }, 8000);
-          });
-        } catch {}
-      }
-
-      const finalToken = getTurnstileToken();
-
-      if (!finalToken) {
-        if (errorMsg) {
-          errorMsg.textContent = 'Error de verificación anti-bot. Intenta de nuevo.';
-          errorMsg.classList.remove('hidden');
-          safeAnimate(errorMsg, { opacity: [0, 1], y: [-10, 0] }, { duration: 0.3 });
-        }
-        return;
-      }
-
+      const token = document.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]')?.value || '';
+      if (!token) { error?.removeAttribute('hidden'); return; }
       submitting = true;
-      setLoading(true);
-      animateLoadingDots('Enviando');
-
+      submitButton.disabled = true;
+      if (buttonText) buttonText.textContent = 'Enviando...';
+      buttonIcon?.classList.add('hidden'); spinner?.classList.remove('hidden');
+      analytics('contact_form_submitted');
       try {
-        const res = await fetch('/api/contacto', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nombre, email, categoria, mensaje, 'cf-turnstile-response': finalToken }),
-        });
-
-        const json = await res.json();
-
-        if (!res.ok) {
-          throw new Error(json.error || 'Error al enviar');
-        }
-
-        clearInterval(dotsInterval);
-        if (btnText) btnText.textContent = '¡Enviado!';
-        btnSpinner?.classList.add('hidden');
-        btnCheck?.classList.remove('hidden');
-        btnBgGlow?.classList.remove('hidden');
-
-        try {
-          await animate(
-            submitBtn,
-            { scale: [1, 1.05, 1] },
-            { duration: 0.6, easing: spring({ stiffness: 250, damping: 10 }) },
-          ).finished;
-        } catch {}
-
-        setTimeout(async () => {
-          try {
-            if (form) {
-              const anim = safeAnimate(form, { opacity: [1, 0], scale: [1, 0.95] }, { duration: 0.3 });
-              if (anim && 'finished' in anim) {
-                await (anim as any).finished;
-              }
-              form.classList.add('hidden');
-            }
-            if (successMsg) {
-              successMsg.classList.remove('hidden');
-              const children = Array.from(successMsg.children);
-              if (children.length > 0) {
-                safeAnimate(
-                  children as any,
-                  { opacity: [0, 1], y: [20, 0] },
-                  { duration: 0.4, delay: stagger(0.08), easing: spring() },
-                );
-              }
-            }
-          } catch {
-            form?.classList.add('hidden');
-            successMsg?.classList.remove('hidden');
-          }
-        }, 800);
-      } catch (err) {
-        clearInterval(dotsInterval);
-        setLoading(false);
-        resetTurnstile();
-
-        if (errorMsg) {
-          errorMsg.textContent = err instanceof Error ? err.message : 'Error de conexión';
-          errorMsg.classList.remove('hidden');
-          safeAnimate(errorMsg, { opacity: [0, 1], y: [-10, 0] }, { duration: 0.3 });
-        }
-
-        safeAnimate(submitBtn, { x: [0, -8, 8, -5, 5, 0] }, { duration: 0.5, easing: spring() });
-      } finally {
-        submitting = false;
-      }
-    });
-
-    (['nombre', 'email', 'mensaje'] as const).forEach((field) => {
-      const input = form.elements.namedItem(field) as HTMLElement | null;
-      input?.addEventListener('input', () => clearFieldError(field));
-      input?.addEventListener('focus', () => {
-        safeAnimate(input, { scale: [1, 1.01] }, { duration: 0.15 });
-      });
-      input?.addEventListener('blur', () => {
-        safeAnimate(input, { scale: [1.01, 1] }, { duration: 0.15 });
-      });
+        const response = await fetch('/api/contacto', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+          nombre: data.get('nombre'), email: data.get('email'), categoria: data.get('categoria'), mensaje: data.get('mensaje'),
+          institucion: data.get('institucion'), organizacion: data.get('organizacion'), tema: data.get('tema'), website: data.get('website'), 'cf-turnstile-response': token,
+        }) });
+        if (!response.ok) throw new Error('Contact request failed');
+        form.hidden = true; intro?.setAttribute('hidden', ''); success?.classList.remove('hidden'); analytics('contact_form_success');
+      } catch {
+        error?.removeAttribute('hidden'); analytics('contact_form_error');
+        submitButton.disabled = false;
+        if (buttonText) buttonText.textContent = 'Enviar mensaje';
+        buttonIcon?.classList.remove('hidden'); spinner?.classList.add('hidden');
+      } finally { submitting = false; }
     });
   }
-
   document.addEventListener('astro:page-load', initContactForm);
 </script>

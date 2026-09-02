@@ -3,675 +3,257 @@ import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import RichText from "../../components/RichText.astro";
+import EventCard from "../../components/EventCard.astro";
 import { getEventBySlug, getEvents } from "../../lib/cms";
+import { richTextToText } from "../../lib/cms/rich-text";
 import {
   ArrowLeft,
-  MapPin,
-  Calendar,
+  ArrowUpRight,
+  CalendarDays,
+  Clock3,
   ExternalLink,
-  Youtube,
   Facebook,
   Instagram,
   Linkedin,
-  Info,
+  MapPin,
+  Monitor,
+  Share2,
   X,
   ChevronLeft,
   ChevronRight,
-  Maximize2,
 } from "lucide-astro";
 
 export async function getStaticPaths() {
   const events = await getEvents();
-
-  return events.map((event) => ({
-    params: { id: event.slug },
-    props: { event },
-  }));
+  return events.map((event) => ({ params: { id: event.slug }, props: { event } }));
 }
 
 const { event: staticEvent } = Astro.props;
 const event = staticEvent ?? (await getEventBySlug(Astro.params.id || ""));
-
-if (!event) {
-  throw new Error(`Evento no encontrado: ${Astro.params.id}`);
-}
-
-const now = new Date();
+if (!event) throw new Error(`Evento no encontrado: ${Astro.params.id}`);
 
 const parseEventDate = (dateStr: string) => {
-  if (!dateStr) return null;
-  const str = dateStr.trim();
-  if (str.includes("T")) {
-    const d = new Date(str);
-    return isNaN(d.getTime()) ? null : d;
-  }
-  if (str.includes(" ")) {
-    const d = new Date(str.replace(" ", "T"));
-    if (!isNaN(d.getTime())) return d;
-  }
-  const normalized = str.replace(/\//g, "-");
-  const fallback = new Date(`${normalized}T00:00:00`);
-  return isNaN(fallback.getTime()) ? null : fallback;
+  const value = dateStr?.trim();
+  if (!value) return null;
+  const normalized = value.includes("T") ? value : value.replace(" ", "T").replace(/\//g, "-");
+  const date = new Date(normalized.includes("T") ? normalized : `${normalized}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? null : date;
 };
 
-const eventDateObj = parseEventDate(event.date);
-const isUpcoming = eventDateObj
-  ? eventDateObj.getTime() >= now.getTime()
-  : false;
-
-const formattedDate = eventDateObj
-  ? eventDateObj.toLocaleDateString("es-MX", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      timeZone: "America/Mexico_City",
-    })
-  : event.date;
-
-const formattedTime = eventDateObj
-  ? eventDateObj.toLocaleTimeString("es-MX", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-      timeZone: "America/Mexico_City",
-    }) + " UTC-6"
-  : "Por confirmar";
-
-const getYoutubeEmbedUrl = (url?: string) => {
-  if (!url) return "";
-  const regExp =
-    /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-  const match = url.match(regExp);
-  return match && match[2].length === 11
-    ? `https://www.youtube.com/embed/${match[2]}`
-    : "";
+const eventDate = parseEventDate(event.date);
+const isPast = eventDate ? eventDate.getTime() < Date.now() : false;
+const statusSource = event.status?.toLocaleLowerCase() ?? "";
+const eventStatus = isPast || statusSource.includes("finalizado")
+  ? "FINALIZADO"
+  : statusSource.includes("cancel")
+    ? "CANCELADO"
+    : statusSource.includes("lleno")
+      ? "CUPO LLENO"
+      : statusSource.includes("curso")
+        ? "EN CURSO"
+        : event.registerLink || statusSource.includes("registro")
+          ? "REGISTRO ABIERTO"
+          : "PRÓXIMAMENTE";
+const modalitySource = `${event.type ?? ""} ${event.location ?? ""}`.toLocaleLowerCase();
+const modality = modalitySource.includes("híbrido") || modalitySource.includes("hibrido")
+  ? "HÍBRIDO"
+  : modalitySource.includes("virtual") || modalitySource.includes("línea") || modalitySource.includes("linea") || modalitySource.includes("remoto")
+    ? "EN LÍNEA"
+    : "PRESENCIAL";
+const isOnline = modality === "EN LÍNEA";
+const formattedDate = eventDate?.toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Mexico_City" }) ?? "Fecha por confirmar";
+const formattedShortDate = eventDate?.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric", timeZone: "America/Mexico_City" }).replace(".", "").toUpperCase() ?? "FECHA POR CONFIRMAR";
+const formattedTime = eventDate?.toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Mexico_City" }) ?? "Por confirmar";
+const descriptionText = richTextToText(event.description);
+const summary = descriptionText.length > 220 ? `${descriptionText.slice(0, 217).trimEnd()}...` : descriptionText;
+const speakers = event.speakers ?? [];
+const gallery = event.gallery ?? [];
+const recordingUrl = event.media?.youtube;
+const socialLinks = [
+  { label: "Facebook", url: event.media?.facebook, icon: Facebook },
+  { label: "Instagram", url: event.media?.instagram, icon: Instagram },
+  { label: "LinkedIn", url: event.media?.linkedin, icon: Linkedin },
+].filter((item): item is { label: string; url: string; icon: typeof Facebook } => Boolean(item.url));
+const allEvents = await getEvents();
+const relatedEvents = allEvents.filter((item) => item.slug !== event.slug).slice(0, 3);
+const getInitials = (name: string) => name.split(" ").filter(Boolean).map((word) => word[0]).join("").slice(0, 2).toUpperCase();
+const eventUrl = new URL(`/eventos/${event.slug}`, Astro.url).toString();
+const eventSchema = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  name: event.title,
+  description: summary,
+  startDate: eventDate?.toISOString(),
+  eventStatus: isPast ? "https://schema.org/EventCompleted" : "https://schema.org/EventScheduled",
+  eventAttendanceMode: isOnline ? "https://schema.org/OnlineEventAttendanceMode" : "https://schema.org/OfflineEventAttendanceMode",
+  location: isOnline ? { "@type": "VirtualLocation", url: eventUrl } : { "@type": "Place", name: event.location || "Oaxaca" },
+  image: [event.image],
+  organizer: { "@type": "Organization", name: "Nexis Oaxaca", url: new URL("/", Astro.url).toString() },
+  performer: speakers.map((speaker) => ({ "@type": "Person", name: speaker.name })),
 };
-
-const youtubeEmbedUrl = getYoutubeEmbedUrl(event.media?.youtube);
-const hasMedia = Boolean(
-  event.media &&
-  (event.media.youtube ||
-    event.media.facebook ||
-    event.media.instagram ||
-    event.media.linkedin),
-);
-const hasGallery = Boolean(event.gallery && event.gallery.length > 0);
-const hasAnyEvidence = hasMedia || hasGallery || Boolean(youtubeEmbedUrl);
-
-const getInitials = (name: string) =>
-  name
-    ? name
-        .split(" ")
-        .filter(Boolean)
-        .map((word) => word[0])
-        .join("")
-        .slice(0, 2)
-        .toUpperCase()
-    : "NN";
-
-const normalizeType = (value?: string) => value?.trim().toLowerCase() ?? "";
-
-const modalityLabel = (() => {
-  const type = normalizeType(event.type);
-  const location = normalizeType(event.location);
-  const combined = `${type} ${location}`;
-
-  if (/virtual|remoto|online|zoom|meet|stream/.test(combined)) {
-    return "Remoto";
-  }
-
-  if (/presencial|in situ|on site/.test(combined)) {
-    return "Presencial";
-  }
-
-  return event.location ? "Presencial" : "Por confirmar";
-})();
-
-const locationLabel = event.location?.trim() || "Por confirmar";
-const speakers = (event.speakers ?? []) as NonNullable<typeof event.speakers>;
-const speakerCount = speakers.length;
-const speakerHeading =
-  speakerCount === 1 ? "Quién nos acompaña" : "Quiénes nos acompañan";
 ---
 
-<Layout
-  title={`${event.title} | Nexis Oaxaca Tech`}
-  description={event.title}
->
+<Layout title={`${event.title} | Nexis Oaxaca`} description={summary}>
   <Header />
+  <script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
 
-  <main class="bg-marfil pt-24 pb-24 sm:pt-28">
-    <div class="mx-auto max-w-7xl px-6 space-y-20 lg:space-y-24">
-      <a
-        href="/eventos"
-        class="inline-flex items-center gap-2 text-petroleo/60 hover:text-jade font-bold text-xs uppercase tracking-widest transition-colors group"
-      >
-        <ArrowLeft
-          class="w-4 h-4 group-hover:-translate-x-1 transition-transform"
-        />
-        Volver a los encuentros
-      </a>
+  <main class="bg-marfil pb-28 pt-28 sm:pt-32">
+    <div class="mx-auto max-w-7xl px-6">
+      <nav aria-label="Miga de pan" class="mb-10">
+        <a href="/eventos" class="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-petroleo/65 transition-colors duration-200 hover:text-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade"><ArrowLeft class="h-4 w-4" />Todos los encuentros</a>
+      </nav>
 
-      <section class="reveal overflow-hidden rounded-[40px] bg-petroleo text-white shadow-2xl">
-        <div class="grid lg:grid-cols-[1.08fr_.92fr] lg:items-stretch">
-          <div class="relative flex min-h-[72vh] flex-col justify-end gap-8 px-6 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12">
-            <div class="absolute inset-0 bg-linear-to-br from-petroleo via-[#1d4451] to-[#0f2b33]"></div>
-            <div class="absolute inset-0 mitla-pattern opacity-80 mix-blend-screen"></div>
-            <div class="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-jade/15 blur-3xl"></div>
-            <div class="absolute -bottom-16 left-0 h-48 w-48 rounded-full bg-white/8 blur-3xl"></div>
-
-            <div class="relative z-10 space-y-6">
-              <div
-                class={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[10px] font-bold uppercase tracking-[0.32em] ${isUpcoming ? "border-jade/30 bg-jade/15 text-white" : "border-white/15 bg-white/10 text-white/85"}`}
-              >
-                <span
-                  class={`h-2.5 w-2.5 rounded-full ${isUpcoming ? "bg-jade animate-pulse" : "bg-white/70"}`}
-                ></span>
-                {isUpcoming ? "Próximo encuentro" : "Encuentro finalizado"}
-              </div>
-
-              <h1 class="max-w-3xl font-display text-4xl font-bold uppercase leading-[0.98] tracking-tight text-white sm:text-5xl lg:text-7xl">
-                {event.title}
-              </h1>
-
-              <p class="max-w-2xl text-sm leading-relaxed text-white/78 sm:text-base lg:text-lg">
-                Una charla para la comunidad, con un formato claro y directo para que encuentres de un vistazo lo importante del evento.
-              </p>
-            </div>
-
-            <div class="relative z-10 grid gap-3 sm:grid-cols-3">
-              <div class="rounded-[20px] border border-white/12 bg-white/8 p-4 backdrop-blur-sm">
-                <p class="text-[10px] font-bold uppercase tracking-[0.32em] text-white/55">Fecha</p>
-                <p class="mt-2 text-sm font-medium text-white sm:text-base">{formattedDate}</p>
-              </div>
-              <div class="rounded-[20px] border border-white/12 bg-white/8 p-4 backdrop-blur-sm">
-                <p class="text-[10px] font-bold uppercase tracking-[0.32em] text-white/55">Hora</p>
-                <p class="mt-2 text-sm font-medium text-white sm:text-base">{formattedTime}</p>
-              </div>
-              <div class="rounded-[20px] border border-white/12 bg-white/8 p-4 backdrop-blur-sm">
-                <p class="text-[10px] font-bold uppercase tracking-[0.32em] text-white/55">Modalidad</p>
-                <p class="mt-2 text-sm font-medium text-white sm:text-base">{modalityLabel}</p>
-              </div>
-            </div>
-
-            <div class="relative z-10 flex flex-wrap items-center gap-3 text-sm text-white/80">
-              <span class="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 backdrop-blur-sm">
-                <MapPin class="h-4 w-4 text-jade" />
-                {locationLabel}
-              </span>
-            </div>
+      <section class="grid gap-10 lg:grid-cols-[minmax(0,1.85fr)_minmax(20rem,1fr)] lg:gap-14" aria-labelledby="event-title">
+        <div class="pt-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="rounded-md bg-petroleo px-3 py-1.5 text-[10px] font-bold tracking-[0.14em] text-white">{isPast ? "EVENTO FINALIZADO" : "PRÓXIMO ENCUENTRO"}</span>
+            <span class="rounded-md border border-petroleo/15 px-3 py-1.5 text-[10px] font-bold tracking-[0.14em] text-petroleo">{modality}</span>
           </div>
-
-          <div class="relative min-h-[44vh] lg:min-h-[72vh]">
-            <div class="absolute inset-0 bg-linear-to-br from-arena/30 via-transparent to-transparent lg:hidden"></div>
-            <div class="absolute inset-0 lg:bg-linear-to-l lg:from-petroleo/10 lg:via-transparent lg:to-transparent"></div>
-            <div class="absolute inset-y-0 left-0 w-6 bg-linear-to-r from-petroleo/20 to-transparent lg:hidden"></div>
-
-            <div class="relative flex h-full items-center justify-center px-6 py-8 sm:px-10 lg:px-8">
-              <div class="relative w-full max-w-xl rotate-[1.75deg] overflow-hidden rounded-4xl border border-white/60 bg-white p-3 shadow-[0_24px_80px_rgba(10,25,33,0.18)] sm:p-4 lg:translate-y-10 lg:rotate-[4deg]">
-                <div class="absolute inset-3 rounded-[26px] border border-petroleo/5"></div>
-                <img
-                  src={event.image}
-                  alt={event.title}
-                  class="relative z-10 aspect-4/5 w-full rounded-[24px] object-cover"
-                  transition:name={`event-image-${event.slug}`}
-                />
-              </div>
-            </div>
+          <h1 id="event-title" class="mt-6 max-w-3xl font-display text-4xl font-extrabold leading-[1.04] tracking-tight text-petroleo sm:text-5xl lg:text-6xl">{event.title}</h1>
+          {summary && <p class="mt-6 max-w-2xl text-base leading-7 text-petroleo/75 sm:text-lg">{summary}</p>}
+          <div class="mt-8 grid max-w-2xl grid-cols-2 gap-x-6 gap-y-4 border-y border-petroleo/10 py-5 text-sm text-petroleo sm:grid-cols-4">
+            <div class="flex items-center gap-2"><CalendarDays class="h-4 w-4 shrink-0 text-jade" /><span>{formattedShortDate}</span></div>
+            <div class="flex items-center gap-2"><Clock3 class="h-4 w-4 shrink-0 text-jade" /><span>{formattedTime} h</span></div>
+            <div class="flex items-center gap-2"><Monitor class="h-4 w-4 shrink-0 text-jade" /><span>{modality}</span></div>
+            <div class="flex items-center gap-2"><span class="h-2 w-2 shrink-0 rounded-full bg-jade" aria-hidden="true"></span><span>Gratuito</span></div>
           </div>
         </div>
-      </section>
 
-      <section class="reveal ">
-        <div class="space-y-4">
-          <div class="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.34em] text-petroleo/50">
-            <span class="h-px flex-1 bg-petroleo/10"></span>
-            Sobre la charla
-            <span class="h-px flex-1 bg-petroleo/10"></span>
-          </div>
-          <div class="rounded-4xl border border-gris bg-white p-6 shadow-sm sm:p-8 lg:p-10">
-            <RichText
-              content={event.description}
-              class="prose max-w-none prose-p:my-0 prose-headings:font-display prose-headings:uppercase prose-headings:tracking-tight prose-headings:text-petroleo prose-p:text-petroleo/82 prose-a:text-jade prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-strong:text-petroleo prose-li:text-petroleo/82 text-sm leading-relaxed sm:text-base lg:text-lg"
-            />
-          </div>
-        </div>
-      </section>
-
-      {
-        speakerCount > 0 && (
-          <section class="reveal space-y-6 text-left">
-            <div class="flex flex-col gap-3 border-b border-petroleo/10 pb-4 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <h2 class="text-[10px] font-bold uppercase tracking-[0.34em] text-petroleo/50">
-                  {speakerHeading}
-                </h2>
-                <p class="mt-2 text-sm text-petroleo/65 sm:text-base">
-                  {speakerCount === 1
-                    ? "Una voz principal para la charla."
-                    : "Varios perfiles compartiendo la conversación desde distintos ángulos."}
-                </p>
+        <aside class="lg:row-span-2">
+          <div class="lg:sticky lg:top-28">
+            <div class="overflow-hidden rounded-card border border-petroleo/12 bg-arena p-3">
+              <img src={event.image} alt={`Imagen promocional de ${event.title}`} class="aspect-[4/3] w-full rounded-[16px] object-cover" transition:name={`event-image-${event.slug}`} />
+            </div>
+            <section class="mt-5 rounded-card border border-petroleo/12 bg-white p-6" aria-label="Resumen del evento">
+              <p class="text-xs font-bold tracking-[0.14em] text-jade">{eventStatus}</p>
+              <p class="mt-4 font-display text-2xl font-bold text-petroleo">{formattedDate}</p>
+              <p class="mt-1 text-sm text-petroleo/70">{formattedTime} h · UTC-6</p>
+              <div class="mt-5 border-t border-petroleo/10 pt-5 text-sm">
+                <p class="font-semibold text-petroleo">{isOnline ? "En línea" : event.location || "Sede por confirmar"}</p>
+                <p class="mt-1 text-petroleo/65">{isOnline ? "El acceso se comparte al registrarte" : "Oaxaca, México"}</p>
+                <p class="mt-4 font-medium text-petroleo">Entrada gratuita</p>
               </div>
-              <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-petroleo/40">
-                {speakerCount} {speakerCount === 1 ? "persona" : "personas"}
-              </p>
-            </div>
+              <div class="mt-6 grid gap-3">
+                {isPast && recordingUrl ? (
+                  <a href={recordingUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center justify-center gap-2 rounded-button bg-petroleo px-5 text-sm font-bold text-white transition-colors duration-200 hover:bg-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade">Ver grabación <ExternalLink class="h-4 w-4" /></a>
+                ) : !isPast && event.registerLink && eventStatus !== "CANCELADO" && eventStatus !== "CUPO LLENO" ? (
+                  <a href={event.registerLink} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center justify-center gap-2 rounded-button bg-petroleo px-5 text-sm font-bold text-white transition-colors duration-200 hover:bg-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade">Registrarme <ArrowUpRight class="h-4 w-4" /></a>
+                ) : !isPast ? (
+                  <button type="button" class="inline-flex min-h-11 items-center justify-center gap-2 rounded-button bg-petroleo px-5 text-sm font-bold text-white transition-colors duration-200 hover:bg-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade" data-calendar-button data-calendar-title={event.title} data-calendar-date={eventDate?.toISOString()}><CalendarDays class="h-4 w-4" />Agregar al calendario</button>
+                ) : null}
+                {!isPast && event.registerLink && <button type="button" class="inline-flex min-h-11 items-center justify-center gap-2 rounded-button border border-petroleo/15 px-5 text-sm font-semibold text-petroleo transition-colors duration-200 hover:border-jade hover:text-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade" data-calendar-button data-calendar-title={event.title} data-calendar-date={eventDate?.toISOString()}><CalendarDays class="h-4 w-4" />Agregar al calendario</button>}
+                <button type="button" class="inline-flex min-h-11 items-center justify-center gap-2 text-sm font-semibold text-petroleo/70 transition-colors duration-200 hover:text-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade" data-share-button data-share-title={event.title} data-share-url={eventUrl}><Share2 class="h-4 w-4" />Compartir</button>
+              </div>
+              {!isPast && !event.registerLink && <p class="mt-4 text-xs leading-5 text-petroleo/60">El registro estará disponible próximamente.</p>}
+            </section>
+          </div>
+        </aside>
 
-            <div
-              class:list={[
-                "grid gap-6",
-                speakerCount === 1
-                  ? "mx-auto max-w-xl"
-                  : "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
-              ]}
-            >
-              {speakers.map((speaker) => (
-                <article class="group rounded-[28px] border border-gris bg-white p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-jade/25 hover:shadow-lg">
-                  <div class="mx-auto mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-4 border-marfil bg-petroleo/5 shadow-inner transition-transform duration-300 group-hover:scale-105">
-                    {speaker.image ? (
-                      <img
-                        src={speaker.image}
-                        alt={speaker.name}
-                        class="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div class="flex h-full w-full items-center justify-center bg-linear-to-br from-petroleo/5 to-petroleo/10 text-2xl font-display font-extrabold uppercase text-petroleo/60">
-                        {getInitials(speaker.name)}
-                      </div>
-                    )}
-                  </div>
-                  <h3 class="font-display text-lg font-bold text-petroleo transition-colors duration-300 group-hover:text-jade">
-                    {speaker.name}
-                  </h3>
-                  {speaker.role && (
-                    <p class="mt-2 text-[10px] font-bold uppercase tracking-[0.28em] text-petroleo/55">
-                      {speaker.role}
-                    </p>
-                  )}
-                </article>
-              ))}
-            </div>
+        <div class="max-w-3xl space-y-16 lg:pt-4">
+          <section aria-labelledby="about-event-title">
+            <p class="text-xs font-bold tracking-[0.16em] text-jade">SOBRE EL ENCUENTRO</p>
+            <h2 id="about-event-title" class="mt-3 font-display text-3xl font-bold text-petroleo">¿Qué exploraremos?</h2>
+            <RichText content={event.description} class="mt-6 max-w-2xl text-base leading-8 text-petroleo/80 prose-headings:font-display prose-headings:text-petroleo prose-p:text-petroleo/80 prose-a:text-jade sm:text-lg" />
           </section>
-        )
-      }
 
-      <section class="reveal mx-auto max-w-5xl space-y-10 rounded-[40px] border border-gris bg-white p-6 shadow-sm sm:p-8 lg:p-12">
-        <div class="flex flex-col gap-4 border-b border-petroleo/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
-          <div class="space-y-2 text-left">
-            <p class="text-[10px] font-bold uppercase tracking-[0.34em] text-petroleo/50">
-              {isUpcoming ? "Nos vemos ahí" : "Así se vivió"}
-            </p>
-            <h3 class="font-display text-3xl font-bold uppercase leading-tight text-petroleo sm:text-4xl">
-              {isUpcoming ? "Agrega el evento a tu calendario" : "Memorias y enlaces del encuentro"}
-            </h3>
-            <p class="max-w-2xl text-sm leading-relaxed text-petroleo/70 sm:text-base">
-              {isUpcoming
-                ? "Te dejamos el acceso para guardarlo y llegar sin perder la fecha."
-                : "Si ya pasó, aquí quedan las fotos y las redes donde puedes volver a verlo."}
-            </p>
-          </div>
+          {speakers.length > 0 && (
+            <section aria-labelledby="speakers-title">
+              <p class="text-xs font-bold tracking-[0.16em] text-jade">SPEAKER</p>
+              <h2 id="speakers-title" class="mt-3 font-display text-3xl font-bold text-petroleo">Conoce a quien nos acompaña</h2>
+              <div class:list={["mt-7 grid gap-4", speakers.length > 1 ? "sm:grid-cols-2" : ""]}>
+                {speakers.map((speaker) => (
+                  <article class="flex gap-4 rounded-card border border-petroleo/10 bg-white p-5">
+                    <div class="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-petroleo/10 font-display font-bold text-petroleo">
+                      {speaker.image ? <img src={speaker.image} alt={speaker.name} class="h-full w-full object-cover" loading="lazy" /> : getInitials(speaker.name)}
+                    </div>
+                    <div class="min-w-0 pt-1"><h3 class="font-display text-lg font-bold text-petroleo">{speaker.name}</h3>{speaker.role && <p class="mt-1 text-sm leading-5 text-petroleo/65">{speaker.role}</p>}</div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {isPast && (gallery.length > 0 || recordingUrl || socialLinks.length > 0) && (
+            <section class="border-t border-petroleo/10 pt-14" aria-labelledby="memories-title">
+              <p class="text-xs font-bold tracking-[0.16em] text-jade">MEMORIAS DEL ENCUENTRO</p>
+              <h2 id="memories-title" class="mt-3 font-display text-3xl font-bold text-petroleo">Así vivimos este encuentro</h2>
+              <p class="mt-4 max-w-2xl text-base leading-7 text-petroleo/70">Revive algunos momentos, consulta los materiales y descubre más sobre esta edición.</p>
+              {gallery.length > 0 && (
+                <div class="mt-8 grid h-[28rem] grid-cols-2 gap-3 sm:grid-cols-3" aria-label={`Galería de ${event.title}`}>
+                  {gallery.map((image, index) => (
+                    <button type="button" class:list={["gallery-trigger relative overflow-hidden rounded-[16px] bg-arena text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade", index > 2 ? "hidden" : "", index === 0 ? "row-span-2" : ""]} data-gallery-index={index} data-gallery-src={image} data-gallery-alt={`Foto ${index + 1} de ${event.title}`} aria-label={`Ampliar foto ${index + 1} de ${gallery.length}`}>
+                      <img src={image} alt={`Foto ${index + 1} de ${event.title}`} class="h-full w-full object-cover" loading="lazy" />
+                      {index === 2 && gallery.length > 3 && <span class="absolute inset-0 flex items-center justify-center bg-petroleo/65 text-sm font-bold text-white">+{gallery.length - 3} fotos</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {(recordingUrl || socialLinks.length > 0) && <div class="mt-8"><h3 class="font-display text-xl font-bold text-petroleo">Recursos</h3><div class="mt-4 flex flex-wrap gap-3">{recordingUrl && <a href={recordingUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-button border border-petroleo/15 px-4 text-sm font-semibold text-petroleo transition-colors duration-200 hover:border-jade hover:text-jade">Ver grabación <ExternalLink class="h-4 w-4" /></a>}</div></div>}
+              {socialLinks.length > 0 && <div class="mt-8 border-t border-petroleo/10 pt-6"><h3 class="font-display text-xl font-bold text-petroleo">Más sobre este encuentro</h3><div class="mt-4 flex flex-wrap gap-4">{socialLinks.map(({ label, url, icon: Icon }) => <a href={url} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-petroleo/70 transition-colors duration-200 hover:text-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade"><Icon class="h-4 w-4" />{label}<ExternalLink class="h-3.5 w-3.5" /></a>)}</div></div>}
+            </section>
+          )}
         </div>
-
-        {
-          isUpcoming ? (
-            <div class="grid gap-6 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
-              <div class="rounded-[28px] border border-petroleo/8 bg-marfil p-6 sm:p-8">
-                <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-petroleo/50">
-                  Recordatorio rápido
-                </p>
-                <p class="mt-4 text-lg font-medium text-petroleo">
-                  {formattedDate} · {formattedTime}
-                </p>
-                <p class="mt-2 text-sm text-petroleo/70">
-                  {modalityLabel} · {locationLabel}
-                </p>
-              </div>
-
-              <div class="space-y-4">
-                {event.registerLink ? (
-                  <a
-                    href={event.registerLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-jade px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-petroleo sm:w-auto sm:px-8 sm:py-5 sm:text-base"
-                  >
-                    <Calendar class="h-5 w-5" />
-                    Agregar a Calendario
-                    <ExternalLink class="h-4 w-4" />
-                  </a>
-                ) : (
-                  <div class="rounded-[28px] border border-dashed border-petroleo/15 bg-marfil p-6 text-left text-sm text-petroleo/70">
-                    Todavía no está disponible el enlace para agregarlo a calendario.
-                  </div>
-                )}
-
-                <p class="text-xs font-medium uppercase tracking-[0.28em] text-petroleo/40">
-                  Si no aparece el botón, el enlace de registro aún no fue publicado.
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div class="space-y-10">
-              {youtubeEmbedUrl && (
-                <div class="space-y-4">
-                  <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-petroleo/50">
-                    La grabación
-                  </p>
-                  <div class="relative overflow-hidden rounded-[28px] border border-gris bg-black shadow-sm">
-                    <iframe
-                      class="absolute inset-0 h-full w-full border-0"
-                      src={youtubeEmbedUrl}
-                      title="YouTube video player"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
-                    />
-                  </div>
-                </div>
-              )}
-
-              {hasGallery && (
-                <div class="space-y-4">
-                  <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-petroleo/50">
-                    Fotos del día
-                  </p>
-                  <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                    {event.gallery!.map((imgUrl: string, idx: number) => (
-                      <button
-                        type="button"
-                        class="gallery-trigger group relative aspect-4/3 cursor-zoom-in overflow-hidden rounded-[22px] border border-gris bg-petroleo/5 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade"
-                        data-gallery-index={idx}
-                        data-gallery-src={imgUrl}
-                        data-gallery-alt={`Foto ${idx + 1} de ${event.title}`}
-                        aria-label={`Ampliar foto ${idx + 1} de ${event.gallery!.length}`}
-                      >
-                        <img
-                          src={imgUrl}
-                          alt={`Foto ${idx + 1} de ${event.title}`}
-                          loading="lazy"
-                          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div class="absolute inset-0 bg-linear-to-t from-petroleo/35 via-transparent to-transparent" />
-                        <span class="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-petroleo/70 text-white opacity-100 shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:scale-110 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100">
-                          <Maximize2 class="h-4 w-4" aria-hidden="true" />
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {hasMedia && (
-                <div class="space-y-4 border-t border-petroleo/10 pt-2">
-                  <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-petroleo/50">
-                    Míralo también en
-                  </p>
-                  <div class="flex flex-wrap gap-3">
-                    {event.media?.youtube && (
-                      <a
-                        href={event.media.youtube}
-                        target="_blank"
-                        rel="noreferrer"
-                        class="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50/70 px-4 py-3 text-xs font-bold uppercase tracking-[0.22em] text-red-600 transition-colors hover:bg-red-50"
-                      >
-                        <Youtube class="h-4 w-4" />
-                        YouTube
-                      </a>
-                    )}
-                    {event.media?.facebook && (
-                      <a
-                        href={event.media.facebook}
-                        target="_blank"
-                        rel="noreferrer"
-                        class="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50/70 px-4 py-3 text-xs font-bold uppercase tracking-[0.22em] text-blue-600 transition-colors hover:bg-blue-50"
-                      >
-                        <Facebook class="h-4 w-4" />
-                        Facebook
-                      </a>
-                    )}
-                    {event.media?.instagram && (
-                      <a
-                        href={event.media.instagram}
-                        target="_blank"
-                        rel="noreferrer"
-                        class="inline-flex items-center gap-2 rounded-full border border-pink-200 bg-pink-50/70 px-4 py-3 text-xs font-bold uppercase tracking-[0.22em] text-pink-600 transition-colors hover:bg-pink-50"
-                      >
-                        <Instagram class="h-4 w-4" />
-                        Instagram
-                      </a>
-                    )}
-                    {event.media?.linkedin && (
-                      <a
-                        href={event.media.linkedin}
-                        target="_blank"
-                        rel="noreferrer"
-                        class="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50/70 px-4 py-3 text-xs font-bold uppercase tracking-[0.22em] text-sky-700 transition-colors hover:bg-sky-50"
-                      >
-                        <Linkedin class="h-4 w-4" />
-                        LinkedIn
-                      </a>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {!hasAnyEvidence && (
-                <div class="flex flex-col items-center justify-center rounded-[28px] border border-dashed border-petroleo/12 bg-marfil p-10 text-center space-y-4">
-                  <Info class="h-10 w-10 text-jade" />
-                  <div class="space-y-2">
-                    <h4 class="text-lg font-bold text-petroleo">
-                      Aún no hay memorias publicadas
-                    </h4>
-                    <p class="max-w-xl text-sm leading-relaxed text-petroleo/65">
-                      Todavía no subimos fotos ni enlaces de este encuentro. En cuanto estén disponibles, aparecerán aquí.
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          )
-        }
       </section>
+
+      {relatedEvents.length > 0 && <section class="mt-24 border-t border-petroleo/10 pt-12" aria-labelledby="related-events-title"><p class="text-xs font-bold tracking-[0.16em] text-jade">SIGUE EXPLORANDO</p><h2 id="related-events-title" class="mt-3 font-display text-3xl font-bold text-petroleo">También podría interesarte</h2><div class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">{relatedEvents.map((relatedEvent) => <EventCard event={relatedEvent} past={(parseEventDate(relatedEvent.date)?.getTime() ?? 0) < Date.now()} />)}</div></section>}
     </div>
   </main>
 
+  {!isPast && <div class="fixed inset-x-0 bottom-0 z-40 border-t border-petroleo/10 bg-marfil/95 px-4 py-3 backdrop-blur lg:hidden"><div class="mx-auto flex max-w-md items-center justify-between gap-4"><p class="text-xs font-semibold text-petroleo"><span class="block">{formattedShortDate}</span><span class="text-petroleo/65">{formattedTime} h</span></p>{event.registerLink ? <a href={event.registerLink} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center justify-center rounded-button bg-petroleo px-5 text-sm font-bold text-white">Registrarme</a> : <button type="button" class="inline-flex min-h-11 items-center justify-center rounded-button bg-petroleo px-5 text-sm font-bold text-white" data-calendar-button data-calendar-title={event.title} data-calendar-date={eventDate?.toISOString()}>Calendario</button>}</div></div>}
+
+  {gallery.length > 0 && <dialog id="gallery-modal" class="m-0 h-dvh max-h-none w-screen max-w-none bg-transparent p-0" aria-label={`Galería de ${event.title}`}><div class="relative flex h-full w-full items-center justify-center bg-petroleo/95 p-5 sm:p-12"><button id="gallery-close" type="button" class="absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="Cerrar galería"><X class="h-5 w-5" /></button><p id="gallery-counter" class="absolute left-5 top-8 text-xs font-bold tracking-[0.14em] text-white/75" aria-live="polite"></p><img id="gallery-modal-image" src="" alt="" class="max-h-full max-w-full object-contain" />{gallery.length > 1 && <><button id="gallery-previous" type="button" class="absolute left-5 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="Foto anterior"><ChevronLeft class="h-6 w-6" /></button><button id="gallery-next" type="button" class="absolute right-5 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label="Foto siguiente"><ChevronRight class="h-6 w-6" /></button></>}</div></dialog>}
+
   <Footer />
 
-  {
-    hasGallery && (
-      <dialog
-        id="gallery-modal"
-        class="gallery-modal m-0 h-dvh max-h-none w-screen max-w-none bg-transparent p-0 text-white"
-        aria-label={`Galería de ${event.title}`}
-      >
-        <div id="gallery-surface" class="relative flex h-full w-full flex-col bg-petroleo/96 px-4 pb-4 pt-20 sm:px-8 sm:pb-6 sm:pt-20 lg:px-20 lg:pb-8">
-          <div class="absolute left-4 right-4 top-4 z-20 flex items-center justify-between gap-4 sm:left-8 sm:right-8 sm:top-6">
-            <p
-              id="gallery-counter"
-              class="rounded-full border border-white/15 bg-black/20 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.28em] text-white/75 backdrop-blur-sm"
-              aria-live="polite"
-            />
-            <button
-              type="button"
-              id="gallery-close"
-              class="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/20 text-white transition-colors hover:bg-white hover:text-petroleo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              aria-label="Cerrar galería"
-            >
-              <X class="h-5 w-5" aria-hidden="true" />
-            </button>
-          </div>
-
-          <div id="gallery-viewer" class="relative flex min-h-0 flex-1 items-center justify-center">
-            <img
-              id="gallery-modal-image"
-              src=""
-              alt=""
-              class="max-h-full max-w-full select-none object-contain shadow-2xl"
-            />
-
-            {event.gallery!.length > 1 && (
-              <>
-                <button
-                  type="button"
-                  id="gallery-previous"
-                  class="absolute left-0 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white shadow-lg backdrop-blur-sm transition-all hover:scale-105 hover:bg-white hover:text-petroleo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:h-12 sm:w-12 lg:-left-14"
-                  aria-label="Ver foto anterior"
-                >
-                  <ChevronLeft class="h-6 w-6" aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  id="gallery-next"
-                  class="absolute right-0 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white shadow-lg backdrop-blur-sm transition-all hover:scale-105 hover:bg-white hover:text-petroleo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:h-12 sm:w-12 lg:-right-14"
-                  aria-label="Ver foto siguiente"
-                >
-                  <ChevronRight class="h-6 w-6" aria-hidden="true" />
-                </button>
-              </>
-            )}
-          </div>
-
-          {event.gallery!.length > 1 && (
-            <p class="mt-3 text-center text-[10px] font-medium uppercase tracking-[0.2em] text-white/45 sm:mt-4">
-              Usa las flechas para recorrer la galería
-            </p>
-          )}
-        </div>
-      </dialog>
-    )
-  }
-
-  <style>
-    .gallery-modal::backdrop {
-      background: rgb(15 43 51 / 0.82);
-      backdrop-filter: blur(10px);
-    }
-
-    .gallery-modal[open] {
-      animation: gallery-fade-in 180ms ease-out;
-    }
-
-    .gallery-modal[open] #gallery-modal-image {
-      animation: gallery-image-in 240ms ease-out;
-    }
-
-    @keyframes gallery-fade-in {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes gallery-image-in {
-      from { opacity: 0; transform: scale(0.98); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .gallery-modal[open],
-      .gallery-modal[open] #gallery-modal-image {
-        animation: none;
-      }
-    }
-  </style>
-
   <script>
-    import gsap from "gsap";
-    import { ScrollTrigger } from "gsap/ScrollTrigger";
-    gsap.registerPlugin(ScrollTrigger);
+    const formatCalendarDate = (date: Date) => date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
 
-    const init = () => {
-      const reveals = document.querySelectorAll(".reveal");
-      gsap.set(reveals, { clearProps: "all" });
-      reveals.forEach((el) => {
-        gsap.from(el, {
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-          opacity: 0,
-          y: 30,
-          duration: 0.8,
-          ease: "power3.out",
-        });
-      });
-    };
+    document.addEventListener("click", async (event) => {
+      const calendarButton = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-calendar-button]");
+      if (calendarButton) {
+        const start = new Date(calendarButton.dataset.calendarDate ?? "");
+        if (Number.isNaN(start.getTime())) return;
+        const end = new Date(start.getTime() + 60 * 60 * 1000);
+        const content = ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", `DTSTART:${formatCalendarDate(start)}`, `DTEND:${formatCalendarDate(end)}`, `SUMMARY:${calendarButton.dataset.calendarTitle ?? "Encuentro Nexis Oaxaca"}`, "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+        const url = URL.createObjectURL(new Blob([content], { type: "text/calendar" }));
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "encuentro-nexis.ics";
+        link.click();
+        URL.revokeObjectURL(url);
+        return;
+      }
 
-    const initGalleryModal = () => {
-      const modal = document.querySelector<HTMLDialogElement>("#gallery-modal");
-      const modalImage = document.querySelector<HTMLImageElement>("#gallery-modal-image");
-      const modalSurface = document.querySelector<HTMLElement>("#gallery-surface");
-      const modalViewer = document.querySelector<HTMLElement>("#gallery-viewer");
-      const counter = document.querySelector<HTMLElement>("#gallery-counter");
-      const closeButton = document.querySelector<HTMLButtonElement>("#gallery-close");
-      const previousButton = document.querySelector<HTMLButtonElement>("#gallery-previous");
-      const nextButton = document.querySelector<HTMLButtonElement>("#gallery-next");
-      const triggers = Array.from(
-        document.querySelectorAll<HTMLButtonElement>(".gallery-trigger"),
-      );
-
-      if (!modal || !modalImage || !counter || !closeButton || triggers.length === 0) return;
-
-      let currentIndex = 0;
-      let touchStartX = 0;
-
-      const showImage = (index: number) => {
-        currentIndex = (index + triggers.length) % triggers.length;
-        const trigger = triggers[currentIndex];
-        modalImage.src = trigger.dataset.gallerySrc ?? "";
-        modalImage.alt = trigger.dataset.galleryAlt ?? "";
-        counter.textContent = `${currentIndex + 1} / ${triggers.length}`;
-      };
-
-      const closeModal = () => modal.close();
-
-      triggers.forEach((trigger, index) => {
-        trigger.addEventListener("click", () => {
-          showImage(index);
-          modal.showModal();
-          document.body.style.overflow = "hidden";
-        });
-      });
-
-      closeButton.addEventListener("click", closeModal);
-      previousButton?.addEventListener("click", () => showImage(currentIndex - 1));
-      nextButton?.addEventListener("click", () => showImage(currentIndex + 1));
-
-      modal.addEventListener("click", (event) => {
-        if (event.target === modal) closeModal();
-      });
-
-      modalSurface?.addEventListener("click", (event) => {
-        if (event.target === modalSurface) closeModal();
-      });
-
-      modalViewer?.addEventListener("click", (event) => {
-        if (event.target === modalViewer) closeModal();
-      });
-
-      modal.addEventListener("close", () => {
-        document.body.style.overflow = "";
-        modalImage.src = "";
-      });
-
-      modal.addEventListener("keydown", (event) => {
-        if (event.key === "ArrowLeft") showImage(currentIndex - 1);
-        if (event.key === "ArrowRight") showImage(currentIndex + 1);
-      });
-
-      modal.addEventListener("touchstart", (event) => {
-        touchStartX = event.changedTouches[0]?.screenX ?? 0;
-      }, { passive: true });
-
-      modal.addEventListener("touchend", (event) => {
-        const distance = (event.changedTouches[0]?.screenX ?? touchStartX) - touchStartX;
-        if (Math.abs(distance) < 50) return;
-        showImage(currentIndex + (distance < 0 ? 1 : -1));
-      }, { passive: true });
-    };
-
-    document.addEventListener("astro:page-load", () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-      init();
-      initGalleryModal();
+      const shareButton = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-share-button]");
+      if (!shareButton) return;
+      try {
+        const title = shareButton.dataset.shareTitle ?? "Encuentro Nexis Oaxaca";
+        const url = shareButton.dataset.shareUrl ?? window.location.href;
+        if (navigator.share) await navigator.share({ title, url });
+        else await navigator.clipboard?.writeText(url);
+      } catch {
+        // Cerrar el diálogo nativo no requiere retroalimentación adicional.
+      }
     });
+
+    const modal = document.querySelector<HTMLDialogElement>("#gallery-modal");
+    const modalImage = document.querySelector<HTMLImageElement>("#gallery-modal-image");
+    const counter = document.querySelector<HTMLElement>("#gallery-counter");
+    const triggers = Array.from(document.querySelectorAll<HTMLButtonElement>(".gallery-trigger"));
+    let currentIndex = 0;
+    const showImage = (index: number) => {
+      if (!modalImage || !counter || triggers.length === 0) return;
+      currentIndex = (index + triggers.length) % triggers.length;
+      const trigger = triggers[currentIndex];
+      modalImage.src = trigger.dataset.gallerySrc ?? "";
+      modalImage.alt = trigger.dataset.galleryAlt ?? "";
+      counter.textContent = `${currentIndex + 1} / ${triggers.length}`;
+    };
+    triggers.forEach((trigger, index) => trigger.addEventListener("click", () => { showImage(index); modal?.showModal(); }));
+    document.querySelector("#gallery-close")?.addEventListener("click", () => modal?.close());
+    document.querySelector("#gallery-previous")?.addEventListener("click", () => showImage(currentIndex - 1));
+    document.querySelector("#gallery-next")?.addEventListener("click", () => showImage(currentIndex + 1));
+    modal?.addEventListener("click", (event) => { if (event.target === modal) modal.close(); });
+    modal?.addEventListener("keydown", (event) => { if (event.key === "ArrowLeft") showImage(currentIndex - 1); if (event.key === "ArrowRight") showImage(currentIndex + 1); });
   </script>
 </Layout>

@@ -1,0 +1,44 @@
+---
+import type { PartnerType } from '../../lib/cms';
+
+interface Props { availableTypes: PartnerType[]; }
+const { availableTypes } = Astro.props;
+const filters: Array<[string, string]> = [
+  ['all', 'Todos'],
+  ['community', 'Comunidades'],
+  ['event', 'Eventos'],
+  ['educational_institution', 'Instituciones educativas'],
+  ['company', 'Empresas'],
+].filter(([value]) => value === 'all' || availableTypes.includes(value as PartnerType));
+---
+
+<nav class="mx-auto max-w-7xl py-5 sm:py-6" aria-label="Filtrar alianzas">
+  <div class="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:flex-wrap sm:overflow-visible">
+    {filters.map(([value, label], index) => <button type="button" data-partnership-filter={value} aria-pressed={index === 0 ? 'true' : 'false'} class:list={["min-h-10 shrink-0 rounded-full border px-3.5 py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade", index === 0 ? 'border-jade bg-jade text-white' : 'border-petroleo/10 bg-white/65 text-petroleo/70 hover:border-jade/35 hover:bg-jade/8 hover:text-petroleo']}>{label}</button>)}
+  </div>
+</nav>
+
+<script>
+  function setupPartnershipFilters() {
+    const filters = document.querySelectorAll<HTMLButtonElement>('[data-partnership-filter]');
+    const sections = document.querySelectorAll<HTMLElement>('[data-partnership-section]');
+    filters.forEach((filter) => filter.addEventListener('click', () => {
+      const selected = filter.dataset.partnershipFilter;
+      filters.forEach((button) => {
+        const active = button === filter;
+        button.setAttribute('aria-pressed', String(active));
+        button.classList.toggle('bg-jade', active);
+        button.classList.toggle('text-white', active);
+        button.classList.toggle('border-jade', active);
+        button.classList.toggle('bg-white/65', !active);
+        button.classList.toggle('text-petroleo/70', !active);
+        button.classList.toggle('border-petroleo/10', !active);
+      });
+      sections.forEach((section) => {
+        const matches = selected === 'all' ? section.dataset.hasPartners === 'true' : section.dataset.partnerType === selected;
+        section.hidden = !matches;
+      });
+    }));
+  }
+  document.addEventListener('astro:page-load', setupPartnershipFilters);
+</script>

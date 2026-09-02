@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PartnershipCTA from '../components/partnerships/PartnershipCTA.astro';
+import PartnershipFilters from '../components/partnerships/PartnershipFilters.astro';
+import PartnershipsHero from '../components/partnerships/PartnershipsHero.astro';
+import PartnershipSection from '../components/partnerships/PartnershipSection.astro';
+import { getPartners } from '../lib/cms';
+import type { PartnerType } from '../lib/cms';
+
+const partners = await getPartners();
+const groups = {
+  community: partners.filter((partner) => partner.type === 'community'),
+  event: partners.filter((partner) => partner.type === 'event'),
+  educational_institution: partners.filter((partner) => partner.type === 'educational_institution'),
+  company: partners.filter((partner) => partner.type === 'company'),
+};
+const availableTypes = (Object.entries(groups) as Array<[PartnerType, typeof partners]>).flatMap(([type, items]) => items.length > 0 ? [type] : []);
+---
+
+<Layout title="Alianzas y comunidades | Nexis Oaxaca" description="Conoce las comunidades, eventos, instituciones educativas y empresas que colaboran con Nexis Oaxaca.">
+  <Header />
+  <main class="min-h-screen bg-marfil px-5 pt-20 sm:px-6">
+    <div class="mx-auto max-w-7xl">
+      <PartnershipsHero partners={partners} />
+    </div>
+    {partners.length > 0 && <PartnershipFilters availableTypes={availableTypes} />}
+    <div class="mx-auto max-w-7xl space-y-16 py-10 sm:space-y-20 sm:py-12">
+      <PartnershipSection type="community" eyebrow="COMUNIDADES" title="Comunidades que construyen con nosotros" description="Conectamos con comunidades que comparten conocimiento, crean espacios y acercan nuevas oportunidades a más personas." partners={groups.community} />
+      <PartnershipSection type="event" eyebrow="EVENTOS" title="Espacios donde nos encontramos" description="Eventos e iniciativas con las que colaboramos para acercar tecnología, aprendizaje y nuevas conexiones." partners={groups.event} />
+      <PartnershipSection type="educational_institution" eyebrow="EDUCACIÓN" title="Instituciones que abren espacios" description="Colaboramos con instituciones educativas para acercar experiencias, conocimiento y conexiones a estudiantes." partners={groups.educational_institution} />
+      <PartnershipSection type="company" eyebrow="EMPRESAS" title="Industria conectada con la comunidad" description="Organizaciones que comparten conocimiento, experiencia y oportunidades con el ecosistema." partners={groups.company} />
+      <PartnershipCTA />
+    </div>
+  </main>
+  <Footer />
+</Layout>

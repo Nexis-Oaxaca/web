@@ -1,0 +1,24 @@
+---
+import { ArrowUpRight } from 'lucide-astro';
+import type { PartnerItem } from '../../lib/cms';
+import PartnerLogo from './PartnerLogo.astro';
+import SocialLinks from './SocialLinks.astro';
+
+interface Props { partner: PartnerItem; }
+const { partner } = Astro.props;
+---
+
+<article class="rounded-card border border-petroleo/10 bg-white/65 p-5 transition-colors duration-150 hover:border-jade/40 focus-within:border-jade sm:p-5">
+  <PartnerLogo name={partner.name} logo={partner.logo} />
+  <h3 class="mt-4 line-clamp-2 font-display text-xl font-bold leading-tight text-petroleo">{partner.name}</h3>
+  {partner.description && <p class="mt-2 line-clamp-3 text-sm leading-6 text-petroleo/70">{partner.description}</p>}
+  <div class="pt-4">
+    <SocialLinks name={partner.name} links={partner.socialNetworks} />
+    {partner.website && (
+      <a href={partner.website} target="_blank" rel="noreferrer" class="mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-petroleo/70 transition-colors duration-150 hover:text-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade">
+        Sitio web <ArrowUpRight class="h-4 w-4" aria-hidden="true" />
+        <span class="sr-only"> de {partner.name} (abre en una pestaña nueva)</span>
+      </a>
+    )}
+  </div>
+</article>

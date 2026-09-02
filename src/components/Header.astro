@@ -6,9 +6,11 @@ const activePath = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
 
 const navLinks = [
   { href: "/", label: "Inicio" },
-  { href: "/nosotros", label: "La comunidad" },
-  { href: "/eventos", label: "Encuentros" },
-  { href: "/contacto", label: "Contacto" }
+  { href: "/nosotros", label: "Comunidad" },
+  { href: "/nosotros#equipo", label: "Equipo" },
+    { href: "/eventos", label: "Encuentros" },
+    { href: "/alianzas", label: "Alianzas" },
+    { href: "/contacto", label: "Contacto" }
 ];
 ---
 
@@ -33,7 +35,7 @@ const navLinks = [
     </a>
 
     <!-- Desktop Navigation Links -->
-    <div class="hidden md:flex items-center space-x-8">
+    <div class="hidden lg:flex items-center space-x-6">
       {
         navLinks.map((link) => {
           const linkPath = link.href.replace(/\/$/, '') || '/';
@@ -63,15 +65,15 @@ const navLinks = [
       href="https://chat.whatsapp.com/JdTX77UhRSbKMkTTEUXZtX"
       target="_blank"
       id="join-community-btn"
-      class="hidden md:block bg-jade text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-petroleo transition-colors duration-300 shadow-md shadow-jade/10 cursor-pointer text-center"
+      class="hidden lg:block bg-jade text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-petroleo transition-colors duration-300 shadow-md shadow-jade/10 cursor-pointer text-center"
     >
-      Quiero conocer la comunidad
+      Conoce la comunidad
     </a>
 
     <!-- Hamburger Menu Toggle Button (Mobile Only) -->
     <button
       id="mobile-menu-toggle"
-      class="block md:hidden text-petroleo hover:text-jade p-2 transition-colors focus:outline-none cursor-pointer"
+      class="block lg:hidden text-petroleo hover:text-jade p-2 transition-colors focus:outline-none cursor-pointer"
       aria-label="Toggle Menu"
     >
       <Menu id="menu-icon" class="w-6 h-6" />
@@ -82,7 +84,7 @@ const navLinks = [
   <!-- Mobile Menu Drawer (Overlay) -->
   <div
     id="mobile-menu"
-    class="fixed top-20 left-0 w-full h-[calc(100dvh-5rem)] bg-marfil/95 backdrop-blur-lg border-b border-petroleo/5 z-40 transform -translate-y-full opacity-0 pointer-events-none transition-all duration-300 ease-in-out md:hidden flex flex-col justify-between p-8"
+    class="fixed top-20 left-0 w-full h-[calc(100dvh-5rem)] bg-marfil/95 backdrop-blur-lg border-b border-petroleo/5 z-40 transform -translate-y-full opacity-0 pointer-events-none transition-all duration-300 ease-in-out lg:hidden flex flex-col justify-between p-8"
   >
     <div class="flex flex-col space-y-6">
       {
@@ -109,7 +111,7 @@ const navLinks = [
         id="join-community-btn-mobile"
         class="block w-full bg-jade text-white py-3.5 rounded-full font-bold text-base hover:bg-petroleo transition-colors duration-300 shadow-md shadow-jade/10 cursor-pointer text-center"
       >
-        Quiero conocer la comunidad
+        Conoce la comunidad
       </a>
     </div>
   </div>
@@ -212,4 +214,3 @@ const navLinks = [
 
   document.addEventListener("astro:page-load", initHeaderInteractions);
 </script>
-

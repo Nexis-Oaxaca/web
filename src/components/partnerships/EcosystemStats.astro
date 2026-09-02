@@ -1,0 +1,18 @@
+---
+interface Props {
+  stats: Array<{ label: string; count: number }>;
+}
+
+const { stats } = Astro.props;
+---
+
+{stats.length > 0 && (
+  <ul class="mt-6 flex flex-wrap gap-x-3 gap-y-1 text-sm text-petroleo/65" aria-label="Resumen del ecosistema">
+    {stats.map((stat, index) => (
+      <li class="inline-flex items-center gap-3">
+        {index > 0 && <span aria-hidden="true" class="text-petroleo/30">·</span>}
+        <span><strong class="font-display font-bold text-petroleo">{stat.count}</strong> {stat.label}</span>
+      </li>
+    ))}
+  </ul>
+)}

@@ -21,6 +21,13 @@ const apiClient: AxiosInstance = axios.create({
   },
 });
 
+// Public content collections must not inherit a token with narrower permissions.
+export const publicApiClient: AxiosInstance = axios.create({
+  baseURL: STRAPI_URL || 'http://localhost:1337',
+  timeout: 10000,
+  headers: { 'Content-Type': 'application/json' },
+});
+
 let isRefreshing = false;
 let failedQueue: Array<{
   resolve: (value: unknown) => void;

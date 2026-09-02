@@ -189,6 +189,25 @@ export interface TeamMember {
 	description?: string;
 }
 
+export type PartnerType = 'community' | 'event' | 'educational_institution' | 'company';
+
+export interface PartnerSocialLink {
+	platform: string;
+	label?: string;
+	url: string;
+}
+
+export interface PartnerItem {
+	id: string;
+	slug: string;
+	name: string;
+	type: PartnerType;
+	description: string;
+	logo?: string;
+	website?: string;
+	socialNetworks: PartnerSocialLink[];
+}
+
 export interface HomeContent {
 	events: EventItem[];
 	projects: ProjectItem[];

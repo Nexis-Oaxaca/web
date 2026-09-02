@@ -1,0 +1,11 @@
+---
+interface Props { id: string; }
+const { id } = Astro.props;
+---
+
+<div>
+  <label for={id} class="form-label">Cuéntanos un poco más <span aria-hidden="true">*</span></label>
+  <textarea id={id} name={id} rows={6} required aria-describedby={`${id}-help ${id}-error`} placeholder="¿Qué tienes en mente y cómo crees que podríamos colaborar?" class="form-control min-h-36 resize-y"></textarea>
+  <p id={`${id}-help`} class="mt-2 text-xs text-petroleo/55">No necesitas escribir algo formal.</p>
+  <p id={`${id}-error`} class="form-error" hidden>Cuéntanos brevemente qué tienes en mente.</p>
+</div>

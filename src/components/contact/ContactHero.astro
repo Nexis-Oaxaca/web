@@ -1,0 +1,40 @@
+---
+const topics = [
+  'Alianzas y colaboraciones',
+  'Charlas y talleres',
+  'Universidades y escuelas',
+  'Empresas y organizaciones',
+  'Speakers',
+  'Comunidad',
+  'Otras propuestas',
+];
+---
+
+<section aria-labelledby="contact-title" class="lg:pt-8">
+  <p class="text-xs font-bold tracking-[0.16em] text-jade">CONTACTO</p>
+  <h1 id="contact-title" class="mt-5 font-display text-4xl font-bold leading-[1.02] tracking-tight text-petroleo sm:text-5xl">
+    ¿Tienes una idea?<br />Hablemos.
+  </h1>
+  <p class="mt-6 max-w-md text-base leading-relaxed text-petroleo/75 sm:text-lg">
+    Colaboraciones, eventos, alianzas o nuevas ideas. Cuéntanos qué tienes en mente.
+  </p>
+
+  <div class="mt-12">
+    <h2 class="font-display text-lg font-bold text-petroleo">Podemos hablar sobre</h2>
+    <ul class="mt-5 space-y-3 text-sm text-petroleo/70" role="list">
+      {topics.map((topic) => (
+        <li class="flex items-center gap-3">
+          <span aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rounded-full bg-jade"></span>
+          {topic}
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <aside class="mt-12 max-w-md border-l-2 border-jade/45 pl-5">
+    <h2 class="font-display text-base font-bold text-petroleo">¿Representas una organización?</h2>
+    <p class="mt-2 text-sm leading-relaxed text-petroleo/65">
+      Si formas parte de una universidad, empresa, comunidad o institución y quieres colaborar con Nexis Oaxaca, cuéntanos qué tienen en mente.
+    </p>
+  </aside>
+</section>

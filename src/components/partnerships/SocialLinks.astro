@@ -1,0 +1,32 @@
+---
+import { Facebook, Github, Instagram, Linkedin, Music2, Twitter, Youtube, ExternalLink } from 'lucide-astro';
+import type { PartnerSocialLink } from '../../lib/cms';
+
+interface Props { name: string; links: PartnerSocialLink[]; }
+const { name, links } = Astro.props;
+const platformName: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn', tiktok: 'TikTok', youtube: 'YouTube', x: 'X', twitter: 'X', github: 'GitHub' };
+const humanizePlatform = (platform: string) => platform.replace(/[_-]+/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+const normalized = links.flatMap((link) => {
+  const key = link.platform.toLowerCase();
+  const label = link.label?.trim() || platformName[key] || (key === 'other' ? '' : humanizePlatform(link.platform));
+  return label ? [{ ...link, key, label }] : [];
+});
+---
+
+{normalized.length > 0 && (
+  <div class="flex flex-wrap gap-x-2 gap-y-1" aria-label={`Redes sociales de ${name}`}>
+    {normalized.map((link) => (
+      <a href={link.url} target="_blank" rel="noreferrer" aria-label={`${link.label} de ${name} (abre en una pestaña nueva)`} title={link.label} class="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-1.5 text-xs font-medium text-petroleo/60 transition-colors duration-150 hover:bg-jade/8 hover:text-jade focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade">
+        {link.key === 'instagram' && <Instagram class="h-4 w-4" />}
+        {link.key === 'facebook' && <Facebook class="h-4 w-4" />}
+        {link.key === 'linkedin' && <Linkedin class="h-4 w-4" />}
+        {link.key === 'tiktok' && <Music2 class="h-4 w-4" />}
+        {link.key === 'youtube' && <Youtube class="h-4 w-4" />}
+        {(link.key === 'x' || link.key === 'twitter') && <Twitter class="h-4 w-4" />}
+        {link.key === 'github' && <Github class="h-4 w-4" />}
+        {!['instagram', 'facebook', 'linkedin', 'tiktok', 'youtube', 'x', 'twitter', 'github'].includes(link.key) && <ExternalLink class="h-4 w-4" />}
+        <span>{link.label}</span>
+      </a>
+    ))}
+  </div>
+)}
