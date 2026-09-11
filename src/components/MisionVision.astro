@@ -2,11 +2,10 @@
 import { Target, Eye } from 'lucide-astro';
 
 interface Props {
-  communityMembers: number;
   eventsCount: number;
 }
 
-const { communityMembers, eventsCount } = Astro.props as Props;
+const { eventsCount } = Astro.props as Props;
 ---
 
 <section class="py-32 px-6 bg-marfil">
@@ -18,14 +17,13 @@ const { communityMembers, eventsCount } = Astro.props as Props;
           <span>Por qué existimos</span>
         </div>
         <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-petroleo font-display leading-tight mb-8">
-          Porque aprender solo es más difícil.
+          Porque una experiencia puede abrir un camino.
         </h2>
         <p class="text-petroleo/80 leading-relaxed text-base sm:text-lg mb-8">
-          Creemos que en Oaxaca hay talento de sobra. Solo hacía falta un lugar donde encontrarse para que las cosas empezaran a pasar. Ese lugar lo estamos haciendo entre todos, a nuestro ritmo.
+          Queremos acercar tecnología a jóvenes de Oaxaca mediante actividades accesibles: espacios para aprender algo nuevo, conocer personas y seguir explorando.
         </p>
         <div class="grid sm:grid-cols-3 gap-6">
           {[
-            { stat: `${communityMembers}+`, label: 'Personas adentro' },
             { stat: `${eventsCount}+`, label: 'Encuentros vividos' }
           ].map((s) => (
             <div class="bg-arena rounded-[24px] p-6 text-center border border-petroleo/5">
@@ -58,13 +56,13 @@ const { communityMembers, eventsCount } = Astro.props as Props;
           <span>A dónde queremos llegar</span>
         </div>
         <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-petroleo font-display leading-tight mb-8">
-          Que nadie se quede aprendiendo solo.
+          Que más personas descubran lo que pueden hacer con tecnología.
         </h2>
         <p class="text-petroleo/80 leading-relaxed text-base sm:text-lg mb-6">
-          Queremos que cualquier persona en Oaxaca que sienta curiosidad por la tecnología tenga un lugar al que llegar. Que nadie se quede con las ganas por no saber con quién compartir lo que le apasiona.
+          Queremos que cualquier persona en Oaxaca con curiosidad por la tecnología encuentre una primera experiencia a la cual acercarse y un siguiente paso para continuar.
         </p>
         <p class="text-petroleo/70 leading-relaxed text-sm">
-          No soñamos con ser grandes: soñamos con ser muchos y estar abiertos. Un lugar al que valga la pena llegar y del que valga la pena ser parte.
+          La pertenencia llega con el tiempo: al participar, volver, conocer personas y aportar a lo que sigue.
         </p>
       </div>
     </div>

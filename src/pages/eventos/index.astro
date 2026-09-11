@@ -56,7 +56,7 @@ const isFeaturedUpcoming = featuredEvent ? upcomingEvents.some((event) => event.
 const featuredStatus = featuredEvent ? getEventStatus(featuredEvent, !isFeaturedUpcoming) : "";
 ---
 
-<Layout title="Encuentros | Nexis Oaxaca" description="Charlas, talleres y experiencias para conectar al talento tecnológico de Oaxaca.">
+<Layout title="Encuentros de tecnología | Nexis Oaxaca" description="Explora charlas, talleres y encuentros para aprender, conectar y descubrir tecnología desde Oaxaca.">
   <Header />
 
   <main class="bg-marfil pb-24 pt-28 sm:pt-32">
@@ -64,8 +64,8 @@ const featuredStatus = featuredEvent ? getEventStatus(featuredEvent, !isFeatured
       <section aria-labelledby="events-title">
         <p class="text-xs font-bold tracking-[0.16em] text-jade">PRÓXIMOS ENCUENTROS</p>
         <div class="mt-4 max-w-3xl">
-          <h1 id="events-title" class="font-display text-4xl font-extrabold tracking-tight text-petroleo sm:text-5xl">Aprende, conecta y construye.</h1>
-          <p class="mt-4 max-w-2xl text-base leading-7 text-petroleo/75 sm:text-lg">Charlas, talleres y experiencias creadas para conectar al talento tecnológico de Oaxaca.</p>
+          <h1 id="events-title" class="font-display text-4xl font-extrabold tracking-tight text-petroleo sm:text-5xl">Encuentra algo nuevo por explorar.</h1>
+          <p class="mt-4 max-w-2xl text-base leading-7 text-petroleo/75 sm:text-lg">Charlas, talleres y encuentros para aprender, conocer personas y acercarte a nuevas posibilidades en tecnología.</p>
         </div>
 
         {featuredEvent ? (
@@ -87,7 +87,7 @@ const featuredStatus = featuredEvent ? getEventStatus(featuredEvent, !isFeatured
               <p class="mt-4 max-w-2xl line-clamp-2 text-sm leading-6 text-petroleo/70">{featuredDescription}</p>
               {featuredSpeaker && <div class="mt-5 border-t border-petroleo/8 pt-4"><p class="text-sm font-semibold text-petroleo">{featuredSpeaker.name}</p>{featuredSpeaker.role && <p class="mt-1 text-xs text-petroleo/60">{featuredSpeaker.role}</p>}</div>}
               <div class="mt-7 flex flex-wrap items-center gap-4">
-                <a href={`/eventos/${featuredEvent.slug}`} class="inline-flex min-h-11 items-center gap-2 rounded-button bg-petroleo px-5 text-sm font-bold text-white transition-colors duration-200 hover:bg-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade">Ver evento <ArrowUpRight class="h-4 w-4" /></a>
+                <a href={`/eventos/${featuredEvent.slug}`} class="inline-flex min-h-11 items-center gap-2 rounded-button bg-petroleo px-5 text-sm font-bold text-white transition-colors duration-200 hover:bg-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade">Conoce el encuentro <ArrowUpRight class="h-4 w-4" /></a>
                 {isFeaturedUpcoming && featuredEvent.registerLink && featuredStatus !== "CANCELADO" && featuredStatus !== "CUPO LLENO" && <a href={featuredEvent.registerLink} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center text-sm font-bold text-petroleo underline decoration-jade/50 underline-offset-4 transition-colors duration-200 hover:text-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade">Registrarme</a>}
                 <button type="button" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-petroleo/70 transition-colors duration-200 hover:text-jade focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-jade" data-share-event data-share-title={featuredEvent.title} data-share-url={`/eventos/${featuredEvent.slug}`}><Share2 class="h-4 w-4" />Compartir</button>
               </div>

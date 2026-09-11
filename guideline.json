@@ -1,0 +1,627 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "document": {
+    "name": "Nexis Oaxaca — Brand, Positioning & Experience Guidelines",
+    "version": "2.0.0",
+    "language": "es-MX",
+    "generated_at": "2026-09-10",
+    "source": "https://nexisoaxaca.tech/",
+    "evidence_note": "Actualización estratégica: se conserva el sistema visual v1.1.0 y se renueva el posicionamiento. Nexis no se vende como chat o membresía; se presenta como una iniciativa juvenil que crea espacios y experiencias para aprender, conectar y descubrir oportunidades en tecnología."
+  },
+  "brand": {
+    "name": "Nexis Oaxaca",
+    "display_name": "NEXIS OAXACA",
+    "organization_type": "Iniciativa tecnológica juvenil nacida en Oaxaca. No presentarla como empresa, academia, fundación, A.C., gran institución ni como un puente consolidado hacia la industria.",
+    "positioning": {
+      "strategic_definition": "Nexis Oaxaca es una iniciativa juvenil que crea espacios y experiencias para aprender, conectar y descubrir oportunidades en tecnología.",
+      "public_promise": "Descubre hasta dónde puedes llegar en tecnología.",
+      "functional_message": "Creamos espacios y experiencias para aprender, conectar y descubrir oportunidades en tecnología.",
+      "regional_signal": "Desde Oaxaca.",
+      "cultural_essence": "Personas curiosas que aprenden tecnología juntas.",
+      "origin_signal": "Hecho con cariño en Oaxaca",
+      "brand_role": "Nexis es la iniciativa principal. La comunidad es una consecuencia de la participación recurrente y una dimensión de Nexis, no el producto principal ni la puerta de entrada.",
+      "current_proof": [
+        "Charlas",
+        "Talleres",
+        "Encuentros",
+        "Colaboraciones con comunidades y profesionales",
+        "Difusión de oportunidades y convocatorias",
+        "Actividades con instituciones educativas"
+      ],
+      "future_expansion_rule": "Proyectos reales, mentorías, prácticas, residencias o vinculación profesional solo se comunican como oferta cuando existan de forma verificable."
+    },
+    "purpose": [
+      "Acercar experiencias tecnológicas a jóvenes de Oaxaca",
+      "Facilitar aprendizaje mediante actividades accesibles",
+      "Crear oportunidades para conocer personas con intereses afines",
+      "Difundir oportunidades y convocatorias relevantes",
+      "Generar formas progresivas de participación y contribución",
+      "Impulsar talento tecnológico local sin exagerar capacidades actuales"
+    ],
+    "values": [
+      "curiosidad",
+      "inclusión",
+      "colaboración",
+      "aprendizaje colectivo",
+      "cercanía",
+      "honestidad",
+      "generosidad al compartir",
+      "orgullo local",
+      "participación",
+      "crecimiento a ritmo humano"
+    ],
+    "audiences": {
+      "primary": [
+        "Jóvenes de Oaxaca interesados en tecnología",
+        "Estudiantes y personas que comienzan su trayectoria tecnológica",
+        "Personas curiosas que quieren explorar áreas, experiencias y oportunidades en tecnología"
+      ],
+      "secondary": [
+        "Ponentes, mentores y profesionales",
+        "Escuelas y universidades",
+        "Comunidades tecnológicas",
+        "Empresas y organizaciones interesadas en colaborar",
+        "Contributors y organizadores"
+      ],
+      "inclusion_rule": "Nunca exigir experiencia, credenciales, membresía, pertenecer a un chat o nivel técnico mínimo para participar."
+    }
+  },
+  "visual_identity": {
+    "logo": {
+      "primary_asset": "nexis (2).svg",
+      "asset_source": "Archivo oficial adjunto por el usuario: nexis (2).svg",
+      "usage_policy": "REQUIRED_AND_EXCLUSIVE",
+      "alt_text": "Nexis Oaxaca",
+      "usage": [
+        "Usar siempre y exclusivamente el archivo nexis (2).svg adjunto como logo oficial en cualquier pieza generada.",
+        "No sustituir el logo por versiones del sitio web, recreaciones tipográficas, isotipos alternativos, favicons ni logos generados por IA.",
+        "No generar, redibujar, reinterpretar ni modificar el contenido interno del SVG; colocarlo como recurso gráfico proporcionado.",
+        "Preferir el logo sobre fondos marfil, arena, blancos o fondos oscuros de alto contraste.",
+        "Mantener proporciones originales y un área de seguridad mínima equivalente al 25% de la altura del símbolo.",
+        "No deformar, rotar, añadir sombras intensas ni recolorear fuera de la paleta.",
+        "En piezas con mucha información, colocar el logo como firma y no competir con el título."
+      ]
+    },
+    "colors": {
+      "source": "observed_on_website",
+      "palette": {
+        "petroleo": {
+          "hex": "#234A57",
+          "rgb": "35, 74, 87",
+          "role": "Color principal; títulos, texto, contornos y bloques de alto contraste"
+        },
+        "jade": {
+          "hex": "#2D8380",
+          "rgb": "45, 131, 128",
+          "role": "Acción principal, enlaces, acentos comunitarios y botones"
+        },
+        "marfil": {
+          "hex": "#FCFAF7",
+          "rgb": "252, 250, 247",
+          "role": "Fondo principal cálido"
+        },
+        "arena": {
+          "hex": "#F6F2EA",
+          "rgb": "246, 242, 234",
+          "role": "Fondo alterno, tarjetas y separación de secciones"
+        },
+        "ambar": {
+          "hex": "#DDAA33",
+          "rgb": "221, 170, 51",
+          "role": "Acento energético, fechas, etiquetas y detalles"
+        },
+        "coral": {
+          "hex": "#E86A5B",
+          "rgb": "232, 106, 91",
+          "role": "Acento humano, énfasis ocasional y llamadas secundarias"
+        },
+        "white": {
+          "hex": "#FFFFFF",
+          "rgb": "255, 255, 255",
+          "role": "Texto sobre fondos oscuros y superficies limpias"
+        },
+        "ink": {
+          "hex": "#0D1117",
+          "rgb": "13, 17, 23",
+          "role": "Footer y fondos oscuros especiales"
+        },
+        "gris": {
+          "hex": "#E5E7EB",
+          "rgb": "229, 231, 235",
+          "role": "Bordes y divisores discretos"
+        }
+      },
+      "recommended_distribution": {
+        "marfil_or_arena_backgrounds": "55–70%",
+        "petroleo_text_and_structure": "15–25%",
+        "jade_primary_accent": "8–15%",
+        "ambar_and_coral_accents_combined": "3–8%",
+        "rule": "No usar todos los acentos con igual peso; elegir jade como acento dominante y solo uno entre ámbar o coral como apoyo."
+      },
+      "approved_combinations": [
+        {
+          "background": "#FCFAF7",
+          "foreground": "#234A57",
+          "accent": "#2D8380"
+        },
+        {
+          "background": "#F6F2EA",
+          "foreground": "#234A57",
+          "accent": "#DDAA33"
+        },
+        {
+          "background": "#234A57",
+          "foreground": "#FFFFFF",
+          "accent": "#DDAA33"
+        },
+        {
+          "background": "#0D1117",
+          "foreground": "#FFFFFF",
+          "accent": "#2D8380"
+        }
+      ]
+    },
+    "typography": {
+      "source": "user_mandated",
+      "usage_policy": "REQUIRED_AND_EXCLUSIVE",
+      "font_import": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap",
+      "display": {
+        "family": "Space Grotesk",
+        "fallback": "sans-serif",
+        "weights": [
+          600,
+          700
+        ],
+        "usage": "Titulares principales, mensajes manifiesto y cifras importantes",
+        "style": "Directo, geométrico, compacto; usar mayúsculas solo en titulares breves o etiquetas"
+      },
+      "body": {
+        "family": "Space Grotesk",
+        "fallback": "sans-serif",
+        "weights": [
+          400,
+          500,
+          600,
+          700
+        ],
+        "usage": "Cuerpo, descripciones, metadata, botones y navegación"
+      },
+      "scale_px": {
+        "hero_desktop": 60,
+        "section_title_desktop": 48,
+        "section_title_compact": 36,
+        "feature_title": 24,
+        "card_title": 20,
+        "body_large": 18,
+        "body": 16,
+        "metadata": 14,
+        "eyebrow": 12
+      },
+      "rules": [
+        "Usar Space Grotesk en absolutamente todos los textos: titulares, subtítulos, cuerpo, metadata, etiquetas, fechas, botones, CTA y créditos.",
+        "No usar Inter ni ninguna otra familia tipográfica; el fallback sans-serif solo se permite si Space Grotesk no puede cargarse técnicamente.",
+        "Mantener contraste claro entre título, información del evento y llamada a la acción.",
+        "Usar una sola familia tipográfica: Space Grotesk.",
+        "Evitar párrafos completos en mayúsculas.",
+        "Los títulos publicitarios deben poder leerse en menos de tres segundos."
+      ]
+    },
+    "shape_language": {
+      "source": "observed_on_website",
+      "character": "Amable, suave, contemporáneo y accesible",
+      "border_radius_px": {
+        "small": 12,
+        "medium": 16,
+        "large": 24,
+        "extra_large": 32,
+        "feature_panel": 40,
+        "pill": 9999
+      },
+      "usage": [
+        "Botones principales tipo píldora o con radios de 16–18 px.",
+        "Tarjetas entre 16 y 32 px.",
+        "Paneles protagonistas hasta 40 px.",
+        "Bordes muy sutiles en petróleo con baja opacidad.",
+        "Sombras suaves y cortas; evitar profundidad dramática o efecto corporativo rígido."
+      ]
+    },
+    "layout": {
+      "source": "observed_on_website_and_systematized",
+      "max_content_width_px": 1280,
+      "section_padding_desktop": "128px 24px",
+      "section_padding_mobile_recommended": "72px 20px",
+      "grid": "Composición modular con bloques amplios, aire generoso y jerarquía editorial.",
+      "event_ad_hierarchy": [
+        "Logo o firma de Nexis Oaxaca",
+        "Etiqueta de modalidad o categoría",
+        "Título del encuentro",
+        "Nombre y rol de la persona ponente",
+        "Fecha, hora, lugar o plataforma",
+        "Llamada a la acción",
+        "URL, QR o canal de registro",
+        "Aliados, solo si aplica"
+      ],
+      "composition_rules": [
+        "Dar al título entre 30% y 45% del peso visual.",
+        "Reservar espacio negativo suficiente; no llenar cada zona.",
+        "Agrupar fecha, hora y modalidad como una sola unidad visual.",
+        "Usar máximo una imagen protagonista o retrato principal.",
+        "Mantener el CTA visible sin competir con el título.",
+        "Diseñar primero para lectura móvil."
+      ]
+    },
+    "imagery": {
+      "direction": "Tecnología humana, comunidad real y curiosidad compartida.",
+      "preferred": [
+        "Fotografías auténticas de encuentros y talleres",
+        "Retratos naturales de ponentes con recorte limpio",
+        "Personas colaborando, conversando o aprendiendo",
+        "Texturas y elementos gráficos cálidos inspirados en Oaxaca sin caer en folclor decorativo genérico",
+        "Diagramas o símbolos tecnológicos simples cuando el tema lo requiera"
+      ],
+      "avoid": [
+        "Stock corporativo de apretones de manos",
+        "Neón cyberpunk genérico como estilo dominante",
+        "Robots humanoides para representar cualquier tema de IA",
+        "Iconografía excesivamente empresarial o elitista",
+        "Saturación de logos, efectos 3D o fondos visualmente ruidosos",
+        "Apropiación superficial de patrones indígenas sin contexto, permiso o vínculo real"
+      ],
+      "treatment": [
+        "Preferir luz natural y tonos cálidos.",
+        "Aplicar marcos redondeados coherentes con el sistema.",
+        "Si se requiere overlay, usar petróleo o jade con transparencia moderada.",
+        "Conservar diversidad real de edades, niveles y perfiles."
+      ]
+    },
+    "graphic_motifs": {
+      "recommended": [
+        "Círculos, nodos y conexiones que sugieran comunidad",
+        "Líneas suaves o rutas que conecten información",
+        "Etiquetas tipo píldora",
+        "Bloques editoriales con esquinas redondeadas",
+        "Acentos ámbar o coral pequeños para dar energía"
+      ],
+      "rule": "Los motivos deben apoyar la información y la idea de conexión; nunca convertirse en decoración tecnológica genérica."
+    },
+    "accessibility": {
+      "minimum_contrast": "WCAG AA para texto y componentes interactivos",
+      "minimum_body_size_px": 16,
+      "minimum_mobile_metadata_px": 13,
+      "rules": [
+        "No depender solo del color para comunicar modalidad, estado o fecha.",
+        "Mantener CTA con verbo claro.",
+        "Evitar texto largo sobre fotografías.",
+        "Incluir texto alternativo descriptivo en publicaciones digitales."
+      ]
+    }
+  },
+  "verbal_identity": {
+    "language": "Español de México, claro y conversacional",
+    "voice": [
+      "cercana",
+      "curiosa",
+      "inclusiva",
+      "honesta",
+      "optimista sin exagerar",
+      "juvenil",
+      "participativa",
+      "humana antes que corporativa",
+      "orgullosamente oaxaqueña sin folclorizar"
+    ],
+    "narrative_principle": "No vender pertenencia como primer beneficio. Comunicar primero qué puede descubrir, aprender, hacer o experimentar una persona. La pertenencia se construye mediante participación, recurrencia, conexiones y contribución.",
+    "message_layers": {
+      "headline": "Descubre hasta dónde puedes llegar en tecnología.",
+      "what_we_do": "Creamos espacios y experiencias para aprender, conectar y descubrir oportunidades en tecnología.",
+      "proof": "Charlas · Talleres · Encuentros · Oportunidades · Colaboraciones",
+      "institutional_definition": "Nexis Oaxaca es una iniciativa juvenil que crea espacios y experiencias alrededor de la tecnología en Oaxaca.",
+      "cultural_essence": "Personas curiosas que aprenden tecnología juntas."
+    },
+    "preferred_verbs": [
+      "Descubre",
+      "Explora",
+      "Participa",
+      "Aprende",
+      "Conecta",
+      "Asiste",
+      "Comparte",
+      "Colabora",
+      "Construye",
+      "Conoce",
+      "Aporta"
+    ],
+    "avoid_phrasing": [
+      "Únete a nuestra comunidad como CTA principal",
+      "Únete al chat como propuesta de valor",
+      "Somos la comunidad tecnológica líder de Oaxaca",
+      "Somos líderes del ecosistema tecnológico",
+      "Conectamos talento con empresas como capacidad consolidada",
+      "Garantizamos empleo, prácticas, residencias o éxito",
+      "Somos una empresa",
+      "Somos una academia",
+      "Somos una fundación o A.C. mientras no exista esa estructura"
+    ],
+    "copy_formula": {
+      "headline": "Problema, posibilidad o beneficio humano + tecnología",
+      "support": "Qué puede descubrir, aprender, hacer o experimentar la persona",
+      "proof": "Actividad, persona, colaboración, recurso o resultado verificable",
+      "next_step": "Una acción concreta acorde a la etapa del journey",
+      "cta_examples": [
+        "Explora lo próximo",
+        "Ver próximos encuentros",
+        "Descubre la oportunidad",
+        "Quiero asistir",
+        "Participa",
+        "Conoce más",
+        "Comparte lo que sabes",
+        "Colabora",
+        "Quiero aportar",
+        "Hablemos"
+      ]
+    }
+  },
+  "advertising_system": {
+    "supported_formats": {
+      "instagram_post": {
+        "width": 1080,
+        "height": 1350,
+        "ratio": "4:5",
+        "priority": "primary"
+      },
+      "instagram_square": {
+        "width": 1080,
+        "height": 1080,
+        "ratio": "1:1",
+        "priority": "secondary"
+      },
+      "instagram_story": {
+        "width": 1080,
+        "height": 1920,
+        "ratio": "9:16",
+        "priority": "primary"
+      },
+      "linkedin_post": {
+        "width": 1200,
+        "height": 1500,
+        "ratio": "4:5",
+        "priority": "secondary"
+      },
+      "facebook_landscape": {
+        "width": 1200,
+        "height": 630,
+        "ratio": "1.91:1",
+        "priority": "secondary"
+      },
+      "event_banner": {
+        "width": 1920,
+        "height": 1080,
+        "ratio": "16:9",
+        "priority": "secondary"
+      }
+    },
+    "content_density": {
+      "cover": "Título, ponente, fecha, modalidad y CTA; nada más si no es esencial.",
+      "caption": "Contexto, aprendizajes, audiencia, semblanza, instrucciones de registro y aliados.",
+      "carousel": "Una idea por lámina; portada, problema, aprendizajes, ponente, logística y CTA."
+    },
+    "quality_checks": [
+      "¿La pieza comunica valor antes que pertenencia?",
+      "¿Se entiende la idea principal en menos de tres segundos?",
+      "¿La persona entiende qué puede descubrir, aprender, hacer o experimentar?",
+      "¿El CTA corresponde a un siguiente paso concreto?",
+      "¿Evita presentar a Nexis como empresa, academia o institución grande?",
+      "¿Evita prometer industria, empleo, prácticas o resultados no consolidados?",
+      "¿Usa exclusivamente Space Grotesk?",
+      "¿Usa el logo oficial sin recreaciones?",
+      "¿Respeta el predominio marfil/petróleo/jade?",
+      "¿Funciona en pantalla pequeña?",
+      "¿Los datos y resultados fueron verificados?"
+    ]
+  },
+  "generation_request": {
+    "status": "PENDING_USER_INPUT",
+    "what_to_generate": "DESCRIBE_AQUI_LA_PUBLICIDAD_QUE_SE_DESEA_GENERAR",
+    "campaign_objective": "",
+    "piece_type": "event_promotion | community_invitation | speaker_call | volunteer_call | partnership | recap | announcement | educational_content | other",
+    "output_formats": [
+      "instagram_post",
+      "instagram_story"
+    ],
+    "event_or_campaign": {
+      "title": "",
+      "topic": "",
+      "description": "",
+      "date": "",
+      "time": "",
+      "timezone": "America/Mexico_City",
+      "modality": "presencial | virtual | híbrida",
+      "venue_or_platform": "",
+      "city": "Oaxaca, México",
+      "registration_url": "",
+      "cta": "Quiero asistir",
+      "cost": "",
+      "capacity_or_deadline": ""
+    },
+    "speaker": {
+      "name": "",
+      "role": "",
+      "company_or_organization": "",
+      "bio_short": "",
+      "photo_asset": "",
+      "photo_usage_authorized": null
+    },
+    "audience": {
+      "primary": "",
+      "experience_level": "todos los niveles",
+      "desired_action": ""
+    },
+    "creative_direction": {
+      "main_concept": "",
+      "headline": "",
+      "supporting_copy": "",
+      "visual_subject": "",
+      "preferred_palette_variant": "marfil_petroleo_jade",
+      "accent_color": "ambar | coral | none",
+      "image_style": "community_photo | speaker_portrait | editorial_graphic | technology_illustration",
+      "must_include": [],
+      "must_avoid": [],
+      "partner_logos": [],
+      "reference_assets": []
+    },
+    "deliverables": {
+      "design_only": true,
+      "include_caption": true,
+      "include_alt_text": true,
+      "include_editable_copy": true,
+      "include_variants": 1
+    },
+    "missing_information_policy": "No inventar nombres, cargos, fechas, ubicaciones, precios, enlaces, aliados, métricas, resultados, oportunidades, vínculos con industria ni capacidades futuras."
+  },
+  "machine_prompt_template": {
+    "instruction": "Genera la pieza para Nexis Oaxaca respetando visual_identity, verbal_identity, positioning, experience_model, channel_strategy y advertising_system. Nexis es una iniciativa tecnológica juvenil de Oaxaca que crea espacios y experiencias para aprender, conectar y descubrir oportunidades en tecnología. No uses 'Únete a la comunidad' como CTA principal ni presentes WhatsApp como el producto. Comunica primero valor, participación o siguiente paso. No presentes a Nexis como empresa, academia, fundación, líder consolidado del ecosistema o puente ya establecido con la industria. Usa exclusivamente el logo oficial y Space Grotesk. No inventes información, métricas ni capacidades.",
+    "negative_prompt": "Membresía como beneficio principal, chat como producto, promesas de empleo o prácticas, liderazgo sin evidencia, lenguaje corporativo distante, empresa/academia/fundación ficticia, logos recreados, fuentes distintas de Space Grotesk, cyberpunk genérico, elitismo, saturación visual, promesas exageradas."
+  },
+  "experience_model": {
+    "principle": "El objetivo no es llevar personas a WhatsApp. Es convertir descubrimiento en participación, participación en recurrencia y recurrencia en involucramiento y pertenencia.",
+    "journey": [
+      {
+        "stage": 1,
+        "name": "Descubre",
+        "goal": "Generar identificación o curiosidad.",
+        "thought": "Esto tiene que ver conmigo.",
+        "touchpoints": [
+          "Instagram",
+          "TikTok",
+          "Facebook",
+          "Recomendaciones",
+          "Universidades",
+          "Oportunidades",
+          "Otras comunidades"
+        ]
+      },
+      {
+        "stage": 2,
+        "name": "Explora",
+        "goal": "Que encuentre algo relevante para hacer.",
+        "thought": "Aquí hay cosas que me interesan.",
+        "touchpoints": [
+          "Sitio web",
+          "Perfil social",
+          "Próximos encuentros",
+          "Oportunidades",
+          "Contenido",
+          "Testimonios"
+        ]
+      },
+      {
+        "stage": 3,
+        "name": "Participa",
+        "goal": "Entregar una primera experiencia valiosa.",
+        "thought": "Esto sí me aportó.",
+        "touchpoints": [
+          "Charlas",
+          "Talleres",
+          "Meetups",
+          "Colaboraciones",
+          "Actividades educativas"
+        ]
+      },
+      {
+        "stage": 4,
+        "name": "Continúa",
+        "goal": "Ofrecer un siguiente paso claro.",
+        "thought": "Hay otra cosa que puedo hacer.",
+        "touchpoints": [
+          "Recursos",
+          "Próximo evento",
+          "Oportunidades",
+          "Correo post-evento",
+          "WhatsApp",
+          "Contenido relacionado"
+        ]
+      },
+      {
+        "stage": 5,
+        "name": "Se involucra",
+        "goal": "Convertir participantes recurrentes en personas que aportan.",
+        "thought": "Yo también puedo aportar.",
+        "touchpoints": [
+          "Nexis Contributors",
+          "Ponencias",
+          "Organización",
+          "Proyectos",
+          "Voluntariado",
+          "Propuestas"
+        ]
+      },
+      {
+        "stage": 6,
+        "name": "Pertenece",
+        "goal": "Construir pertenencia mediante recurrencia, relaciones y contribución.",
+        "thought": "Soy parte de esto.",
+        "touchpoints": [
+          "Relaciones",
+          "Actividades recurrentes",
+          "Contribución",
+          "Nuevas experiencias",
+          "Recomendación"
+        ]
+      }
+    ],
+    "loop": "Quien pertenece y contribuye puede crear experiencias, compartir oportunidades o recomendar Nexis, haciendo que nuevas personas descubran la iniciativa.",
+    "primary_metric": "Porcentaje de personas que participan por primera vez y regresan a una segunda actividad de Nexis.",
+    "secondary_metrics": [
+      "Participantes únicos",
+      "Participantes recurrentes",
+      "Personas que realizan un siguiente paso",
+      "Contributors activos",
+      "Actividades creadas con participación de miembros",
+      "Oportunidades aprovechadas cuando puedan verificarse"
+    ],
+    "membership_rule": "Entrar a WhatsApp no es evidencia suficiente de pertenencia. La pertenencia se observa mediante participación recurrente, relaciones y/o contribución."
+  },
+  "channel_strategy": {
+    "shared_rule": "Ningún canal tiene como objetivo principal conseguir miembros. Cada canal mueve a la persona hacia una acción útil dentro del journey.",
+    "instagram": {
+      "role": "Descubrimiento + exploración",
+      "desired_thought": "Aquí hay cosas interesantes para mí.",
+      "bio": "Descubre hasta dónde puedes llegar en tecnología.\\nEventos · oportunidades · experiencias\\n📍 Hecho en Oaxaca\\n↓ Explora lo próximo"
+    },
+    "tiktok": {
+      "role": "Descubrimiento y alcance",
+      "desired_thought": "Esto me pasa a mí.",
+      "bio": "Descubre hasta dónde puedes llegar en tech.\\nExperiencias · oportunidades · tecnología\\n📍 Oaxaca"
+    },
+    "facebook": {
+      "role": "Difusión regional + credibilidad local",
+      "desired_thought": "Están haciendo cosas interesantes en Oaxaca.",
+      "short_description": "Tecnología, experiencias y oportunidades desde Oaxaca.",
+      "description": "Nexis Oaxaca es una iniciativa juvenil que crea espacios y experiencias para aprender, conectar y descubrir oportunidades en tecnología. Organizamos charlas, talleres, encuentros y colaboraciones desde Oaxaca para acercar tecnología y nuevas posibilidades a más jóvenes."
+    },
+    "linkedin": {
+      "role": "Credibilidad + alianzas + evidencia",
+      "desired_thought": "Nexis está construyendo algo serio que vale la pena apoyar.",
+      "tagline": "Creando espacios para aprender, conectar y crecer en tecnología.",
+      "description": "Nexis Oaxaca es una iniciativa juvenil que crea espacios y experiencias alrededor de la tecnología en Oaxaca. A través de charlas, talleres, encuentros, difusión de oportunidades y colaboraciones con profesionales, comunidades e instituciones, buscamos acercar nuevas experiencias y posibilidades a jóvenes interesados en construir su camino en tecnología. Aprendemos, conectamos y construimos desde Oaxaca."
+    },
+    "whatsapp": {
+      "role": "Continuidad",
+      "recommended_group_name": "Nexis Oaxaca | Encuentros + oportunidades",
+      "desired_thought": "Aquí me entero de lo próximo y puedo mantenerme conectado.",
+      "group_description": "Espacio general de Nexis Oaxaca. Aquí compartimos próximos encuentros, talleres, oportunidades, recursos y novedades. También puedes compartir lo que estás aprendiendo, haciendo o buscando y conectar con otras personas interesadas en tecnología. No necesitas ser experto. Solo tener curiosidad. 📍 Hecho en Oaxaca.",
+      "rule": "No presentar WhatsApp como la totalidad de Nexis ni como destino final del journey."
+    },
+    "website": {
+      "role": "Fuente de verdad y conversión a acciones",
+      "desired_thought": "Entiendo qué hace Nexis y sé qué puedo hacer ahora.",
+      "priority_actions": [
+        "Ver próximos encuentros",
+        "Explorar oportunidades",
+        "Conocer qué hace Nexis",
+        "Participar",
+        "Colaborar"
+      ],
+      "avoid_primary_cta": "Únete a la comunidad"
+    }
+  }
+}

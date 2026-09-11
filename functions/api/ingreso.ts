@@ -120,56 +120,54 @@ export async function onRequest(context: { request: Request; env: Record<string,
     const { error: resendError } = await resend.emails.send({
       from: `Nexis Oaxaca Tech <contacto@nexisoaxaca.tech>`,
       to: email.trim().toLowerCase(),
-      subject: '¡Bienvenido a Nexis Oaxaca Tech!',
+      subject: 'Sigue lo próximo de Nexis Oaxaca',
       html: `
-        <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 24px; background-color: #FCFAF7;">
+        <div style="font-family: 'Space Grotesk', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 24px; background-color: #FCFAF7;">
           <div style="text-align: center; margin-bottom: 32px;">
             <img src="https://nexisoaxaca.tech/nexis.svg" alt="Nexis Oaxaca Tech" style="width: 120px; height: auto;" />
           </div>
 
           <h1 style="font-family: 'Space Grotesk', sans-serif; color: #234A57; font-size: 28px; margin-bottom: 8px; text-align: center;">
-            ¡Bienvenido a Nexis Oaxaca Tech, ${nombre}!
+            Hola, ${nombre}
           </h1>
 
           <p style="color: #234A57; font-size: 16px; line-height: 1.6; text-align: center; margin-bottom: 32px;">
-            Nos da mucho gusto que formes parte de nuestra comunidad de tecnología e innovación en Oaxaca.
+            Gracias por querer seguir lo próximo de Nexis Oaxaca.
           </p>
 
           <div style="background-color: #234A57; border-radius: 24px; padding: 32px; margin-bottom: 32px;">
             <h2 style="font-family: 'Space Grotesk', sans-serif; color: #FCFAF7; font-size: 20px; margin-bottom: 16px; text-align: center;">
-              Únete a nuestro grupo de WhatsApp
+              Recibe próximos encuentros y oportunidades
             </h2>
             <p style="color: #F6F2EA; font-size: 14px; line-height: 1.6; text-align: center; margin-bottom: 24px;">
-              Conéctate con otros miembros, entérate de eventos, talleres, oportunidades y colaboraciones.
+              En este canal compartimos próximos encuentros, talleres, oportunidades, recursos y novedades.
             </p>
             <div style="text-align: center;">
               <a href="https://chat.whatsapp.com/JdTX77UhRSbKMkTTEUXZtX"
                  style="display: inline-block; background-color: #2D8380; color: white; text-decoration: none; padding: 16px 40px; border-radius: 18px; font-weight: bold; font-size: 16px;">
-                Unirme al grupo de WhatsApp
+                Abrir el canal de WhatsApp
               </a>
             </div>
           </div>
 
           <div style="margin-bottom: 32px;">
             <h3 style="font-family: 'Space Grotesk', sans-serif; color: #234A57; font-size: 18px; margin-bottom: 16px;">
-              ¿Qué es Nexis Oaxaca Tech?
+              ¿Qué es Nexis Oaxaca?
             </h3>
             <p style="color: #234A57; font-size: 14px; line-height: 1.6;">
-              Somos una comunidad vibrante de personas apasionadas por la tecnología, la innovación y el emprendimiento en Oaxaca.
-              Organizamos eventos, talleres, hackathons y conferencias para impulsar el ecosistema tecnológico del estado.
+              Nexis Oaxaca es una iniciativa juvenil que crea espacios y experiencias para aprender, conectar y descubrir oportunidades en tecnología.
             </p>
           </div>
 
           <div style="margin-bottom: 32px;">
             <h3 style="font-family: 'Space Grotesk', sans-serif; color: #234A57; font-size: 18px; margin-bottom: 16px;">
-              ¿Qué ofrecemos?
+              Lo que puedes encontrar
             </h3>
             <ul style="color: #234A57; font-size: 14px; line-height: 1.8; padding-left: 20px;">
-              <li>Eventos y talleres exclusivos para miembros</li>
-              <li>Networking con profesionales del sector</li>
-              <li>Oportunidades de colaboración en proyectos</li>
-              <li>Mentoría y aprendizaje continuo</li>
-              <li>Promoción de tus proyectos y emprendimientos</li>
+              <li>Charlas, talleres y encuentros</li>
+              <li>Oportunidades y convocatorias compartidas</li>
+              <li>Recursos y novedades</li>
+              <li>Formas de colaborar y aportar</li>
             </ul>
           </div>
 
@@ -185,7 +183,7 @@ export async function onRequest(context: { request: Request; env: Record<string,
 
           <div style="border-top: 1px solid #E5E7EB; padding-top: 24px; text-align: center;">
             <p style="color: #9CA3AF; font-size: 12px;">
-              Este mensaje fue enviado porque te registraste como miembro de Nexis Oaxaca Tech.<br />
+              Este mensaje fue enviado porque solicitaste recibir novedades de Nexis Oaxaca.<br />
               Si no solicitaste este registro, ignora este correo.
             </p>
           </div>

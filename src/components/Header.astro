@@ -6,7 +6,7 @@ const activePath = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
 
 const navLinks = [
   { href: "/", label: "Inicio" },
-  { href: "/nosotros", label: "Comunidad" },
+  { href: "/nosotros", label: "Participa" },
   { href: "/nosotros#equipo", label: "Equipo" },
     { href: "/eventos", label: "Encuentros" },
     { href: "/alianzas", label: "Alianzas" },
@@ -60,14 +60,14 @@ const navLinks = [
       }
     </div>
 
-    <!-- Desktop Join Button -->
+    <!-- WhatsApp is a continuity channel after discovering Nexis. -->
     <a
       href="https://chat.whatsapp.com/JdTX77UhRSbKMkTTEUXZtX"
       target="_blank"
-      id="join-community-btn"
+      id="whatsapp-updates-btn"
       class="hidden lg:block bg-jade text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-petroleo transition-colors duration-300 shadow-md shadow-jade/10 cursor-pointer text-center"
     >
-      Conoce la comunidad
+      Recibe lo próximo
     </a>
 
     <!-- Hamburger Menu Toggle Button (Mobile Only) -->
@@ -108,10 +108,10 @@ const navLinks = [
     <div class="pt-6 border-t border-petroleo/10">
       <a
         href="https://chat.whatsapp.com/JdTX77UhRSbKMkTTEUXZtX"
-        id="join-community-btn-mobile"
+        id="whatsapp-updates-btn-mobile"
         class="block w-full bg-jade text-white py-3.5 rounded-full font-bold text-base hover:bg-petroleo transition-colors duration-300 shadow-md shadow-jade/10 cursor-pointer text-center"
       >
-        Conoce la comunidad
+        Recibe lo próximo
       </a>
     </div>
   </div>
@@ -124,7 +124,7 @@ const navLinks = [
     // Reset body scroll on page load
     document.body.style.overflow = "";
 
-    const btn = document.getElementById("join-community-btn");
+    const btn = document.getElementById("whatsapp-updates-btn");
     if (btn) {
       btn.addEventListener("mouseenter", () => {
         animate(btn, { scale: 1.05, y: -2 }, { type: "spring", stiffness: 400, damping: 15 });
@@ -134,7 +134,7 @@ const navLinks = [
       });
     }
 
-    const mobileBtn = document.getElementById("join-community-btn-mobile");
+    const mobileBtn = document.getElementById("whatsapp-updates-btn-mobile");
     if (mobileBtn) {
       mobileBtn.addEventListener("mouseenter", () => {
         animate(mobileBtn, { scale: 1.02, y: -1 }, { type: "spring", stiffness: 400, damping: 15 });

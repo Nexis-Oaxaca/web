@@ -20,10 +20,17 @@ import "../styles/global.css";
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		{cleanDescription && <meta name="description" content={cleanDescription} />}
+		<meta property="og:site_name" content="Nexis Oaxaca" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		{cleanDescription && <meta property="og:description" content={cleanDescription} />}
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content={title} />
+		{cleanDescription && <meta name="twitter:description" content={cleanDescription} />}
 		<title>{title}</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 		<ClientRouter />
 	</head>
 	<body class="bg-marfil text-petroleo selection:bg-jade/20 selection:text-jade pt-4">
@@ -110,4 +117,3 @@ import "../styles/global.css";
 		</script>
 	</body>
 </html>
-

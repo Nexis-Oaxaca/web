@@ -1,12 +1,11 @@
 ---
-import { ArrowRight, ArrowUpRight, Users, Calendar } from 'lucide-astro';
+import { ArrowRight, Calendar } from 'lucide-astro';
 
 interface Props {
   eventsCount: number;
-  communityMembers: number;
 }
 
-const { eventsCount, communityMembers } = Astro.props as Props;
+const { eventsCount } = Astro.props as Props;
 ---
 
 <section class="min-h-[90vh] relative flex items-center pt-28 overflow-hidden bg-marfil">
@@ -18,22 +17,22 @@ const { eventsCount, communityMembers } = Astro.props as Props;
         <span class="text-petroleo">Quiénes somos</span>
       </div>
       <h1 class="text-4xl sm:text-5xl lg:text-4xl xl:text-6xl font-extrabold text-petroleo leading-[1.05] tracking-tight font-display uppercase">
-        Somos gente que prefiere <span class="text-jade">aprender juntos.</span>
+        Encuentra tu forma de <span class="text-jade">participar.</span>
       </h1>
       <p class="text-sm sm:text-base md:text-xl text-petroleo/85 max-w-xl leading-relaxed">
-        Nexis somos personas de Oaxaca a las que les gusta la tecnología. No somos una empresa grande ni queremos sonar como una: somos una comunidad que apenas está creciendo, y estás invitado.
+        Nexis Oaxaca es una iniciativa juvenil que crea espacios y experiencias para aprender, conectar y descubrir oportunidades en tecnología.
       </p>
       <p class="text-sm sm:text-base text-petroleo/70 max-w-xl leading-relaxed">
-        No importa si llevas años programando o si todavía no sabes por dónde empezar. Aquí nadie juzga: aquí se pregunta.
+        Puedes empezar por un encuentro, volver para seguir aprendiendo y, cuando quieras, compartir o ayudar a crear lo que sigue.
       </p>
       <div class="flex flex-wrap gap-4 pt-2">
-        <a href="https://chat.whatsapp.com/JdTX77UhRSbKMkTTEUXZtX" target="_blank" rel="noopener noreferrer">
+        <a href="/eventos">
           <button class="bg-jade text-white px-8 py-4 rounded-[18px] font-bold text-sm sm:text-base hover:scale-105 transition-all shadow-xl shadow-jade/20 flex items-center group cursor-pointer">
-            Quiero conocer la comunidad <ArrowUpRight class="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            Ver próximos encuentros <ArrowRight class="ml-2 group-hover:translate-x-1 transition-transform" />
           </button>
         </a>
         <a href="/eventos" class="border-2 border-petroleo/10 text-petroleo px-8 py-4 rounded-[18px] font-bold text-sm sm:text-base hover:bg-petroleo/5 transition-all flex items-center group">
-          Ver el próximo encuentro <ArrowRight class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          Conoce qué hacemos <ArrowRight class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </a>
       </div>
     </div>
@@ -41,20 +40,9 @@ const { eventsCount, communityMembers } = Astro.props as Props;
       <div class="aspect-square rounded-[40px] overflow-hidden shadow-2xl border-8 border-white">
         <img
           src="https://assets.nexisoaxaca.tech/nexis_green_hero_about.png"
-          alt="Comunidad Nexis Oaxaca Tech"
+          alt="Personas participando en una actividad de Nexis Oaxaca"
           class="w-full h-full object-cover"
         />
-      </div>
-      <div class="absolute -bottom-6 -left-6 bg-white rounded-[24px] shadow-xl p-6 border border-petroleo/5">
-        <div class="flex items-center gap-4">
-          <div class="w-14 h-14 rounded-2xl bg-jade/15 flex items-center justify-center text-jade">
-            <Users class="w-7 h-7" />
-          </div>
-          <div>
-            <span class="block text-2xl font-bold text-petroleo font-display">{communityMembers}</span>
-            <span class="text-xs text-petroleo/50 font-bold uppercase tracking-widest">Personas que ya están adentro</span>
-          </div>
-        </div>
       </div>
       <div class="absolute -top-4 -right-4 bg-white rounded-[24px] shadow-xl p-5 border border-petroleo/5">
         <div class="flex items-center gap-3">

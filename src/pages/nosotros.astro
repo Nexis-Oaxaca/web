@@ -44,17 +44,15 @@ const [team, events, projects] = await Promise.all([
   getProjects(),
 ]);
 
-const communityMembers = 50;
-
 const timeline = [
   { year: 'Mayo 2026', title: 'La primera chispa', description: 'Un grupo de amigos notó que en Oaxaca faltaba un lugar donde juntarse a hablar de tecnología. Ese día se decidió intentarlo.', icon: Star },
-  { year: 'Julio 2026', title: 'Y llegó la gente', description: 'La primera charla convocó a 30 personas. De ser una idea, pasamos a ser una comunidad.', icon: Zap },
+  { year: 'Julio 2026', title: 'La primera experiencia', description: 'La primera charla reunió a personas con ganas de explorar tecnología. La idea empezó a tomar forma al encontrarnos.', icon: Zap },
 ];
 
 const valores = [
   { icon: HeartHandshake, title: 'Colaboración', description: 'Lo que uno no sabe, otro lo explica. Así crecemos todos.', color: 'jade' },
   { icon: BookOpen, title: 'Aprendizaje continuo', description: 'Aquí no hay expertos perfectos: hay personas con curiosidad.', color: 'ambar' },
-  { icon: Heart, title: 'Comunidad', description: 'Nos apoyamos, nos animamos y celebramos juntos cada paso.', color: 'coral' },
+  { icon: Heart, title: 'Cercanía', description: 'Nos apoyamos, nos animamos y celebramos juntos cada paso.', color: 'coral' },
   { icon: Lightbulb, title: 'Probar sin miedo', description: 'Nos gusta intentar cosas nuevas y aprender del intento.', color: 'petroleo' },
   { icon: Users, title: 'Aquí cabe todo el mundo', description: 'Sin importar de dónde vengas ni cuánto sepas, tu lugar está aquí.', color: 'jade' },
   { icon: RefreshCw, title: 'Lo que sabes, se comparte', description: 'Si aprendiste algo, seguro alguien más quiere aprenderlo contigo.', color: 'ambar' },
@@ -74,14 +72,14 @@ const areas = [
 const actividades = [
   { icon: Calendar, title: 'Charlas', description: 'Pláticas de gente real contando lo que aprende.', stat: `${events.length}+` },
   { icon: Layers, title: 'Talleres', description: 'Aprender haciendo, no solo escuchando.' },
-  { icon: Network, title: 'Convivencia', description: 'Café, pláticas y conocer a gente con tus mismos intereses.' },
-  { icon: GraduationCap, title: 'Visitas a escuelas', description: 'Llevar la comunidad a donde hay más curiosidad.' },
-  { icon: Building2, title: 'Proyectos juntos', description: 'Cosas que van surgiendo cuando nos juntamos.' },
+  { icon: Network, title: 'Encuentros', description: 'Café, pláticas y conocer a gente con intereses parecidos.' },
+  { icon: GraduationCap, title: 'Actividades educativas', description: 'Acercar experiencias tecnológicas a estudiantes.' },
+  { icon: Building2, title: 'Colaboraciones', description: 'Actividades que construimos con otras personas e instituciones.' },
 ];
 
 const volunteerReasons = [
   'Ayudar en la logística de los encuentros',
-  'Difundir la comunidad en redes sociales',
+  'Difundir próximos encuentros en redes sociales',
   'Fotos y recuerdos de cada evento',
   'Organizar meetups y talleres',
   'Recibir a la gente nueva en la entrada',
@@ -89,13 +87,13 @@ const volunteerReasons = [
 ];
 ---
 
-<Layout title="La comunidad | Nexis Oaxaca" description="Nexis somos un grupo de personas de Oaxaca que aprenden tecnología juntas. Empezamos hace poco y crecemos con cada persona que llega. Aquí no necesitas ser experto.">
+<Layout title="Participa en Nexis Oaxaca" description="Conoce cómo participar en charlas, talleres, encuentros y colaboraciones de Nexis Oaxaca. No necesitas experiencia previa, solo curiosidad por la tecnología.">
   <Header />
 
   <main>
-    <NosotrosHero eventsCount={events.length} communityMembers={communityMembers} />
+    <NosotrosHero eventsCount={events.length} />
     <HistoriaSection timeline={timeline} />
-    <MisionVision communityMembers={communityMembers} eventsCount={events.length} />
+    <MisionVision eventsCount={events.length} />
     <ValoresSection valores={valores} />
     <AreasInteres areas={areas} />
     <ActividadesSection actividades={actividades} />
