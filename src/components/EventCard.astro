@@ -73,10 +73,10 @@ const dateLabel = eventDate?.toLocaleDateString("es-MX", {
       {event.location && <span class="max-w-36 truncate text-right">{event.location}</span>}
     </div>
 
-    <h3 class="mt-5 line-clamp-2 font-display text-xl font-bold leading-tight text-petroleo group-hover:text-jade">
+    <h3 class="mt-5 line-clamp-2 font-display text-xl font-bold leading-tight text-petroleo group-hover:text-jade break-words">
       {event.title}
     </h3>
-    <p class="mt-3 line-clamp-2 text-sm leading-6 text-petroleo/70">{description}</p>
+    <p class="mt-3 line-clamp-2 text-sm leading-6 text-petroleo/70 break-words">{description}</p>
 
     <div class="mt-5 min-h-10 border-t border-petroleo/8 pt-4">
       {speaker ? (

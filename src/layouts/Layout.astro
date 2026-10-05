@@ -16,7 +16,7 @@ import "../styles/global.css";
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		{cleanDescription && <meta name="description" content={cleanDescription} />}
@@ -33,7 +33,7 @@ import "../styles/global.css";
 		<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 		<ClientRouter />
 	</head>
-	<body class="bg-marfil text-petroleo selection:bg-jade/20 selection:text-jade pt-4">
+	<body class="bg-marfil text-petroleo selection:bg-jade/20 selection:text-jade pt-4 overflow-x-hidden max-w-full">
 		<slot />
 
 		<script>

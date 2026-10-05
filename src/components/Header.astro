@@ -15,9 +15,9 @@ const navLinks = [
 ---
 
 <header
-  class="fixed top-0 left-0 w-full z-50 bg-marfil/80 backdrop-blur-md border-b border-petroleo/5"
+  class="fixed top-0 inset-x-0 w-full z-50 bg-marfil/80 backdrop-blur-md border-b border-petroleo/5"
 >
-  <nav class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+  <nav class="w-full max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
     <a href="/" class="flex items-center space-x-2 group" id="header-logo">
       <div
         class="w-10 h-10 bg-jade rounded-xl flex items-center justify-center text-white shadow-lg shadow-jade/20 transition-transform"
@@ -84,7 +84,7 @@ const navLinks = [
   <!-- Mobile Menu Drawer (Overlay) -->
   <div
     id="mobile-menu"
-    class="fixed top-20 left-0 w-full h-[calc(100dvh-5rem)] bg-marfil/95 backdrop-blur-lg border-b border-petroleo/5 z-40 transform -translate-y-full opacity-0 pointer-events-none transition-all duration-300 ease-in-out lg:hidden flex flex-col justify-between p-8"
+    class="fixed top-20 inset-x-0 w-full h-[calc(100dvh-5rem)] bg-marfil/95 backdrop-blur-lg border-b border-petroleo/5 z-40 transform -translate-y-full opacity-0 invisible pointer-events-none transition-all duration-300 ease-in-out lg:hidden flex flex-col justify-between p-8"
   >
     <div class="flex flex-col space-y-6">
       {
@@ -172,8 +172,8 @@ const navLinks = [
 
         if (isOpen) {
           // Open menu
-          mobileMenu.classList.remove("-translate-y-full", "opacity-0", "pointer-events-none");
-          mobileMenu.classList.add("translate-y-0", "opacity-100", "pointer-events-auto");
+          mobileMenu.classList.remove("-translate-y-full", "opacity-0", "invisible", "pointer-events-none");
+          mobileMenu.classList.add("translate-y-0", "opacity-100", "visible", "pointer-events-auto");
           menuIcon.classList.add("hidden");
           closeIcon.classList.remove("hidden");
           document.body.style.overflow = "hidden";
@@ -193,8 +193,8 @@ const navLinks = [
           }
         } else {
           // Close menu
-          mobileMenu.classList.add("-translate-y-full", "opacity-0", "pointer-events-none");
-          mobileMenu.classList.remove("translate-y-0", "opacity-100", "pointer-events-auto");
+          mobileMenu.classList.add("-translate-y-full", "opacity-0", "invisible", "pointer-events-none");
+          mobileMenu.classList.remove("translate-y-0", "opacity-100", "visible", "pointer-events-auto");
           menuIcon.classList.remove("hidden");
           closeIcon.classList.add("hidden");
           document.body.style.overflow = "";
