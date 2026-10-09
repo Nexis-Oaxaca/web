@@ -86,7 +86,7 @@ export async function onRequest(context: { request: Request; env: Record<string,
 
     const { error: resendError } = await resend.emails.send({
       from: `Nexis Oaxaca Website <contacto@nexisoaxaca.tech>`,
-      to: 'nexistech.oax@gmail.com',
+      to: 'nexisoaxaca@gmail.com',
       replyTo: email,
       subject: `Nuevo contacto - ${categoriaLabel} - ${nombre}`,
       html: `
